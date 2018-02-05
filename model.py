@@ -86,22 +86,61 @@ class Difficulty(db.Model):
 
 	__tablename__ = "difficulty"
 
+	difficulty_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))
+	level = db.Column(db.Integer, nullable=False)  # Numerical representation of how hard a game is
+	
+	game = db.relationship("Game", backref=db.backref("difficulty",
+													  order_by=difficulty_id))
 
+	def __repr__(self):
+		"""Displays useful information about difficulty when printed."""
+
+		return "<Difficulty difficulty_id={}, game_id={}, game={}, level={}>".format(self.difficulty_id,
+																						  self.game.game_id,
+																						  self.game.title,
+																						  self.level)  # Is this intuitive?
 
 class Comment(db.Model):
 	"""Comment of a user."""
 
 	__tablename__ = "comments"
 
+	comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))
+	comment = db.Column(db.String(1000), nullable=False)  # A little over two paragraphs?
+	# Implement thread_id later if creating forum/chain of comments (MVP 3.0)
+
+	user = db.relationship("User", backref=db.backref("comments",
+													  order_by=comment_id))
+	game = db.relationship("Game", backref=db.backref("comments",
+													  order_by=comment_id))
+
+
 class Tag(db.Model):
 	"""A user-generated tag to label a game."""
 
 	__tablename__ = "tags"
 
+	tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) # Who created the tag?
+	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))  # Which game is the tag associated with?
+	tag = db.Column(db.String(30), nullable=False)
+
 class TagCategory(db.Model):
 	"""A category that a tag belongs to."""
 
 	__tablename__ = "tag_cats"
+
+	tag_cat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'))
+	# Which aspect of gaming is this tag for?
+	# (i.e. 'genre', '# of players', 'gameplay')
+	category = db.Column(db.String(30), nullable=False)
+
+	tag = db.relationship("Tag", backref=db.backref("tag_cats",
+													order_by=tag_cat_id))
 
 ###################################################
 # HELPER functions
@@ -110,7 +149,7 @@ def connect_to_db(app):
 	"""Connect the database to Flask app."""
 
 	# Configure to use PostgreSQL database
-	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///games'
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db.app = app
 	db.init_app(app)
