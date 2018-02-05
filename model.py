@@ -67,7 +67,7 @@ class VgGen(db.Model)
 	genre_id = db.Column(db.Integer, db.ForeignKey('genres.genre_id'))
 
 	# Two-way access between game and genre info:
-	# Can query what genres a game belongs to.
+	# Can query what genres a game belongs to
 	game = db.relationship("Game", backref=db.backref("vg_genres",
 													  order_by=vg_genre_id))
 
@@ -102,3 +102,11 @@ class TagCategory(db.Model)
 	"""A category that a tag belongs to."""
 
 	__tablename__ = "tag_cats"
+
+###################################################
+# HELPER functions
+
+def connect_to_db(app):
+	"""Connect the database to Flask app."""
+
+	# Configure to use PostgreSQL database
