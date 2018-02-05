@@ -1,19 +1,19 @@
 """[Video game] website."""
 
-from jinja2 import StrictUndefined  # Provides better error message support.
+from jinja2 import StrictUndefined
 
 from flask import (Flask, render_template, redirect, request, flash,
 				   session)
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-# from model import (all class-tables), connect_to_db, db 
+from model import connect_to_db  # don't forget other stuff
 
 app = Flask(__name__)
 
 app.secret_key = "Placeholder"  # Look into .secret_key later
 
-app.jinja_env.undefined = StrictUndefined
+app.jinja_env.undefined = StrictUndefined  # Provides better error message support
 
 ###################################################
 # APP ROUTES
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 	# Prevents templates, etc. aren't cached during debug mode
 	app.jinja_env.auto_reload = app.debug
 
-	conect_to_db(app)
+	connect_to_db(app)
 
 	DebugToolbarExtension(app)
 

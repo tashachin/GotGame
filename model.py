@@ -7,7 +7,7 @@ db = SQLAlchemy()  # Call methods on db instead of the entirety of the obj name.
 ###################################################
 # MODEL DEFINITIONS
 
-class User(db.Model)
+class User(db.Model):
 	"""User of [video game] website."""
 
 	__tablename__ = "users"  # SQLAlchemy dunder property that creates table with this name
@@ -27,7 +27,7 @@ class User(db.Model)
 																 self.username,
 																 self.email)
 
-class Game(db.Model)
+class Game(db.Model):
 	"""Game of [video game] website."""
 
 	__tablename__ = "games"
@@ -43,7 +43,7 @@ class Game(db.Model)
 		return "<Game game_id={}, title={}>".format(self.game_id,
 													self.title)
 
-class Genre(db.Model)
+class Genre(db.Model):
 	"""List of possible genres to label a game.""" 
 
 	__tablename__ = "genres"
@@ -54,10 +54,10 @@ class Genre(db.Model)
 	def __repr__(self):
 		"""Displays useful information about genre when printed."""
 
-		return = "<Genre genre_id={}, genre_type={}>".format(self.genre_id,
+		return "<Genre genre_id={}, genre_type={}>".format(self.genre_id,
 															 self.genre_type)
 
-class VgGen(db.Model)
+class VgGen(db.Model):
 	"""Genre(s) of a game."""
 
 	__tablename__ = "vg_genres"  # Check naming conventions for two-word tables.
@@ -77,28 +77,28 @@ class VgGen(db.Model)
 		"""Displays useful information about game's genres when printed."""
 
 		# Is it possible to customize repr to print all genre_ids?
-		return = "<VgGen vg_genre_id={}, title={}, genres={}>".format(self.vg_genre_id,
+		return "<VgGen vg_genre_id={}, title={}, genres={}>".format(self.vg_genre_id,
 																	  self.game.title,
 																	  self.genre.genre_type)
 
-class Difficulty(db.Model)
+class Difficulty(db.Model):
 	"""Difficulty of a game."""
 
 	__tablename__ = "difficulty"
 
 
 
-class Comment(db.Model)
+class Comment(db.Model):
 	"""Comment of a user."""
 
 	__tablename__ = "comments"
 
-class Tag(db.Model)
+class Tag(db.Model):
 	"""A user-generated tag to label a game."""
 
 	__tablename__ = "tags"
 
-class TagCategory(db.Model)
+class TagCategory(db.Model):
 	"""A category that a tag belongs to."""
 
 	__tablename__ = "tag_cats"
@@ -110,3 +110,13 @@ def connect_to_db(app):
 	"""Connect the database to Flask app."""
 
 	# Configure to use PostgreSQL database
+	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///ratings'
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+	db.app = app
+	db.init_app(app)
+
+if __name__ == "__main__":
+
+	from server import app
+	connect_to_db(app)
+	print "Connected to DB."  # Confirm on console that server is up.
