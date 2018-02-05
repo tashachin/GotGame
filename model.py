@@ -18,3 +18,14 @@ class User(db.Model)
 	email = db.Column(db.String(64), nullable=False)
 	password = db.Column(db.String(64), nullable=False)
 	# Add optional "profile" columns before moving onto MVP 2.0
+
+	def __repr__(self):
+		"""Displays useful information when printed."""
+
+		# <> brackets identify this as a class object at a glance
+		return "<User user_id={}, username={}, email={}>".format(self.user_id,
+																 self.username,
+																 self.email)
+
+class Game(db.Model)
+	"""Game of [video game] website."""
