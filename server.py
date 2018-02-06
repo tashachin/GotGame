@@ -36,20 +36,37 @@ def advanced_search():
 # Splitting up search bar leads for debugging
 # May consider merging after testing
 
-def show_basic_results():  
-	"""Displays results from homepage search-bar."""
+# def show_basic_results():  
+# 	"""Displays results from homepage search-bar."""
 
-	title = request.args.get('title')
+# 	title = request.args.get('title')
 
-	# .ilike ignores case when filtering
-	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+# 	# .ilike ignores case when filtering
+# 	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
 
-	return render_template('game_info.html', 
-						   game=game)
+# 	return render_template('game_info.html', 
+# 						   game=game)
 
 def show_advanced_results():
 	"""Displays results after filters get applied."""
-	pass
+
+	title = request.args.get('title')
+	score = request.args.get('score')
+	platform = request.args.get('platform')
+
+	if title:
+		title_query = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+
+	if score:
+		score_query = Game.query.filter(Game.critic_score >= score).first()
+
+	if platform:
+		platform_query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).first()
+
+	return render_template('test.html',
+						   title_query=title_query,
+						   score_query=score_query,
+						   platform_query=platform_query)
 
 @app.route('/game/<title>') # Game "profile" page
 def show_game_profile():

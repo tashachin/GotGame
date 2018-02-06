@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Got Game?</h1>
+<hr>
+<div>
+<form action='/search-results'>
+	<input id='game-title' name='title' type='search' placeholder='Search by title'>
+	<input id='score' name='score' type='number' min='1' max='10' placeholder='Search by score'>
+	<select id='platform-options' name='platform'> 
+	<!-- onchange='showPlatforms() 
+		* Use this later when you need to narrow down by style
+		* Display a narrowed-down dropdown depending on which larger
+		category is selected
+		* i.e. If User selects Playstation, display a new dropdown with
+		'Gamecube', 'Wii', 'etc.'-->
+		<option value='' disabled selected>Search by platform</option>
+		<option value='PC'>PC</option>
+		<option value='Xbox'>Xbox</option>
+		<option value='Playstation'>Playstation</option>
+		<option value='Nintendo'>Nintendo</option>
+		<option value='Other'>Other</option>
+	</select>
+	<input type='reset' value='Return to default'>
+	<input type='submit' value='Search'>
+</div>
+{% endblock %}
