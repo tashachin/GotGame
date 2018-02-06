@@ -26,27 +26,25 @@ def homepage():
 
 	return render_template('homepage.html')
 
+@app.route('/search-results') 
+def show_basic_results():  
+	"""Displays results from homepage search-bar."""
+
+	title = request.args.get('title')
+
+	# .ilike ignores case when filtering
+	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+
+	return render_template('game_info.html', 
+						   game=game)
+
 @app.route('/advanced-search')
 def advanced_search():
 	"""Displays advanced search options."""
 	
 	return render_template('advanced_search.html')
 
-@app.route('/search-results')  # *Change URL to search query (?=userinput) | Shows search results
-# Splitting up search bar leads for debugging
-# May consider merging after testing
-
-# def show_basic_results():  
-# 	"""Displays results from homepage search-bar."""
-
-# 	title = request.args.get('title')
-
-# 	# .ilike ignores case when filtering
-# 	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
-
-# 	return render_template('game_info.html', 
-# 						   game=game)
-
+@app.route('/adv-search-results')
 def show_advanced_results():
 	"""Displays results after filters get applied."""
 
@@ -55,25 +53,38 @@ def show_advanced_results():
 	platform = request.args.get('platform')
 
 	if title:
-		titles = get_title(title)
+		if title and platform:
 
-		return render_template('test.html',
-							   titles=titles)
+			games = get_title_and_platform(title, platform)
+			return render_template('adv_search_results.html',
+								   games=games)
 
+		else:
+			games = get_title(title)
+			return render_template('adv_search_results.html',
+							   	   games=games)
 	else:
-		pass
-	# 	if score and platform:
-	# 		scores = get_score(score)
+		if score and platform:
+			games = get_score_and_platform(score, platform)
 
-	# 	if platform:
-	# 		platform = get_platform(platform)
+			return render_template('adv_search_results.html',
+								   games=games)
+		elif score:
+			games = get_score(score)
 
-	# # Currently, this function will only work if all filters are on...
-	# # May need to break this up into smaller functions
-	# return render_template('test.html',
-	# 					   title_query=title_query,
-	# 					   score_query=score_query,
-	# 					   platform_query=platform_query)  # Ultimately, I want to return potential games, not the entire query results
+			return render_template('adv_search_results.html',
+								   games=games)
+
+		elif platform:
+			games = get_platform(platform)
+
+			return render_template('adv_search_results.html',
+								   games=games)
+		else:
+			flash("Uh-oh! Something went wrong.")
+			return redirect('/advanced-search')
+
+	
 
 @app.route('/game/<title>') # Game "profile" page
 def show_game_profile():
@@ -104,6 +115,15 @@ def get_title(title):  # Takes in request.args.get() value
 	
 	return query
 
+
+def get_title_and_platform(title, platform):
+	"""Returns all games containing 'title' for a specific platform."""
+
+	query = Game.query.filter((Game.title.ilike('%' + title + '%')), (Game.platform.ilike('%' + platform + '%'))).limit(25).all()
+
+	return query
+
+
 def get_score(score):
 	"""Returns a query by score."""
 
@@ -111,10 +131,19 @@ def get_score(score):
 
 	return query
 
+
 def get_platform(platform):
 	"""Returns a query by platform."""
 
 	query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).limit(25).all()
+
+	return query
+
+
+def get_score_and_platform(score, platform):
+	"""Returns a query that filters by a certain score and platform."""
+
+	query = Game.query.filter((Game.critic_score >= score), (Game.platform.ilike('%' + platform + '%'))).limit(25).all()
 
 	return query
 
