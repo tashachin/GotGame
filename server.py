@@ -55,18 +55,22 @@ def show_advanced_results():
 	platform = request.args.get('platform')
 
 	if title:
-		title_query = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+		title_query = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
+		title_query = title_query.limit(25)
 
-	if score:
-		score_query = Game.query.filter(Game.critic_score >= score).first()
+	else:
+		if score:
+			score_query = Game.query.filter(Game.critic_score >= score).all()
 
-	if platform:
-		platform_query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).first()
+		if platform:
+			platform_query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).all()
 
+	# Currently, this function will only work if all filters are on...
+	# May need to break this up into smaller functions
 	return render_template('test.html',
 						   title_query=title_query,
 						   score_query=score_query,
-						   platform_query=platform_query)
+						   platform_query=platform_query)  # Ultimately, I want to return potential games, not the entire query results
 
 @app.route('/game/<title>') # Game "profile" page
 def show_game_profile():
