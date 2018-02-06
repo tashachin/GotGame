@@ -18,7 +18,7 @@ def load_games():
 	with open('seed_data/ign.csv') as csvfile:
 		game_data = reader(csvfile, dialect='excel')
 
-		next(game_data)
+		next(game_data)  # Skips header row
 
 		# ID(0), descriptive score(1), title(2), ign URL(3), system(4),
 		# critic score(5), genre(6), editors choice(7), year(8), month(9), day(10)
@@ -33,6 +33,28 @@ def load_games():
 
 			db.session.add(game)
 
+	db.session.commit()
+
+def load_users():  # Do not use when done testing
+	"""Load dummy data for users."""
+
+	print "Fake users"
+
+	User.query.delete()
+
+	fake_user1 = User(username='ffluvr93',
+					  email='ffluvr93@yahoo.com',
+					  password='asecurepassword')
+
+	fake_user2 = User(username='thecompletionist',
+					  email='sirgamesalot@gmail.com',
+					  password='password')
+
+	fake_user3 = User(username='markiplier',
+					  email='markiplier@gmail.com',
+					  password='tinyboxtim')
+
+	db.session.add_all([fake_user1, fake_user2, fake_user3])
 	db.session.commit()
 
 def set_val_game_id():
@@ -52,5 +74,6 @@ if __name__ == "__main__":
 
 	db.create_all()
 
-	load_games()  # The only seed data to start with is just game info
+	load_games()
+	load_users()
 	set_val_game_id()

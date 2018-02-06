@@ -144,7 +144,7 @@ class TagCategory(db.Model):
 													order_by=tag_cat_id))
 
 ###################################################
-# HELPER functions
+# HELPER FUNCTIONS
 
 def connect_to_db(app):
 	"""Connect the database to Flask app."""
