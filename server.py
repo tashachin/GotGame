@@ -21,8 +21,38 @@ app.jinja_env.undefined = StrictUndefined  # Provides better error message suppo
 @app.route('/')
 def homepage():
 	"""Displays homepage."""
-	
+
 	return render_template('homepage.html')
+
+@app.route('/advanced-search')  # Show search bar with filtering ability
+def advance_search():
+	pass
+
+@app.route('/search-results')  # *Change URL to search query (?=userinput) | Shows search results
+def show_results():
+	pass
+
+@app.route('/game/<title>') # Game "profile" page
+def show_game_profile():
+	pass
+
+@app.route('/registration-form')  # Display reg-form
+def show_reg_form():
+	pass
+
+@app.route('/new-user', methods=['POST'])  # New user creation (add to database)
+def create_user():
+	pass
+
+def validate_user():
+	pass
+
+@app.route('/user/<username>')  # User profile page
+def show_profile():
+	pass
+
+###################################################
+# FUNCTIONS
 
 ###################################################
 # DEBUGGING
