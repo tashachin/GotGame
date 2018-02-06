@@ -21,7 +21,8 @@ app.jinja_env.undefined = StrictUndefined  # Provides better error message suppo
 @app.route('/')
 def homepage():
 	"""Displays homepage."""
-	pass
+	
+	return render_template('homepage.html')
 
 ###################################################
 # DEBUGGING
@@ -36,4 +37,4 @@ if __name__ == "__main__":
 
 	DebugToolbarExtension(app)
 
-	app.run(port=500, host='0.0.0.0')
+	app.run(port=5000, host='0.0.0.0')

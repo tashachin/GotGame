@@ -1,0 +1,11 @@
+###### Design considerations for the future ######
+
+- Should reviews for different ports (gaming platforms) be treated as completely separate games from one another?
+
+Argument for: The porting process is complex and a game might handle better on one platform versus another. Thus, having an independent score makes sense. 
+
+(Easier to parse .csv file this way, too, as it comes with platform-specific versions of games.)
+
+- Would the user care about when a game was published? MVP 2.0
+
+Arg for: Most sites include this info for at-a-glance anyway.
