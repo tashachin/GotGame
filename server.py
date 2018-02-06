@@ -55,22 +55,25 @@ def show_advanced_results():
 	platform = request.args.get('platform')
 
 	if title:
-		title_query = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
-		title_query = title_query.limit(25)
+		titles = get_title(title)
+
+		return render_template('test.html',
+							   titles=titles)
 
 	else:
-		if score:
-			score_query = Game.query.filter(Game.critic_score >= score).all()
+		pass
+	# 	if score and platform:
+	# 		scores = get_score(score)
 
-		if platform:
-			platform_query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).all()
+	# 	if platform:
+	# 		platform = get_platform(platform)
 
-	# Currently, this function will only work if all filters are on...
-	# May need to break this up into smaller functions
-	return render_template('test.html',
-						   title_query=title_query,
-						   score_query=score_query,
-						   platform_query=platform_query)  # Ultimately, I want to return potential games, not the entire query results
+	# # Currently, this function will only work if all filters are on...
+	# # May need to break this up into smaller functions
+	# return render_template('test.html',
+	# 					   title_query=title_query,
+	# 					   score_query=score_query,
+	# 					   platform_query=platform_query)  # Ultimately, I want to return potential games, not the entire query results
 
 @app.route('/game/<title>') # Game "profile" page
 def show_game_profile():
@@ -94,9 +97,26 @@ def show_profile():
 ###################################################
 # FUNCTIONS
 
-def placeholder():
-	""""""
-	pass
+def get_title(title):  # Takes in request.args.get() value
+	"""Returns a query by title."""
+
+	query = Game.query.filter(Game.title.ilike('%' + title + '%')).limit(25).all()
+	
+	return query
+
+def get_score(score):
+	"""Returns a query by score."""
+
+	query = Game.query.filter(Game.critic_score >= score).limit(25).all()
+
+	return query
+
+def get_platform(platform):
+	"""Returns a query by platform."""
+
+	query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).limit(25).all()
+
+	return query
 
 ###################################################
 # DEBUGGING
