@@ -7,7 +7,9 @@ from flask import (Flask, render_template, redirect, request, flash,
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import connect_to_db  # don't forget other stuff
+from model import (User, Game, Genre, VgGen, Difficulty, Comment, Tag,
+				   TagCategory, VgTag)
+from model import connect_to_db
 
 app = Flask(__name__)
 
@@ -24,12 +26,29 @@ def homepage():
 
 	return render_template('homepage.html')
 
-@app.route('/advanced-search')  # Show search bar with filtering ability
-def advance_search():
-	pass
+@app.route('/advanced-search')
+def advanced_search():
+	"""Displays advanced search options."""
+	
+	return render_template('advanced_search.html')
 
 @app.route('/search-results')  # *Change URL to search query (?=userinput) | Shows search results
-def show_results():
+# Splitting up search bar leads for debugging
+# May consider merging after testing
+
+def show_basic_results():  
+	"""Displays results from homepage search-bar."""
+
+	title = request.args.get('title')
+
+	# .ilike ignores case when filtering
+	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+
+	return render_template('game_info.html', 
+						   game=game)
+
+def show_advanced_results():
+	"""Displays results after filters get applied."""
 	pass
 
 @app.route('/game/<title>') # Game "profile" page
@@ -53,6 +72,10 @@ def show_profile():
 
 ###################################################
 # FUNCTIONS
+
+def placeholder():
+	""""""
+	pass
 
 ###################################################
 # DEBUGGING

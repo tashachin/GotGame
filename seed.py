@@ -20,15 +20,15 @@ def load_games():
 
 		next(game_data)  # Skips header row
 
-		# ID(0), descriptive score(1), title(2), ign URL(3), system(4),
+		# ID(0), descriptive score(1), title(2), ign URL(3), platform(4),
 		# critic score(5), genre(6), editors choice(7), year(8), month(9), day(10)
 		for row in game_data:
 			title = row[2]
-			system = row[4]
+			platform = row[4]
 			critic_score = row[5]
 
 			game = Game(title=title,
-						system=system,
+						platform=platform,
 						critic_score=critic_score)
 
 			db.session.add(game)

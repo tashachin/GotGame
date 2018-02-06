@@ -34,7 +34,7 @@ class Game(db.Model):
 
 	game_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	title = db.Column(db.String(256), nullable=False)
-	system = db.Column(db.String(25), nullable=True)  # What console version is this game?
+	platform = db.Column(db.String(25), nullable=True)  # What console version is this game?
 	critic_score = db.Column(db.Float, nullable=False)
 	user_score = db.Column(db.Float, nullable=True)
 
@@ -142,6 +142,20 @@ class TagCategory(db.Model):
 
 	tag = db.relationship("Tag", backref=db.backref("tag_cats",
 													order_by=tag_cat_id))
+
+class VgTag(db.Model):
+	"""Association between games and tags."""
+
+	__tablename__ = "vg_tags"
+
+	vg_tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))  # Which game are the tag(s) on?
+	tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'))  # Which tag(s) are on which game?
+
+	game = db.relationship("Game", backref=db.backref("vg_tags",
+													  order_by=vg_tag_id))
+	tag = db.relationship("Tag", backref=db.backref("vg_tags",
+													order_by=vg_tag_id))
 
 ###################################################
 # HELPER FUNCTIONS

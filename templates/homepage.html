@@ -2,9 +2,10 @@
 {% block content %}
 <h1>app title goes here</h1>
 
-<form action=''>
+<form action='/search-results'>
 
-<input id='basic-search' type='text' placeholder='Enter a game title.'>
+<input id='basic-search' type='search' name='title' placeholder='Enter a game title'>
 <input type='submit' value='Search'>
 </form>
+<p><a href="/advanced-search">Advanced search</a></p>
 {% endblock %}
