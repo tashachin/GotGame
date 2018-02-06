@@ -35,8 +35,8 @@ class Game(db.Model):
 	game_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	title = db.Column(db.String(256), nullable=False)
 	system = db.Column(db.String(25), nullable=True)  # What console version is this game?
-	critic_score = db.Column(db.Integer, nullable=False)
-	user_score = db.Column(db.Integer, nullable=True)
+	critic_score = db.Column(db.Float, nullable=False)
+	user_score = db.Column(db.Float, nullable=True)
 
 	def __repr__(self):
 		"""Displays useful information about game when printed."""
