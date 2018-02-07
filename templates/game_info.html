@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
+{% block heading %}{{ game.title }}{% endblock %}
+
 {% block content %}
-
-<h1>{{ game.title }}</h1>
-
 <div class='game-table'>
 <table>
 	<thead>
@@ -22,6 +21,12 @@
 		</tr>
 	</tbody>
 </table>
+</div>
+
+<div>
+
+	<a href='/adv-search'>Not what you were looking for?</a>
+
 </div>
 
 <div id='game-desc'>

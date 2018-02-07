@@ -81,7 +81,7 @@ def register():
 
 	return render_template('register.html')
 
-@app.route('/advanced-search')
+@app.route('/adv-search')
 def advanced_search():
 	"""Displays advanced search options."""
 	

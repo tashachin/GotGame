@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Got Game?</h1>
-<hr>
 <form action='/search-results'>
 
 <input id='basic-search' type='search' name='title' placeholder='Enter a game title'>
 <input type='submit' value='Search'>
 </form>
-<p><a href="/advanced-search">Advanced search</a></p>
+<p><a href="/adv-search">Advanced search</a></p>
 {% endblock %}
