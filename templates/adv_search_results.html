@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<form action='' id='game-sort'>
+	<select name='order-by'>
+		<option value='' disabled selected>Sort by</option>
+		<option value='title'>Title</option>
+		<option value='platform'>Platform</option>
+		<option value='score'>Score</option>
+	</select>
+	<input type='submit' value='Filter'>
+</form>
 <div class='game-table'>
 <table>
 	<thead>
