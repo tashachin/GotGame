@@ -1,5 +1,4 @@
 """Models and database functions for [video game] project."""
-
 from flask_sqlalchemy import SQLAlchemy 
 
 db = SQLAlchemy()  # Call methods on db instead of the entirety of the obj name.
@@ -200,6 +199,111 @@ def connect_to_db(app):
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db.app = app
 	db.init_app(app)
+
+def example_data():
+	"""Create example data for test database."""
+
+	##### USERS #####
+	user1 = User(username='ffluvr93',
+				 email='ffluvr93@yahoo.com',
+				 password='asecurepassword')
+
+	user2 = User(username='thecompletionist',
+				 email='sirgamesalot@gmail.com',
+				 password='password')
+
+	user3 = User(username='markiplier',
+				 email='markiplier@gmail.com',
+				 password='tinyboxtim')
+
+	##### GAMES #####
+	game1 = Game(title='Best Game Ever',
+				 platform='Xbox 360',
+				 critic_score=9.5,
+				 user_score=9.8)
+
+	game2 = Game(title='So-So Game',
+				 platform='Nintendo 64',
+				 critic_score=6.5,
+				 user_score=7.2)
+
+	game3 = Game(title='Bargain Bin Game',
+				 platform='Playstation 2',
+				 critic_score=3.0,
+				 user_score=2.0)
+
+	##### GENRES #####
+
+	genre1 = Genre(genre_type='Platformer')
+
+	genre2 = Genre(genre_type='Action')
+
+	genre3 = Genre(genre_type='Adventure')
+
+	genre4 = Genre(genre_type='Visual Novel')
+
+	genre5 = Genre(genre_type='Puzzle')
+
+	genre6 = Genre(genre_type='Horror')
+
+	##### VIDEO GAME - GENRES #####
+
+	vg_genre1 = VgGen(game_id=2,
+					  genre_id=1)
+
+	vg_genre2 = VgGen(game_id=1,
+					  genre_id=5)
+
+	##### DIFFICULTY ##### user-generated
+
+	diff1 = Difficulty(game_id=3,
+					   level=9)
+	diff2 = Difficulty(game_id=1,
+					   level=4)
+
+	##### COMMENTS ##### user-generated
+
+	comment = Comment(user_id=1,
+					  game_id=1,
+					  comment='Literally the best game ever.')
+
+	##### TAGS ##### user-generated
+
+	tag1 = Tag(user_id=1,
+			  game_id=1,
+			  tag='Recommend')
+
+	tag2 = Tag(user_id=1,
+			   game_id=1,
+			   tag='High Fant')
+
+	##### TAG CATEGORIES #####
+
+	tag_cat1 = TagCategory(tag_id=1,
+						   category='custom')
+
+	tag_cat2 = TagCategory(tag_id=1,
+						   category='genre')
+
+	##### VG TAGS #####
+
+	vg_tag1 = VgTag(game_id=1,
+					tag_id=1)
+
+	vg_tag2 = VgTag(game_id=1,
+					tag_id=2)
+
+	db.session.add_all([user1, user2, user3,
+						game1, game2, game3,
+						genre1, genre2, genre3, genre4, genre5, genre6,
+						vg_genre1, vg_genre2,
+						diff1, diff2,
+						comment,
+						tag1, tag2,
+						tag_cat1, tag_cat2,
+						vg_tag1, vg_tag2])
+
+	db.session.commit()
 
 if __name__ == "__main__":
 

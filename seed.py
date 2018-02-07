@@ -57,25 +57,26 @@ def load_genres():
 
 def load_users():  # Do not use when done testing
 	"""Load dummy data for users."""
+	pass
 
-	print "Fake users"
+	# print "Fake users"
 
-	User.query.delete()
+	# User.query.delete()
 
-	fake_user1 = User(username='ffluvr93',
-					  email='ffluvr93@yahoo.com',
-					  password='asecurepassword')
+	# fake_user1 = User(username='ffluvr93',
+	# 				  email='ffluvr93@yahoo.com',
+	# 				  password='asecurepassword')
 
-	fake_user2 = User(username='thecompletionist',
-					  email='sirgamesalot@gmail.com',
-					  password='password')
+	# fake_user2 = User(username='thecompletionist',
+	# 				  email='sirgamesalot@gmail.com',
+	# 				  password='password')
 
-	fake_user3 = User(username='markiplier',
-					  email='markiplier@gmail.com',
-					  password='tinyboxtim')
+	# fake_user3 = User(username='markiplier',
+	# 				  email='markiplier@gmail.com',
+	# 				  password='tinyboxtim')
 
-	db.session.add_all([fake_user1, fake_user2, fake_user3])
-	db.session.commit()
+	# db.session.add_all([fake_user1, fake_user2, fake_user3])
+	# db.session.commit()
 
 def set_val_game_id():
 	"""Set value for the next game_id after seeding database."""
