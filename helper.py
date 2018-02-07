@@ -26,7 +26,7 @@ def get_title(title):  # Takes in request.args.get() value
 def get_title_and_platform(title, platform):
 	"""Returns all games containing 'title' for a specific platform."""
 
-	query = Game.query.filter((Game.title.ilike('%' + title + '%')), (Game.platform.ilike('%' + platform + '%'))).limit(25).all()
+	query = Game.query.filter(Game.title.ilike('%' + title + '%'), Game.platform.ilike('%' + platform + '%')).limit(25).all()
 
 	return query
 
@@ -50,6 +50,6 @@ def get_platform(platform):
 def get_score_and_platform(score, platform):
 	"""Returns a query that filters by a certain score and platform."""
 
-	query = Game.query.filter((Game.critic_score >= score), (Game.platform.ilike('%' + platform + '%'))).limit(25).all()
+	query = Game.query.filter(Game.critic_score >= score, Game.platform.ilike('%' + platform + '%')).limit(25).all()
 
 	return query
