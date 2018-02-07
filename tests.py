@@ -21,13 +21,16 @@ class GotGameTests(unittest.TestCase):
 		result = self.client.get('/register')
 		self.assertIn('Choose a password', result.data)
 
-	def test_adv_search_access(self):  # Will probably need a code review for this one
+	def test_adv_search_access(self):
 		"""Checks that flash message displays when user tries to see results
 		without entering any search queries."""
 
-		pass
+		result = self.client.get('/adv-search-results',
+								 follow_redirects=True)
 
-class GotGameDatabase(unittest.TestCase)
+		self.assertIn('Uh-oh! Something went wrong.', result.data)
+
+class GotGameDatabase(unittest.TestCase):
 	"""Flask tests that use the database."""
 
 	def setUp(self):
@@ -40,6 +43,42 @@ class GotGameDatabase(unittest.TestCase)
 
 		db.create_all()
 		example_data()
+
+	def tearDown(self):
+		"""Run at the end of every test."""
+
+		db.session.close()
+		db.drop_all()
+
+	def test_login_fail(self):
+		"""Checks that user cannot register with an existing username."""
+		result = self.client.post('/new-user',
+								  data={'username': 'ffluvr93',
+								  		'email': 'test@test.com',
+								  		'password': 'lolol'},
+								  follow_redirects=True)
+
+		self.assertIn('Sorry, that username is already in use.', result.data)
+
+	# *Testing current iteration. Not how I want actual search to work.
+	def test_basic_search(self):  
+		"""Checks that a game from the database shows up after searching on homepage."""
+
+		result = self.client.get('/search-results?title=best')
+
+		self.assertIn('Best Game Ever', result.data)
+
+	# Currently not working
+	# def test_adv_search(self):
+	# 	"""Confirms that searching by (critic)score filters properly."""
+
+	# 	result = self.client.get('/adv-search-results', 
+	# 							  data={'score': 5.0},
+	# 							  follow_redirects=True)
+
+	# 	self.assertIn('Best Game Ever', result.data)
+	# 	self.assertIn('So-So Game', result.data)
+	# 	self.assertNotIn('Bargain Bin Game', result.data)
 
 if __name__ == "__main__":
 	unittest.main()

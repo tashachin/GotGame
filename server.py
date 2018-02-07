@@ -125,7 +125,7 @@ def show_advanced_results():
 								   games=games)
 		else:
 			flash("Uh-oh! Something went wrong.")
-			return redirect('/advanced-search')
+			return redirect('/adv-search')
 
 	
 
