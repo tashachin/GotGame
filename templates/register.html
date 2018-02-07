@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Got Game?</h1>
+<hr>
+<form method='POST' action='/new-user'>
+
+<input id='new-user' type='text' name='username' placeholder='Username'>
+<br>
+<input id='new-email' type='email' name='email' placeholder='Email'>
+<br>
+<input id='new-password' type='password' name='password' placeholder='Choose a password'>
+<br>
+<input type='submit' value='Register'>
+</form>
+{% endblock %}

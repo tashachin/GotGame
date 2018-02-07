@@ -41,13 +41,39 @@ def show_basic_results():
 	return render_template('game_info.html', 
 						   game=game)
 
-@app.route('/login') # render login form
-def login():
-	pass
+@app.route('/login')
+def show_login():
+	"""Show login page."""
 
-@app.route('/logout') # redirect user after logging them out
+	return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+	"""Checks that user has entered correct password."""
+
+	username = request.form.get('username')
+	password = request.form.get('password')
+
+	user = User.query.filter(User.username == username).first()
+
+	if user and user.password == password:
+
+		session['user_id'] = user.user_id
+		flash("Logged in.")
+
+		return redirect('/')
+	
+	else:
+		flash("Username/password combination not recognized.")
+		return redirect('/login')
+
+@app.route('/logout')
 def logout():
-	pass
+	"""Logs user out of site."""
+
+	session.clear()
+	flash("Logged out.")
+	return redirect('/')
 
 @app.route('/register')
 def register():

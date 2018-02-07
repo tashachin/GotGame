@@ -35,6 +35,26 @@ def load_games():
 
 	db.session.commit()
 
+def load_genres():
+	"""Load game genres into a separate table."""
+	pass
+	# print "Genres"
+
+	# Genre.query.delete()
+
+	# with open('seed_data/ign.csv') as csvfile:
+	# 	game_data = reader(csvfile, dialect='excel')
+
+	# 	next(game_data)  # Skips header row
+
+	# 	# ID(0), descriptive score(1), title(2), ign URL(3), platform(4),
+	# 	# critic score(5), genre(6), editors choice(7), year(8), month(9), day(10)
+	# 	for row in game_data:
+	# 		game = Game.query.filter(game.title == row[2]).one()
+	# 		genre = row[6]
+	# 		game.genre = genre
+	# 		db.session.commit()
+
 def load_users():  # Do not use when done testing
 	"""Load dummy data for users."""
 
