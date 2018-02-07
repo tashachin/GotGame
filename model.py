@@ -118,6 +118,12 @@ class Comment(db.Model):
 	game = db.relationship("Game", backref=db.backref("comments",
 													  order_by=comment_id))
 
+	def __repr__(self):
+		"""Displays useful info about comment when printed."""
+
+		return "<Comment comment_id={}, user={}, game={}>".format(self.comment_id,
+																  self.user.username,
+																  self.game.title)
 
 class Tag(db.Model):
 	"""A user-generated tag to label a game."""
@@ -128,6 +134,19 @@ class Tag(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) # Who created the tag?
 	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))  # Which game is the tag associated with?
 	tag = db.Column(db.String(30), nullable=False)
+
+	user = db.relationship("User", backref=db.backref("tags",
+													  order_by=tag_id))
+	game = db.relationship("Game", backref=db.backref("tags",
+													  order_by=tag_id))
+
+	def __repr__(self):
+		"""Displays useful info about tag when printed."""
+
+		return "<Tag tag_id={}, tag={}, user={}, game={}>".format(self.tag_id,
+																  self.tag,
+														  		  self.user.username,
+														  		  self.game.title)
 
 class TagCategory(db.Model):
 	"""A category that a tag belongs to."""
@@ -143,6 +162,12 @@ class TagCategory(db.Model):
 	tag = db.relationship("Tag", backref=db.backref("tag_cats",
 													order_by=tag_cat_id))
 
+	def __repr__(self):
+		"""Displays useful info about tag category when printed."""
+
+		return "<Tag Category tag_cat_id={}, category={}>".format(self.tag_cat_id,
+																  self.category)
+
 class VgTag(db.Model):
 	"""Association between games and tags."""
 
@@ -156,6 +181,13 @@ class VgTag(db.Model):
 													  order_by=vg_tag_id))
 	tag = db.relationship("Tag", backref=db.backref("vg_tags",
 													order_by=vg_tag_id))
+
+	def __repr__(self):
+		"""Displays useful info about video game tag when printed."""
+
+		return "<VgTag vg_tag_id={}, game={}, tag={}".format(self.vg_tag_id,
+															 self.game.title,
+															 self.tag.tag)
 
 ###################################################
 # HELPER FUNCTIONS

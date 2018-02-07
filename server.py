@@ -9,7 +9,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from model import (User, Game, Genre, VgGen, Difficulty, Comment, Tag,
 				   TagCategory, VgTag)
-from model import connect_to_db
+
+from model import db, connect_to_db
+
+from helper import *
 
 app = Flask(__name__)
 
@@ -37,6 +40,20 @@ def show_basic_results():
 
 	return render_template('game_info.html', 
 						   game=game)
+
+@app.route('/login') # render login form
+def login():
+	pass
+
+@app.route('/logout') # redirect user after logging them out
+def logout():
+	pass
+
+@app.route('/register')
+def register():
+	"""Show new user registration form."""
+
+	return render_template('register.html')
 
 @app.route('/advanced-search')
 def advanced_search():
@@ -90,62 +107,35 @@ def show_advanced_results():
 def show_game_profile():
 	pass
 
-@app.route('/registration-form')  # Display reg-form
-def show_reg_form():
-	pass
-
-@app.route('/new-user', methods=['POST'])  # New user creation (add to database)
-def create_user():
-	pass
-
+@app.route('/new-user', methods=['POST'])
 def validate_user():
-	pass
+	"""Checks if username/email are already in use. 
+	If not, register new user."""
+
+	username = request.form.get('username')
+	email = request.form.get('email')
+	password = request.form.get('password')
+
+	email_check = User.query.filter(User.email == email).first()
+	username_check = User.query.filter(User.username == username).first()
+
+	if email_check:
+		flash("Sorry, that email is already in use.")
+		return redirect('/register')
+
+	elif username_check:
+		flash("Sorry, that username is already in use.")
+		return redirect('/register')
+
+	else:
+		create_user(username, email, password)
+
+		flash("You've been registered. Game on!")
+		return redirect('/')
 
 @app.route('/user/<username>')  # User profile page
 def show_profile():
 	pass
-
-###################################################
-# FUNCTIONS
-
-def get_title(title):  # Takes in request.args.get() value
-	"""Returns a query by title."""
-
-	query = Game.query.filter(Game.title.ilike('%' + title + '%')).limit(25).all()
-	
-	return query
-
-
-def get_title_and_platform(title, platform):
-	"""Returns all games containing 'title' for a specific platform."""
-
-	query = Game.query.filter((Game.title.ilike('%' + title + '%')), (Game.platform.ilike('%' + platform + '%'))).limit(25).all()
-
-	return query
-
-
-def get_score(score):
-	"""Returns a query by score."""
-
-	query = Game.query.filter(Game.critic_score >= score).limit(25).all()
-
-	return query
-
-
-def get_platform(platform):
-	"""Returns a query by platform."""
-
-	query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).limit(25).all()
-
-	return query
-
-
-def get_score_and_platform(score, platform):
-	"""Returns a query that filters by a certain score and platform."""
-
-	query = Game.query.filter((Game.critic_score >= score), (Game.platform.ilike('%' + platform + '%'))).limit(25).all()
-
-	return query
 
 ###################################################
 # DEBUGGING
