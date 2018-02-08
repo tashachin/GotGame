@@ -3,7 +3,7 @@
 from jinja2 import StrictUndefined
 
 from flask import (Flask, render_template, redirect, request, flash,
-				   session)
+				   session, jsonify)
 
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -103,9 +103,9 @@ def validate_user():
 
 	return process_registration(username, email, password)  # In helper.py
 
-@app.route('/new-review', methods=['POST'])
-def func():
-	"""Adds a new review to the database."""
+@app.route('/new-review.json', methods=['POST'])
+def get_review_info():
+	"""Return info about a game as JSON"""
 
 	game_id = request.form.get('game_id')
 	user_score = request.form.get('user_score')
@@ -114,7 +114,12 @@ def func():
 	update_user_score(game_id, user_score)
 	create_review(game_id, review)
 
+	review_info = {
+
+	}
+
 	print """NEW REVIEW: {} {}""".format(game_id, review)
+	return jsonify(review_info)
 
 ###################################################
 # DEBUGGING
