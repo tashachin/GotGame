@@ -20,7 +20,7 @@ def example_data():
 	for obj in create_difficulties():
 		db.session.add(obj)
 
-	db.session.add(create_comments())
+	db.session.add(create_reviews())
 
 	for obj in create_tags():
 		db.session.add(obj)
@@ -107,14 +107,14 @@ def create_difficulties():  # ???? ask advisor how this table links to everythin
 
 	return diff1, diff2
 
-def create_comments():  # Will be user-populated
-	"""Returns comment objects to be added."""
+def create_reviews():  # Will be user-populated
+	"""Returns review objects to be added."""
 
-	comment = Comment(user_id=1,
+	review = Review(user_id=1,
 					  game_id=1,
-					  comment='Literally the best game ever.')
+					  review='Literally the best game ever.')
 
-	return comment
+	return review
 
 def create_tags():  # Will be user-populated
 	"""Returns tag objects to be added."""

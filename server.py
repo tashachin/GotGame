@@ -7,7 +7,7 @@ from flask import (Flask, render_template, redirect, request, flash,
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from model import (User, Game, Genre, VgGen, Difficulty, Comment, Tag,
+from model import (User, Game, Genre, VgGen, Difficulty, Review, Tag,
 				   TagCategory, VgTag)
 
 from model import db, connect_to_db
@@ -54,18 +54,7 @@ def login():
 	username = request.form.get('username')
 	password = request.form.get('password')
 
-	user = User.query.filter(User.username == username).first()
-
-	if user and user.password == password:
-
-		session['user_id'] = user.user_id
-		flash("Logged in.")
-
-		return redirect('/')
-	
-	else:
-		flash("Username/password combination not recognized.")
-		return redirect('/login')
+	return check_credentials(username, password)
 
 @app.route('/logout')
 def logout():
@@ -95,42 +84,12 @@ def show_advanced_results():
 	score = request.args.get('score')
 	platform = request.args.get('platform')
 
-	if title:
-		if title and platform:
-
-			games = get_title_and_platform(title, platform)
-			return render_template('adv_search_results.html',
-								   games=games)
-
-		else:
-			games = get_title(title)
-			return render_template('adv_search_results.html',
-							   	   games=games)
-	else:
-		if score and platform:
-			games = get_score_and_platform(score, platform)
-
-			return render_template('adv_search_results.html',
-								   games=games)
-		elif score:
-			games = get_score(score)
-
-			return render_template('adv_search_results.html',
-								   games=games)
-
-		elif platform:
-			games = get_platform(platform)
-
-			return render_template('adv_search_results.html',
-								   games=games)
-		else:
-			flash("Uh-oh! Something went wrong.")
-			return redirect('/adv-search')
-
-	
+	return apply_filters(title, score, platform)
 
 @app.route('/game/<title>') # Game "profile" page
-def show_game_profile():
+def show_game_profile(title):
+	
+	# take string title and query db, then feed obj back into jinja
 	pass
 
 @app.route('/new-user', methods=['POST'])
@@ -142,22 +101,7 @@ def validate_user():
 	email = request.form.get('email')
 	password = request.form.get('password')
 
-	email_check = User.query.filter(User.email == email).first()
-	username_check = User.query.filter(User.username == username).first()
-
-	if email_check:
-		flash("Sorry, that email is already in use.")
-		return redirect('/register')
-
-	elif username_check:
-		flash("Sorry, that username is already in use.")
-		return redirect('/register')
-
-	else:
-		create_user(username, email, password)
-
-		flash("You've been registered. Game on!")
-		return redirect('/')
+	return process_registration(username, email, password)  # In helper.py
 
 @app.route('/user/<username>')  # User profile page
 def show_profile():

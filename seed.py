@@ -2,7 +2,7 @@
 from csv import reader
 
 from sqlalchemy import func
-from model import (User, Game, Genre, VgGen, Difficulty, Comment,
+from model import (User, Game, Genre, VgGen, Difficulty, Review,
 				   Tag, TagCategory)
 
 from model import connect_to_db, db 

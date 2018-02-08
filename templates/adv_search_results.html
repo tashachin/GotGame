@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
-{% block content %}
 
-<form action='' id='game-sort'>
+{% block scripts %}
+<link rel='stylesheet'
+	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
+<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
+<script src='/static/game_results.js'></script>
+{% endblock %}
+
+{% block content %}
+<!-- <form action='' id='game-sort'>
 	<select name='order-by'>
 		<option value='' disabled selected>Sort by</option>
 		<option value='title'>Title</option>
 		<option value='platform'>Platform</option>
 		<option value='score'>Score</option>
 	</select>
-	<input type='submit' value='Filter'>
-</form>
-<div class='game-table'>
-<table>
+	<input id='sort-button' type='submit' value='Sort'>
+</form> -->
+
+<table id='game-table' class='stripe' cellspace='0' width='100%'>
 	<thead>
 	<tr>
 		<th>Title</th>
@@ -21,6 +28,15 @@
 		<th>Score (Users)</th>
 	</tr>
 	</thead>
+	<tfoot>
+	<tr>
+		<th>Title</th>
+		<th>Platform</th>
+		<th>Genre</th>
+		<th>Score (IGN)</th>
+		<th>Score (Users)</th>
+	</tr>
+	</tfoot>
 	<tbody>
 		{% for game in games %}
 		<tr> 
@@ -33,7 +49,6 @@
 		{% endfor %}
 	</tbody>
 </table>
-</div>
 
-
+<!-- Nice to have: User can see similar games they've reviewed before -->
 {% endblock %}

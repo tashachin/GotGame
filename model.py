@@ -101,26 +101,26 @@ class Difficulty(db.Model):
 																						  self.game.title,
 																						  self.level)  # Is this intuitive?
 
-class Comment(db.Model):
-	"""Comment of a user."""
+class Review(db.Model):
+	"""Review of a user."""
 
-	__tablename__ = "comments"
+	__tablename__ = "reviews"
 
-	comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))
-	comment = db.Column(db.String(1000), nullable=False)  # A little over two paragraphs?
-	# Implement thread_id later if creating forum/chain of comments (MVP 3.0)
+	review = db.Column(db.String(1000), nullable=False)  # A little over two paragraphs?
+	# Implement thread_id later if creating forum/chain of reviews (MVP 3.0)
 
-	user = db.relationship("User", backref=db.backref("comments",
-													  order_by=comment_id))
-	game = db.relationship("Game", backref=db.backref("comments",
-													  order_by=comment_id))
+	user = db.relationship("User", backref=db.backref("reviews",
+													  order_by=review_id))
+	game = db.relationship("Game", backref=db.backref("reviews",
+													  order_by=review_id))
 
 	def __repr__(self):
-		"""Displays useful info about comment when printed."""
+		"""Displays useful info about review when printed."""
 
-		return "<Comment comment_id={}, user={}, game={}>".format(self.comment_id,
+		return "<Review review_id={}, user={}, game={}>".format(self.review_id,
 																  self.user.username,
 																  self.game.title)
 
@@ -199,111 +199,6 @@ def connect_to_db(app, db_uri='postgresql:///games'):
 	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 	db.app = app
 	db.init_app(app)
-
-def example_data():
-	"""Create example data for test database."""
-
-	##### USERS #####
-	user1 = User(username='ffluvr93',
-				 email='ffluvr93@yahoo.com',
-				 password='asecurepassword')
-
-	user2 = User(username='thecompletionist',
-				 email='sirgamesalot@gmail.com',
-				 password='password')
-
-	user3 = User(username='markiplier',
-				 email='markiplier@gmail.com',
-				 password='tinyboxtim')
-
-	##### GAMES #####
-	game1 = Game(title='Best Game Ever',
-				 platform='Xbox 360',
-				 critic_score=9.5,
-				 user_score=9.8)
-
-	game2 = Game(title='So-So Game',
-				 platform='Nintendo 64',
-				 critic_score=6.5,
-				 user_score=7.2)
-
-	game3 = Game(title='Bargain Bin Game',
-				 platform='Playstation 2',
-				 critic_score=3.0,
-				 user_score=2.0)
-
-	##### GENRES #####
-
-	genre1 = Genre(genre_type='Platformer')
-
-	genre2 = Genre(genre_type='Action')
-
-	genre3 = Genre(genre_type='Adventure')
-
-	genre4 = Genre(genre_type='Visual Novel')
-
-	genre5 = Genre(genre_type='Puzzle')
-
-	genre6 = Genre(genre_type='Horror')
-
-	##### VIDEO GAME - GENRES #####
-
-	vg_genre1 = VgGen(game_id=2,
-					  genre_id=1)
-
-	vg_genre2 = VgGen(game_id=1,
-					  genre_id=5)
-
-	##### DIFFICULTY ##### user-generated
-
-	diff1 = Difficulty(game_id=3,
-					   level=9)
-	diff2 = Difficulty(game_id=1,
-					   level=4)
-
-	##### COMMENTS ##### user-generated
-
-	comment = Comment(user_id=1,
-					  game_id=1,
-					  comment='Literally the best game ever.')
-
-	##### TAGS ##### user-generated
-
-	tag1 = Tag(user_id=1,
-			  game_id=1,
-			  tag='Recommend')
-
-	tag2 = Tag(user_id=1,
-			   game_id=1,
-			   tag='High Fant')
-
-	##### TAG CATEGORIES #####
-
-	tag_cat1 = TagCategory(tag_id=1,
-						   category='custom')
-
-	tag_cat2 = TagCategory(tag_id=1,
-						   category='genre')
-
-	##### VG TAGS #####
-
-	vg_tag1 = VgTag(game_id=1,
-					tag_id=1)
-
-	vg_tag2 = VgTag(game_id=1,
-					tag_id=2)
-
-	db.session.add_all([user1, user2, user3,
-						game1, game2, game3,
-						genre1, genre2, genre3, genre4, genre5, genre6,
-						vg_genre1, vg_genre2,
-						diff1, diff2,
-						comment,
-						tag1, tag2,
-						tag_cat1, tag_cat2,
-						vg_tag1, vg_tag2])
-
-	db.session.commit()
 
 if __name__ == "__main__":
 

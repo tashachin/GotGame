@@ -69,16 +69,17 @@ class GotGameDatabase(unittest.TestCase):
 		self.assertIn('Best Game Ever', result.data)
 
 	# Currently not working
-	# def test_adv_search(self):
-	# 	"""Confirms that searching by (critic)score filters properly."""
+	def test_adv_search(self):
+		"""Confirms that searching by (critic)score filters properly."""
 
-	# 	result = self.client.get('/adv-search-results', 
-	# 							  data={'score': 5.0},
-	# 							  follow_redirects=True)
+		result = self.client.get('/adv-search-results', 
+								  query_string={'title': None,
+								  				'score': 5.0,
+								  				'platform': None})  # query_string is a GET specific keyword; data is the POST equivalent
 
-	# 	self.assertIn('Best Game Ever', result.data)
-	# 	self.assertIn('So-So Game', result.data)
-	# 	self.assertNotIn('Bargain Bin Game', result.data)
+		self.assertIn('Best Game Ever', result.data)
+		self.assertIn('So-So Game', result.data)
+		self.assertNotIn('Bargain Bin Game', result.data)
 
 if __name__ == "__main__":
 	unittest.main()
