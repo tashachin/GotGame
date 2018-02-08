@@ -20,7 +20,7 @@ def create_user(username, email, password):
 
 def check_credentials():
 	"""Logic for checking login credentials."""
-	
+
 	user = User.query.filter(User.username == username).first()
 
 	if user and user.password == password:
@@ -97,6 +97,21 @@ def apply_filters(title, score, platform):
 
 ###################################################
 # QUERIES
+
+def get_one_title(title):
+	"""Displays results from homepage search-bar."""
+
+	# .ilike ignores case when filtering
+	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+
+	if game:
+		return render_template('game_info.html', 
+						   	   game=game)
+
+	else:
+		flash("Oops! Our database didn't return any results.")
+		return redirect('/')
+
 def get_title(title):  # Takes in request.args.get() value
 	"""Returns a query by title."""
 

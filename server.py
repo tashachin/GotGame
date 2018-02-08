@@ -31,15 +31,11 @@ def homepage():
 
 @app.route('/search-results') 
 def show_basic_results():  
-	"""Displays results from homepage search-bar."""
+	"""A fun quick search for the homepage."""
 
 	title = request.args.get('title')
 
-	# .ilike ignores case when filtering
-	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
-
-	return render_template('game_info.html', 
-						   game=game)
+	return get_one_title(title)
 
 @app.route('/login')
 def show_login():
@@ -88,7 +84,7 @@ def show_advanced_results():
 
 @app.route('/game/<title>') # Game "profile" page
 def show_game_profile(title):
-	
+
 	# take string title and query db, then feed obj back into jinja
 	pass
 

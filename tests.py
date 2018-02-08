@@ -68,7 +68,14 @@ class GotGameDatabase(unittest.TestCase):
 
 		self.assertIn('Best Game Ever', result.data)
 
-	# Currently not working
+	def test_basic_search_fail(self):
+		"""Checks for the 'no-results' flash message."""
+
+		result = self.client.get('/search-results?title=dslfjaljfjlsdkf',
+								 follow_redirects=True)
+
+		self.assertIn('Oops! Our database didn&#39;t return any results.', result.data)
+
 	def test_adv_search(self):
 		"""Confirms that searching by (critic)score filters properly."""
 
