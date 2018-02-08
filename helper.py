@@ -66,7 +66,14 @@ def create_review(game_id, review):
 	db.session.add(new_review)
 	db.session.commit()
 
-	# return redirect('/search-results?title=' + ) FIX ME!!!!!!
+def update_user_score(game_id, user_score):
+	"""Takes info from '/game/<title>' and updates game's score."""
+
+	game = Game.query.filter(Game.game_id == game_id).one()
+
+	game.user_score = user_score
+
+	db.session.commit()
 
 ###################################################
 # SEARCH FILTERING

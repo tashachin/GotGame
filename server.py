@@ -107,14 +107,14 @@ def validate_user():
 def func():
 	"""Adds a new review to the database."""
 
-	review = request.form.get('review')
 	game_id = request.form.get('game_id')
-	
+	user_score = request.form.get('user_score')
+	review = request.form.get('review')
 
-	return create_review(review=review,
-						 game_id=game_id)
+	update_user_score(game_id, user_score)
+	create_review(game_id, review)
 
-
+	print """NEW REVIEW: {} {}""".format(game_id, review)
 
 ###################################################
 # DEBUGGING
