@@ -31,7 +31,7 @@ def homepage():
 
 @app.route('/search-results') 
 def show_basic_results():  
-	"""A fun quick search for the homepage."""
+	"""A fun quick-search for the homepage."""
 
 	title = request.args.get('title')
 
@@ -82,6 +82,10 @@ def show_advanced_results():
 
 	return apply_filters(title, score, platform)
 
+@app.route('/user/<username>')  # User profile page
+def show_profile():
+	pass
+
 @app.route('/game/<title>') # Game "profile" page
 def show_game_profile(title):
 
@@ -99,9 +103,18 @@ def validate_user():
 
 	return process_registration(username, email, password)  # In helper.py
 
-@app.route('/user/<username>')  # User profile page
-def show_profile():
-	pass
+@app.route('/new-review', methods=['POST'])
+def func():
+	"""Adds a new review to the database."""
+
+	review = request.form.get('review')
+	game_id = request.form.get('game_id')
+	
+
+	return create_review(review=review,
+						 game_id=game_id)
+
+
 
 ###################################################
 # DEBUGGING

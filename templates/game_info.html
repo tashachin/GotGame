@@ -40,6 +40,25 @@
 	</ul>
 </div>
 
+<div id='review-field'>
+	<div id='user-review'>
+		<!-- Remember to test for WHO user is -->
+		{% if review %} 
+		<p>placeholder for user reviews</p>
+		{% else %}
+		<p>You haven't reviewed this game yet!</p>
+		<form method='POST' action='/new-review'>
+			<input id='new-review' type='text' name='review' placeholder='Write a review'>
+			<input type='hidden' name='game_id' value='{{ game.game_id }}'>
+			<input type='submit' value='Review {{ game.title }}'>
+		</form>
+		{% endif %}
+	</div>
+
+	<div id='all-reviews'>
+		<!-- for review in reviews - maybe use a carousel? -->
+	</div>
+</div>
 <!-- Place user's own review at top OR form to add their own review
 * Display everyone else's review of this game below -->
 

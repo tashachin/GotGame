@@ -111,8 +111,8 @@ def create_reviews():  # Will be user-populated
 	"""Returns review objects to be added."""
 
 	review = Review(user_id=1,
-					  game_id=1,
-					  review='Literally the best game ever.')
+					game_id=1,
+					review='Literally the best game ever.')
 
 	return review
 
@@ -120,8 +120,8 @@ def create_tags():  # Will be user-populated
 	"""Returns tag objects to be added."""
 
 	tag1 = Tag(user_id=1,
-			  game_id=1,
-			  tag='Recommend')
+			   game_id=1,
+			   tag='Recommend')
 
 	tag2 = Tag(user_id=1,
 			   game_id=1,

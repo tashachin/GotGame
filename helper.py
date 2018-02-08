@@ -5,20 +5,9 @@ from flask import (Flask, render_template, redirect, request, flash,
 from model import *
 
 ###################################################
-# USER INPUT
+# VALIDATION
 
-def create_user(username, email, password):
-	"""Takes info from '/register' and submits user to database."""
-	new_user = User(username=username,
-					email=email,
-					password=password)
-	db.session.add(new_user)
-	db.session.commit()
-
-###################################################
-# USER LOGIN
-
-def check_credentials():
+def check_credentials(username, password):
 	"""Logic for checking login credentials."""
 
 	user = User.query.filter(User.username == username).first()
@@ -33,9 +22,6 @@ def check_credentials():
 	else:
 		flash("Username/password combination not recognized.")
 		return redirect('/login')
-
-###################################################
-# USER VALIDATION
 
 def process_registration(username, email, password):
 	"""Directs user trying to register, depending on user's input."""
@@ -56,6 +42,31 @@ def process_registration(username, email, password):
 
 		flash("You've been registered. Game on!")
 		return redirect('/')
+
+###################################################
+# ADD TO DATABASE
+
+def create_user(username, email, password):
+	"""Takes info from '/register' and submits user to database."""
+	new_user = User(username=username,
+					email=email,
+					password=password)
+	db.session.add(new_user)
+	db.session.commit()
+
+def create_review(game_id, review):
+	"""Takes info from '/game/<title>' and submits review to database."""
+
+	user_id = session['user_id']
+
+	new_review = Review(user_id=user_id,
+						game_id=game_id,
+						review=review)
+
+	db.session.add(new_review)
+	db.session.commit()
+
+	# return redirect('/search-results?title=' + ) FIX ME!!!!!!
 
 ###################################################
 # SEARCH FILTERING
@@ -106,7 +117,8 @@ def get_one_title(title):
 
 	if game:
 		return render_template('game_info.html', 
-						   	   game=game)
+						   	   game=game,
+						   	   review=None)  # Come back to this later!
 
 	else:
 		flash("Oops! Our database didn't return any results.")
