@@ -69,7 +69,7 @@ def create_review(game_id, review):
 def update_user_score(game_id, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""
 
-	game = Game.query.filter(Game.game_id == game_id).one()
+	game = Game.query.filter(Game.game_id == game_id).first()
 
 	game.user_score = user_score
 
@@ -121,6 +121,8 @@ def get_one_title(title):
 
 	# .ilike ignores case when filtering
 	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
+
+	user_id = session['user_id']
 
 	if game:
 		return render_template('game_info.html', 

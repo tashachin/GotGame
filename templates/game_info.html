@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block heading %}{{ game.title }}{% endblock %}
 
 {% block content %}
@@ -48,15 +49,18 @@
 <div id='review-field'>
 	<div id='user-review'>
 		<!-- Remember to test for WHO user is -->
+
 		{% if review %} 
 		<p>placeholder for user reviews</p>
 		{% else %}
+
 		<p>You haven't reviewed this game yet!</p>
-		<form method='POST' action='/new-review'>
+		<div id='review-notif' hidden>Your review of {{ game.title }} has been added!</div>
+		<form id='review-form'>
 			<input id='new-score' type='number' name='user_score' placeholder='#' min=1 max=10 required>
 			<input id='new-review' type='text' name='review' placeholder='Write a review'>
 			<input id='game-id' type='hidden' name='game_id' value='{{ game.game_id }}'>
-			<input type='submit' value='Review {{ game.title }}'>
+			<input id='submit-review' type='submit' value='Review {{ game.title }}'>
 		</form>
 		{% endif %}
 	</div>
@@ -67,5 +71,5 @@
 </div>
 <!-- Place user's own review at top OR form to add their own review
 * Display everyone else's review of this game below -->
-
+<script src='/static/game_info.js'></script>
 {% endblock %}

@@ -103,10 +103,11 @@ def validate_user():
 
 	return process_registration(username, email, password)  # In helper.py
 
-@app.route('/new-review.json', methods=['POST'])
+@app.route('/new-review.json', methods=['POST'])  # In a .json route, 'form data' needs to be passed as second arg
 def get_review_info():
 	"""Return info about a game as JSON"""
 
+	# This will not work unless 'form data' gets passed through
 	game_id = request.form.get('game_id')
 	user_score = request.form.get('user_score')
 	review = request.form.get('review')
@@ -115,7 +116,9 @@ def get_review_info():
 	create_review(game_id, review)
 
 	review_info = {
-
+		"game_id": game_id,
+		"user_score": user_score,
+		"review": review
 	}
 
 	print """NEW REVIEW: {} {}""".format(game_id, review)
