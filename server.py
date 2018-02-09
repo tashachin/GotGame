@@ -37,12 +37,7 @@ def show_basic_results():
 
 	game = get_one_title(title)
 
-	if session.get('user_id'):
-		user_id = session['user_id']
-		review = Review.query.filter(Review.user_id == user_id).first()  # Display user's previous review.
-
-	else:
-		review = None  # Display form to add a review.
+	review = check_review_status(game)
 
 	return render_template('game_info.html',
 						   game=game,

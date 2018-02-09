@@ -43,6 +43,21 @@ def process_registration(username, email, password):
 		flash("You've been registered. Game on!")
 		return redirect('/')
 
+
+def check_review_status(game):
+	"""Checks to see if user is logged in and if game has been reviewed before."""
+
+	if session.get('user_id'):
+		user_id = session['user_id']
+		review = Review.query.filter(Review.game_id == game.game_id and Review.user_id == user_id).first()  # Display user's previous review in Jinja.
+
+		return review
+
+	else:
+		review = None  # Display form in Jinja to add a review.
+
+		return review
+
 ###################################################
 # ADD TO DATABASE
 
@@ -132,7 +147,7 @@ def get_one_title(title):
 def get_title(title):  # Takes in request.args.get() value
 	"""Returns a query by title."""
 
-	query = Game.query.filter(Game.title.ilike('%' + title + '%')).limit(25).all()
+	query = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
 	
 	return query
 
@@ -140,7 +155,7 @@ def get_title(title):  # Takes in request.args.get() value
 def get_title_and_platform(title, platform):
 	"""Returns all games containing 'title' for a specific platform."""
 
-	query = Game.query.filter(Game.title.ilike('%' + title + '%'), Game.platform.ilike('%' + platform + '%')).limit(25).all()
+	query = Game.query.filter(Game.title.ilike('%' + title + '%'), Game.platform.ilike('%' + platform + '%')).all()
 
 	return query
 
@@ -148,7 +163,7 @@ def get_title_and_platform(title, platform):
 def get_score(score):
 	"""Returns a query by score."""
 
-	query = Game.query.filter(Game.critic_score >= score).limit(25).all()
+	query = Game.query.filter(Game.critic_score >= score).all()
 
 	return query
 
@@ -156,7 +171,7 @@ def get_score(score):
 def get_platform(platform):
 	"""Returns a query by platform."""
 
-	query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).limit(25).all()
+	query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).all()
 
 	return query
 
@@ -164,6 +179,6 @@ def get_platform(platform):
 def get_score_and_platform(score, platform):
 	"""Returns a query that filters by a certain score and platform."""
 
-	query = Game.query.filter(Game.critic_score >= score, Game.platform.ilike('%' + platform + '%')).limit(25).all()
+	query = Game.query.filter(Game.critic_score >= score, Game.platform.ilike('%' + platform + '%')).all()
 
 	return query
