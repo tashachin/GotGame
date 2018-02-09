@@ -35,7 +35,18 @@ def show_basic_results():
 
 	title = request.args.get('title')
 
-	return get_one_title(title)
+	game = get_one_title(title)
+
+	if session.get('user_id'):
+		user_id = session['user_id']
+		review = Review.query.filter(Review.user_id == user_id).first()  # Display user's previous review.
+
+	else:
+		review = None  # Display form to add a review.
+
+	return render_template('game_info.html',
+						   game=game,
+						   review=review)
 
 @app.route('/login')
 def show_login():

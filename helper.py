@@ -122,12 +122,8 @@ def get_one_title(title):
 	# .ilike ignores case when filtering
 	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
 
-	user_id = session['user_id']
-
 	if game:
-		return render_template('game_info.html', 
-						   	   game=game,
-						   	   review=None)  # Come back to this later!
+		return game
 
 	else:
 		flash("Oops! Our database didn't return any results.")

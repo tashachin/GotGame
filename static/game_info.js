@@ -1,5 +1,5 @@
 function confirmReview() {
-	$('#review-notif').fadeIn(200).fadeOut(100).fadeIn(200);
+	$('#review-notif').fadeIn(200).fadeOut(200).fadeIn(200);
 }
 
 function submitReview(evt) {
@@ -11,6 +11,7 @@ function submitReview(evt) {
 		   reviewData,  // IMPORTANT
 		   confirmReview);
 
+	$('#review-status').remove();
 }
 
 $('#review-form').on('submit', submitReview);
