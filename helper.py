@@ -44,11 +44,24 @@ def process_registration(username, email, password):
 		return redirect('/')
 
 
-def check_review_status(game):
-	"""Checks to see if user is logged in and if game has been reviewed before."""
+def check_login_status():
+	"""Checks to see if user is logged in."""
 
 	if session.get('user_id'):
 		user_id = session['user_id']
+
+		return user_id
+
+	else:
+		user_id = None
+		
+		return user_id
+
+
+def check_review_status(game):
+	"""Checks to see if user is logged in and if game has been reviewed before."""
+
+	if check_login_status():
 		review = Review.query.filter(Review.game_id == game.game_id and Review.user_id == user_id).first()  # Display user's previous review in Jinja.
 
 		return review
@@ -66,8 +79,6 @@ def create_user(username, email, password):
 	new_user = User(username=username,
 					email=email,
 					password=password)
-	db.session.add(new_user)
-	db.session.commit()
 
 def create_review(game_id, review):
 	"""Takes info from '/game/<title>' and submits review to database."""
@@ -77,9 +88,6 @@ def create_review(game_id, review):
 	new_review = Review(user_id=user_id,
 						game_id=game_id,
 						review=review)
-
-	db.session.add(new_review)
-	db.session.commit()
 
 def update_user_score(game_id, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""

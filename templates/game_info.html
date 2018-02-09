@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class='game-table'>
-<table>
+<table id='game-info-table' class='stripe' cellspace='0' width='100%'>
 	<thead>
 	<tr>
 		<th>Platform</th>
@@ -47,6 +47,7 @@
 </div>
 
 <div id='review-field'>
+{% if user_status %}
 	<div id='user-review'>
 		<!-- Remember to test for WHO user is -->
 
@@ -54,8 +55,8 @@
 		<p>Previously, you said: "{{ review.review }}"</p>
 
 		<form id='update-review-form'>
-			<input id='edit-score' type='number' name='user_score' placeholder='#' min=1 max=10 required>
-			<input id='edit-review' type='text' name='review' placeholder='Write a review'>
+			<input id='edit-score' type='number' name='user_score' placeholder='#' min=1.0 max=10.0 required>
+			<input id='edit-review' type='text' name='review' placeholder='Update your review'>
 			<input id='edit-id' type='hidden' name='game_id' value='{{ game.game_id }}'>
 			<input id='edit-review' type='submit' value='Edit review'>
 		</form>
@@ -82,7 +83,15 @@
 		<!-- for review in reviews - maybe use a carousel? -->
 	</div>
 </div>
+{% endif %}
 <!-- Place user's own review at top OR form to add their own review
 * Display everyone else's review of this game below -->
+
+{% block scripts %}
+<link rel='stylesheet'
+	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
+<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
+<script src='/static/game_results.js'></script>
 <script src='/static/game_info.js'></script>
+{% endblock %}
 {% endblock %}

@@ -1,14 +1,7 @@
 {% extends 'base.html' %}
 
-{% block scripts %}
-<link rel='stylesheet'
-	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
-<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
-<script src='/static/game_results.js'></script>
-{% endblock %}
-
 {% block content %}
-<table id='game-table' class='stripe' cellspace='0' width='100%'>
+<table id='game-search-table' class='stripe' cellspace='0' width='100%'>
 	<thead>
 	<tr>
 		<th>Title</th>
@@ -41,4 +34,11 @@
 </table>
 
 <!-- Nice to have: User can see similar games they've reviewed before -->
+{% endblock %}
+
+{% block scripts %}
+<link rel='stylesheet'
+	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
+<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
+<script src='/static/game_results.js'></script>
 {% endblock %}

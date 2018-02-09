@@ -36,11 +36,12 @@ def show_basic_results():
 	title = request.args.get('title')
 
 	game = get_one_title(title)
-
+	user_status = check_login_status()
 	review = check_review_status(game)
 
 	return render_template('game_info.html',
 						   game=game,
+						   user_status=user_status,
 						   review=review)
 
 @app.route('/login')
