@@ -61,9 +61,10 @@ def check_login_status():
 def check_review_status(game):
 	"""Checks to see if user is logged in and if game has been reviewed before."""
 
-	if check_login_status():
-		review = Review.query.filter(Review.game_id == game.game_id and Review.user_id == user_id).first()  # Display user's previous review in Jinja.
+	user_id = check_login_status()
 
+	if user_id:
+		review = Review.query.filter(Review.game_id == game.game_id and Review.user_id == user_id).first()  # Display user's previous review in Jinja.
 		return review
 
 	else:

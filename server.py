@@ -39,10 +39,16 @@ def show_basic_results():
 	user_status = check_login_status()
 	review = check_review_status(game)
 
+	game_id = game.game_id
+	user_id = session.get('user_id')
+
+	reviews = Review.query.filter(Review.game_id == game_id and Review.user_id != user_id).limit(10).all()
+
 	return render_template('game_info.html',
 						   game=game,
 						   user_status=user_status,
-						   review=review)
+						   review=review,
+						   reviews=reviews)
 
 @app.route('/login')
 def show_login():
@@ -132,10 +138,12 @@ def get_review_info():
 	update_user_score(game_id, user_id, user_score)
 	create_review(game_id, review)
 
+	reviews = Review.query.filter(Review.game_id == game_id and Review.user_id != user_id).limit(10).all()
+
 	review_info = {
 		"game_id": game_id,
 		"user_score": user_score,
-		"review": review
+		"review": review,
 	}
 
 	print """NEW REVIEW: {} {}""".format(game_id, review)

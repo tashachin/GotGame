@@ -1,11 +1,13 @@
 $(document).ready(function() {
     $('#game-info-table').DataTable( {
-        "order": [[ 0, "asc" ]],
-        "pagingType": "first_last_numbers",
+    	retrieve: true,
+        paging: false,
+        searching: false,
     } );
 } );
 
 function confirmReview() {
+	$('#review-form').empty();
 	$('#review-status').remove();
 	$('#review-notif').fadeIn(200).fadeOut(200).fadeIn(200);
 }

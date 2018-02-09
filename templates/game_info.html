@@ -63,6 +63,12 @@
 			<input id='edit-review' type='submit' value='Edit review'>
 		</form>
 
+			{% if review.game.platform != game.platform %}
+
+			<p id='platform-status'>You reviewed this game on a different platform!</p>
+
+			{% endif %}
+
 		{% else %}
 
 		<p id='review-status'>You haven't reviewed this game yet!</p>
@@ -88,6 +94,14 @@
 {% endif %}
 <!-- Place user's own review at top OR form to add their own review
 * Display everyone else's review of this game below -->
+
+{% if reviews %}
+<ul>
+	{% for review in reviews %}
+	<li>{{ review.review }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
 
 {% block scripts %}
 <link rel='stylesheet'
