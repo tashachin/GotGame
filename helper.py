@@ -15,6 +15,7 @@ def check_credentials(username, password):
 	if user and user.password == password:
 
 		session['user_id'] = user.user_id
+		print session['user_id']
 		flash("Logged in.")
 
 		return redirect('/')
@@ -61,10 +62,12 @@ def check_login_status():
 def check_review_status(game):
 	"""Checks to see if user is logged in and if game has been reviewed before."""
 
+	print game
 	user_id = check_login_status()
 
 	if user_id:
-		review = Review.query.filter(Review.game_id == game.game_id and Review.user_id == user_id).first()  # Display user's previous review in Jinja.
+		review = Review.query.filter(Review.user_id == user_id, Review.game_id == game.game_id).first()
+		print review  # Display user's previous review in Jinja.
 		return review
 
 	else:
@@ -81,6 +84,9 @@ def create_user(username, email, password):
 					email=email,
 					password=password)
 
+	db.session.add(new_user)
+	db.session.commit()
+
 def create_review(game_id, review):
 	"""Takes info from '/game/<title>' and submits review to database."""
 
@@ -96,7 +102,7 @@ def create_review(game_id, review):
 def update_user_score(game_id, user_id, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""
 
-	game = Game.query.filter(Game.game_id == game_id and User.user_id == user_id).one()
+	game = Game.query.filter(Game.game_id == game_id, User.user_id == user_id).one()
 
 	game.user_score = user_score
 

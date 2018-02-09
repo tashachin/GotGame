@@ -111,7 +111,8 @@ def show_game_profile(title):
 	return render_template('game_info.html',
 							 game=game,
 							 user_status=user_status,
-							 review=review)
+							 review=review,
+							 reviews=None)  # For now, so it doesn't break the template
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():

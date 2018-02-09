@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
 
+{% block hscripts %}
+<link rel='stylesheet'
+	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
+<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
+<script src='/static/game_results.js'></script>
+{% endblock %}
+
 {% block title %} {{ game.title }} {% endblock %}
 
-{% block heading %} {{ game.title }} {% endblock %}
-
 {% block content %}
+
+<h2> {{ game.title }} </h2>
+
 <div class='game-table'>
 <table id='game-info-table' class='stripe' cellspace='0' width='100%'>
 	<thead>
@@ -98,16 +106,12 @@
 {% if reviews %}
 <ul>
 	{% for review in reviews %}
-	<li>{{ review.review }}</li>
+	<li>{{ review.user.username }} had this to say: {{ review.review }}</li>
 	{% endfor %}
 </ul>
 {% endif %}
 
 {% block scripts %}
-<link rel='stylesheet'
-	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
-<script src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js'></script>
-<script src='/static/game_results.js'></script>
 <script src='/static/game_info.js'></script>
 {% endblock %}
 {% endblock %}
