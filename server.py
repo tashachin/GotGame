@@ -97,7 +97,15 @@ def show_profile():
 def show_game_profile(title):
 
 	# take string title and query db, then feed obj back into jinja
-	pass
+	
+	game = Game.query.filter(Game.title == title).one()
+	user_status = check_login_status()
+	review = check_review_status(game)
+
+	return render_template('game_info.html',
+							 game=game,
+							 user_status=user_status,
+							 review=review)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():
@@ -115,11 +123,13 @@ def get_review_info():
 	"""Return info about a game as JSON"""
 
 	# This will not work unless 'form data' gets passed through
-	game_id = request.form.get('game_id')
 	user_score = request.form.get('user_score')
+	game_id = request.form.get('game_id')
 	review = request.form.get('review')
 
-	update_user_score(game_id, user_score)
+	user_id = session['user_id']
+
+	update_user_score(game_id, user_id, user_score)
 	create_review(game_id, review)
 
 	review_info = {
