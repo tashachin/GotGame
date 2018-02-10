@@ -14,13 +14,15 @@
 <body>
 <div class="container">
 <h1>{% block heading %}Got Game?{% endblock %}</h1>
+{% block navbar %}
 <br>
 <a href='/'>Home</a> | 
+<a href="/register">Register</a> |
 <a href='/login'>Login</a> | 
 <a href='/logout'>Logout</a> | 
 <a href='/'>Profile</a> | 
 <a href='/'>Favorites</a>
-
+{% endblock %}
 <!-- <nav class="navbar navbar-toggleable-md navbar-inverse bg-faded">
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>

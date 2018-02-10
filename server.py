@@ -42,7 +42,7 @@ def show_basic_results():
 	game_id = game.game_id
 	user_id = session.get('user_id')
 
-	reviews = Review.query.filter(Review.game_id == game_id and Review.user_id != user_id).limit(10).all()
+	reviews = Review.query.filter(Review.game_id == game_id, Review.user_id != user_id).limit(10).all()
 
 	return render_template('game_info.html',
 						   game=game,
