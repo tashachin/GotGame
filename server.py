@@ -46,6 +46,7 @@ def show_basic_results():
 
 	return render_template('game_info.html',
 						   game=game,
+						   user_id=user_id,
 						   user_status=user_status,
 						   review=review,
 						   reviews=reviews)
