@@ -162,6 +162,15 @@ def get_one_title(title):
 		flash("Oops! Our database didn't return any results.")
 		return redirect('/')
 
+
+def get_game_reviews(user_id, game_id):
+	"""Returns all reviews for a specific game from OTHER users."""
+
+	reviews = Review.query.filter(Review.game_id == game_id and Review.user_id != user_id).limit(10).all()
+
+	return reviews
+
+
 def get_title(title):  # Takes in request.args.get() value
 	"""Returns a query by title."""
 

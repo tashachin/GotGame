@@ -42,7 +42,7 @@ def show_basic_results():
 	game_id = game.game_id
 	user_id = session.get('user_id')
 
-	reviews = Review.query.filter(Review.game_id == game_id, Review.user_id != user_id).limit(10).all()
+	get_game_reviews(user_id, game_id)
 
 	return render_template('game_info.html',
 						   game=game,
@@ -139,8 +139,7 @@ def get_review_info():
 
 	update_user_score(game_id, user_id, user_score)
 	create_review(game_id, review)
-
-	reviews = Review.query.filter(Review.game_id == game_id and Review.user_id != user_id).limit(10).all()
+	get_game_reviews(user_id, game_id)
 
 	review_info = {
 		"game_id": game_id,
