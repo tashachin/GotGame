@@ -36,20 +36,8 @@ def show_basic_results():
 	title = request.args.get('title')
 
 	game = get_one_title(title)
-	user_status = check_login_status()
-	review = check_review_status(game)
 
-	game_id = game.game_id
-	user_id = session.get('user_id')
-
-	get_game_reviews(user_id, game_id)
-
-	return render_template('game_info.html',
-						   game=game,
-						   user_id=user_id,
-						   user_status=user_status,
-						   review=review,
-						   reviews=reviews)
+	return handle_invalid_search(game)  # Had to handle invalid search input
 
 @app.route('/login')
 def show_login():
@@ -137,9 +125,10 @@ def get_review_info():
 
 	user_id = session['user_id']
 
+	reviews = get_game_reviews(user_id, game_id)
+
 	update_user_score(game_id, user_id, user_score)
 	create_review(game_id, review)
-	get_game_reviews(user_id, game_id)
 
 	review_info = {
 		"game_id": game_id,

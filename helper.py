@@ -75,6 +75,30 @@ def check_review_status(game):
 
 		return review
 
+
+def handle_invalid_search(game):
+	"""Handles logic for redirecting user when game does not exist in database."""
+
+	if game:
+		game_id = game.game_id
+
+		user_status = check_login_status()
+		review = check_review_status(game)
+		
+		user_id = session.get('user_id')
+
+		reviews = get_game_reviews(user_id, game_id)
+
+		return render_template('game_info.html',
+							   game=game,
+							   user_id=user_id,
+							   user_status=user_status,
+							   review=review,
+							   reviews=reviews)
+	else:
+		flash("Oops! Our database didn't return any results.")
+		return redirect('/')
+
 ###################################################
 # ADD TO DATABASE
 
@@ -157,10 +181,6 @@ def get_one_title(title):
 
 	if game:
 		return game
-
-	else:
-		flash("Oops! Our database didn't return any results.")
-		return redirect('/')
 
 
 def get_game_reviews(user_id, game_id):
