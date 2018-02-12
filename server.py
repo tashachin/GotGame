@@ -7,6 +7,9 @@ from flask import (Flask, render_template, redirect, request, flash,
 
 from flask_debugtoolbar import DebugToolbarExtension
 
+from flask_login import (LoginManager, login_required, login_user, login_required,
+						 logout_user, current_user)
+
 from model import (User, Game, Genre, VgGen, Difficulty, Review, Tag,
 				   TagCategory, VgTag)
 
@@ -19,6 +22,19 @@ app = Flask(__name__)
 app.secret_key = "Placeholder"  # Look into .secret_key later
 
 app.jinja_env.undefined = StrictUndefined  # Provides better error message support
+
+###################################################
+# LOGIN MANAGER
+
+login_manager = LoginManager()  # Flask-Login stuff
+login_manager.init_app(app)
+login_manager.session_protection = "strong"
+
+@login_manager.user_loader  # Grabs user_id from session ???
+def load_user(id):
+	"""Initializes login manager."""
+
+	return User.query.get(int(id))
 
 ###################################################
 # APP ROUTES
@@ -55,6 +71,7 @@ def login():
 	return check_credentials(username, password)
 
 @app.route('/logout')
+@login_required
 def logout():
 	"""Logs user out of site."""
 
@@ -84,7 +101,8 @@ def show_advanced_results():
 
 	return apply_filters(title, score, platform)
 
-@app.route('/user/<user_id>')  # User profile page
+@app.route('/user/<username>')  # User profile page
+@login_required
 def show_profile():
 
 	return render_template('user_profile.html')
@@ -118,6 +136,7 @@ def validate_user():
 	return process_registration(username, email, password)  # In helper.py
 
 @app.route('/new-review.json', methods=['POST'])  # In a .json route, 'form data' needs to be passed as second arg
+@login_required
 def get_review_info():
 	"""Return info about a game review as JSON."""
 
@@ -142,6 +161,7 @@ def get_review_info():
 	return jsonify(review_info)
 
 @app.route('/edit-review.json', methods=['POST'])
+@login_required
 def edit_review():
 	"""Return info about user updating a game review as JSON."""
 

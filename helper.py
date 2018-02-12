@@ -4,6 +4,8 @@ from flask import (Flask, render_template, redirect, request, flash,
 
 from model import *
 
+import flask_login as login
+
 ###################################################
 # VALIDATION
 
@@ -14,8 +16,8 @@ def check_credentials(username, password):
 
 	if user and user.password == password:
 
-		session['user_id'] = user.user_id
-		print session['user_id']
+		session['user_id'] = user.id
+		login.login_user(user, remember=True)
 		flash("Logged in.")
 
 		return redirect('/')

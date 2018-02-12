@@ -1,28 +1,37 @@
 """Models and database functions for [video game] project."""
 from flask_sqlalchemy import SQLAlchemy 
 
+from flask_login import LoginManager, login_manager, UserMixin
+
+from datetime import datetime
+
 db = SQLAlchemy()  # Call methods on db instead of the entirety of the obj name.
 
 ###################################################
 # MODEL DEFINITIONS
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 	"""User of [video game] website."""
 
 	__tablename__ = "users"  # SQLAlchemy dunder property that creates table with this name
 
 	# Column names on left, type of data and properties on right.
-	user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	username = db.Column(db.String(20), nullable=False)
 	email = db.Column(db.String(64), nullable=False)
 	password = db.Column(db.String(64), nullable=False)
 	# Add optional "profile" columns before moving onto MVP 2.0
+	joined_at = db.Column(db.Date, default=datetime.utcnow)
+	birthday = db.Column(db.Date)
+	location = db.Column(db.String(50))
+	bio = db.Column(db.String(500))
+	fave_game = db.column(db.String(256))
 
 	def __repr__(self):
 		"""Displays useful information about user when printed."""
 
 		# <> brackets identify this as a class object at a glance
-		return "<User user_id={}, username={}, email={}>".format(self.user_id,
+		return "<User user_id={}, username={}, email={}>".format(self.id,
 																 self.username,
 																 self.email)
 
@@ -107,7 +116,7 @@ class Review(db.Model):
 	__tablename__ = "reviews"
 
 	review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))
 	user_score = db.Column(db.Integer, nullable=False)
 	review = db.Column(db.String(1000), nullable=False)  
@@ -130,7 +139,7 @@ class Tag(db.Model):
 	__tablename__ = "tags"
 
 	tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) # Who created the tag?
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id')) # Who created the tag?
 	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))  # Which game is the tag associated with?
 	tag = db.Column(db.String(30), nullable=False)
 
