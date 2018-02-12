@@ -127,8 +127,8 @@ def get_review_info():
 
 	reviews = get_game_reviews(user_id, game_id)
 
-	update_user_score(game_id, user_id, user_score)
-	create_review(game_id, review)
+	# update_user_score(game_id, user_id, user_score)
+	create_review(game_id, review, user_score)
 
 	review_info = {
 		"game_id": game_id,

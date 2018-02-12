@@ -35,7 +35,6 @@ class Game(db.Model):
 	title = db.Column(db.String(256), nullable=False)
 	platform = db.Column(db.String(25), nullable=True)  # What console version is this game?
 	critic_score = db.Column(db.Float, nullable=False)
-	user_score = db.Column(db.Float, nullable=True)
 
 	def __repr__(self):
 		"""Displays useful information about game when printed."""
@@ -109,8 +108,8 @@ class Review(db.Model):
 	review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))
-	review = db.Column(db.String(1000), nullable=False)  # A little over two paragraphs?
-	# Implement thread_id later if creating forum/chain of reviews (MVP 3.0)
+	user_score = db.Column(db.Integer, nullable=False)
+	review = db.Column(db.String(1000), nullable=False)  
 
 	user = db.relationship("User", backref=db.backref("reviews",
 													  order_by=review_id))

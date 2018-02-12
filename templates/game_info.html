@@ -28,11 +28,7 @@
 			<td>{{ game.platform }}</td>
 			<td>N/A</td>
 			<td>{{ game.critic_score }}</td>
-			<td>{% if game.user_score %} 
-				{{ game.user_score }} 
-				{% else %} 
-				N/A
-				{% endif %}</td>
+			<td>N/A</td>
 
 		</tr>
 	</tbody>
@@ -110,7 +106,7 @@
 	{% if review.user_id != user_id %}
 	<li><a href="/user/{{ review.user.username }}">{{ review.user.username }}</a> had this to say: {{ review.review }}</li>
 	{% endif %}
-	
+
 	{% endfor %}
 </ul>
 {% endif %}

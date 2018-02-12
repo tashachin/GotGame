@@ -111,13 +111,14 @@ def create_user(username, email, password):
 	db.session.add(new_user)
 	db.session.commit()
 
-def create_review(game_id, review):
+def create_review(game_id, review, user_score):
 	"""Takes info from '/game/<title>' and submits review to database."""
 
 	user_id = session['user_id']
 
 	new_review = Review(user_id=user_id,
 						game_id=game_id,
+						user_score=user_score,
 						review=review)
 
 	db.session.add(new_review)
@@ -126,9 +127,9 @@ def create_review(game_id, review):
 def update_user_score(game_id, user_id, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""
 
-	game = Game.query.filter(Game.game_id == game_id, User.user_id == user_id).one()
+	Review = review.query.filter(Review.game_id == game_id, Review.user_id == user_id).one()
 
-	game.user_score = user_score
+	review.user_score = user_score
 
 	db.session.commit()
 
@@ -229,3 +230,12 @@ def get_score_and_platform(score, platform):
 	query = Game.query.filter(Game.critic_score >= score, Game.platform.ilike('%' + platform + '%')).all()
 
 	return query
+
+
+def average_user_score():
+	"""Calculates the average user score based on all user scores."""
+
+	game = Game.query.filter(Game.title == title, Game.platform == platform).first()
+
+
+
