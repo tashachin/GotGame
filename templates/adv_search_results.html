@@ -30,7 +30,7 @@
 	<tbody>
 		{% for game in games %}
 		<tr> 
-			<td><a href="/game/{{ game.title }}">{{ game.title }}</a></td>
+			<td><a href="/game/{{ game.platform }}/{{ game.title }}">{{ game.title }}</a></td>
 			<td>{{ game.platform }}</td>
 			<td>-</td>
 			<td>{{ game.critic_score }}</td>

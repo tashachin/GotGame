@@ -28,7 +28,12 @@
 			<td>{{ game.platform }}</td>
 			<td>N/A</td>
 			<td>{{ game.critic_score }}</td>
-			<td>N/A</td>
+			<td>{% if review %}
+				<!-- Need to replace 'review.user_score' with aggregate user scores. -->
+				{{ review.user_score }}
+				{% else %}
+				N/A
+				{% endif %}</td>
 
 		</tr>
 	</tbody>
@@ -66,12 +71,6 @@
 			<input id='edit-id' type='hidden' name='game_id' value='{{ game.game_id }}'>
 			<input id='edit-review' type='submit' value='Edit review'>
 		</form>
-
-			{% if review.game.platform != game.platform %}
-
-			<p id='platform-status'>You reviewed this game on a different platform!</p>
-
-			{% endif %}
 
 		{% else %}
 

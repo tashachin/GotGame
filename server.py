@@ -88,12 +88,12 @@ def show_advanced_results():
 def show_profile():
 	pass
 
-@app.route('/game/<title>') # Game "profile" page
-def show_game_profile(title):
+@app.route('/game/<platform>/<title>') # Game "profile" page
+def show_game_profile(platform, title):
 
 	# take string title and query db, then feed obj back into jinja
 	
-	game = Game.query.filter(Game.title == title).one()
+	game = Game.query.filter(Game.title == title, Game.platform == platform).one()
 	user_status = check_login_status()
 	review = check_review_status(game)
 
