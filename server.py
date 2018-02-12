@@ -116,7 +116,7 @@ def validate_user():
 
 @app.route('/new-review.json', methods=['POST'])  # In a .json route, 'form data' needs to be passed as second arg
 def get_review_info():
-	"""Return info about a game as JSON"""
+	"""Return info about a game review as JSON."""
 
 	# This will not work unless 'form data' gets passed through
 	user_score = request.form.get('user_score')
@@ -125,9 +125,6 @@ def get_review_info():
 
 	user_id = session['user_id']
 
-	reviews = get_game_reviews(user_id, game_id)
-
-	# update_user_score(game_id, user_id, user_score)
 	create_review(game_id, review, user_score)
 
 	review_info = {
@@ -136,7 +133,32 @@ def get_review_info():
 		"review": review,
 	}
 
-	print """NEW REVIEW: {} {}""".format(game_id, review)
+	print """<NEW REVIEW: game_id={}, user_score={}, review={}>""".format(game_id, 
+																		  user_score, 
+																		  review)
+	return jsonify(review_info)
+
+@app.route('/edit-review.json', methods=['POST'])
+def edit_review():
+	"""Return info about user updating a game review as JSON."""
+
+	user_score = request.form.get('edit_user_score')
+	game_id = request.form.get('game_id')
+	review_text = request.form.get('edit_review')
+
+	user_id = session['user_id']
+
+	update_review(game_id, review_text, user_score)
+
+	review_info = {
+		"game_id": game_id,
+		"user_score": user_score,
+		"review_text": review_text,
+	}
+
+	print """<UPDATED REVIEW: game_id={}, user_score={}, review={}>""".format(game_id, 
+																			  user_score, 
+																			  review_text)
 	return jsonify(review_info)
 
 ###################################################

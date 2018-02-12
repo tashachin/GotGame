@@ -7,31 +7,38 @@ def example_data():
 
 	for obj in create_users():
 		db.session.add(obj)
+		db.session.commit()
 
 	for obj in create_games():
 		db.session.add(obj)
+		db.session.commit()
 
 	for obj in create_genres():
 		db.session.add(obj)
+		db.session.commit()
 
 	for obj in create_vg_genres():
 		db.session.add(obj)
+		db.session.commit()
 
 	for obj in create_difficulties():
 		db.session.add(obj)
+		db.session.commit()
 
 	db.session.add(create_reviews())
+	db.session.commit()
 
 	for obj in create_tags():
 		db.session.add(obj)
+		db.session.commit()
 
 	for obj in create_tag_cats():
 		db.session.add(obj)
+		db.session.commit()
 
 	for obj in create_vg_tags():
 		db.session.add(obj)
-
-	db.session.commit()
+		db.session.commit()
 
 def create_users(): # Will be user-populated
 	"""Returns user objects to be added."""
@@ -54,17 +61,17 @@ def create_games():  # Will be seeded AND user-populated
 	game1 = Game(title='Best Game Ever',
 				 platform='Xbox 360',
 				 critic_score=9.5,
-				 user_score=9.8)
+				 aggregate_score=9.8)
 
 	game2 = Game(title='So-So Game',
 				 platform='Nintendo 64',
 				 critic_score=6.5,
-				 user_score=7.2)
+				 aggregate_score=7.2)
 
 	game3 = Game(title='Bargain Bin Game',
 				 platform='Playstation 2',
 				 critic_score=3.0,
-				 user_score=2.0)
+				 aggregate_score=2.0)
 
 	return game1, game2, game3
 
@@ -112,6 +119,7 @@ def create_reviews():  # Will be user-populated
 
 	review = Review(user_id=1,
 					game_id=1,
+					user_score=7.8,
 					review='Literally the best game ever.')
 
 	return review

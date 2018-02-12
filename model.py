@@ -35,6 +35,7 @@ class Game(db.Model):
 	title = db.Column(db.String(256), nullable=False)
 	platform = db.Column(db.String(25), nullable=True)  # What console version is this game?
 	critic_score = db.Column(db.Float, nullable=False)
+	aggregate_score = db.Column(db.Float, nullable=True)
 
 	def __repr__(self):
 		"""Displays useful information about game when printed."""

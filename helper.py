@@ -124,11 +124,14 @@ def create_review(game_id, review, user_score):
 	db.session.add(new_review)
 	db.session.commit()
 
-def update_user_score(game_id, user_id, user_score):
+def update_review(game_id, review_text, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""
 
-	Review = review.query.filter(Review.game_id == game_id, Review.user_id == user_id).one()
+	user_id = session['user_id']
 
+	review = Review.query.filter(Review.user_id == user_id, Review.game_id == game_id).one()
+
+	review.review = review_text
 	review.user_score = user_score
 
 	db.session.commit()

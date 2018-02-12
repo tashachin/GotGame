@@ -30,6 +30,26 @@ class GotGameTests(unittest.TestCase):
 
 		self.assertIn('Uh-oh! Something went wrong.', result.data)
 
+class GotGameLoggedIn(unittest.TestCase):
+	"""Tests that require user to be logged in."""
+
+	def setUp(self):
+		app.config['TESTING'] = True
+		app.config['SECRET_KEY'] = 'key'
+		self.client = app.test_client()
+
+		with self.client as c:
+			with c.session_transaction() as sess:
+				sess['user_id'] = 1
+
+	# def test_navbar(self):
+	# 	"""Checks that navbar displays proper links."""
+
+	# 	result = self.client.get('/')
+
+	# 	self.assertIn('Home | Profile | Favorites | Logout', result.data)
+	# 	self.assertNotIn('Login', result.data)
+
 class GotGameDatabase(unittest.TestCase):
 	"""Flask tests that use the database."""
 
@@ -60,7 +80,6 @@ class GotGameDatabase(unittest.TestCase):
 
 		self.assertIn('Sorry, that username is already in use.', result.data)
 
-	# *Testing current iteration. Not how I want actual search to work.
 	def test_basic_search(self):  
 		"""Checks that a game from the database shows up after searching on homepage."""
 

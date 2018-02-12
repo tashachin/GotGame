@@ -62,14 +62,20 @@
 	<div id='user-review'>
 		<!-- Remember to test for WHO user is -->
 
-		{% if review %} 
-		<p>Previously, you said: "{{ review.review }}"</p>
+		{% if review %}
+		<p>
+		Previously, you said: "{{ review.review }}"
+		<br>
+		You gave this game a {{ review.user_score }} out of 10.
+		</p>
+
+		<div id='edit-review-notif' hidden>Your review of {{ game.title }} has been updated!</div>
 
 		<form id='update-review-form'>
-			<input id='edit-score' type='number' name='user_score' placeholder='#' min=1.0 max=10.0 required>
-			<input id='edit-review' type='text' name='review' placeholder='Update your review'>
-			<input id='edit-id' type='hidden' name='game_id' value='{{ game.game_id }}'>
-			<input id='edit-review' type='submit' value='Edit review'>
+			<input id='edit-score' type='number' name='edit_user_score' placeholder='#' min=1.0 max=10.0 required>
+			<input id='edit-review' type='text' name='edit_review' placeholder='Update your review'>
+			<input id='game-id-2' type='hidden' name='game_id' value='{{ game.game_id }}'>
+			<input id='change-review' type='submit' value='Edit review'>
 		</form>
 
 		{% else %}
