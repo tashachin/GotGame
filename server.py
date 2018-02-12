@@ -84,9 +84,10 @@ def show_advanced_results():
 
 	return apply_filters(title, score, platform)
 
-@app.route('/user/<username>')  # User profile page
+@app.route('/user/<user_id>')  # User profile page
 def show_profile():
-	pass
+
+	return render_template('user_profile.html')
 
 @app.route('/game/<platform>/<title>') # Game "profile" page
 def show_game_profile(platform, title):
@@ -96,6 +97,8 @@ def show_game_profile(platform, title):
 	game = Game.query.filter(Game.title == title, Game.platform == platform).one()
 	user_status = check_login_status()
 	review = check_review_status(game)
+
+	reviews = None
 
 	return render_template('game_info.html',
 							 game=game,
