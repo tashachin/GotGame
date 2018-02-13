@@ -85,26 +85,35 @@ def show_advanced_results():
 	return apply_filters(title, score, platform)
 
 @app.route('/user/<user_id>')  # User profile page
-def show_profile():
+def show_profile(user_id):
 
-	return render_template('user_profile.html')
+	user = retrieve_user(user_id)
+	num_reviews, reviews = retrieve_user_reviews(user_id)
+
+	return render_template('user_profile.html',
+						   user=user,
+						   num_reviews=num_reviews,
+						   reviews=reviews)
 
 @app.route('/game/<platform>/<title>') # Game "profile" page
 def show_game_profile(platform, title):
-
-	# take string title and query db, then feed obj back into jinja
 	
 	game = Game.query.filter(Game.title == title, Game.platform == platform).one()
 	user_status = check_login_status()
 	review = check_review_status(game)
 
-	reviews = None
+	if check_login_status():
+		user_id = check_login_status()
+		reviews = get_game_reviews(user_id, game.game_id)
+
+	else:
+		reviews = None
 
 	return render_template('game_info.html',
 							 game=game,
 							 user_status=user_status,
 							 review=review,
-							 reviews=None)  # For now, so it doesn't break the template
+							 reviews=reviews)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():

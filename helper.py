@@ -15,7 +15,6 @@ def check_credentials(username, password):
 	if user and user.password == password:
 
 		session['user_id'] = user.user_id
-		print session['user_id']
 		flash("Logged in.")
 
 		return redirect('/')
@@ -42,7 +41,7 @@ def process_registration(username, email, password):
 		create_user(username, email, password)
 
 		flash("You've been registered. Game on!")
-		return redirect('/')
+		return redirect('/login')
 
 
 def check_login_status():
@@ -62,12 +61,10 @@ def check_login_status():
 def check_review_status(game):
 	"""Checks to see if user is logged in and if game has been reviewed before."""
 
-	print game
 	user_id = check_login_status()
 
 	if user_id:
 		review = Review.query.filter(Review.user_id == user_id, Review.game_id == game.game_id).first()
-		print review  # Display user's previous review in Jinja.
 		return review
 
 	else:
@@ -136,6 +133,16 @@ def update_review(game_id, review_text, user_score):
 
 	db.session.commit()
 
+
+def aggregate_score():
+	"""Update user score anytime a user adds or edits a review."""
+
+	reviews = Review.query.filter(Review.game.game_id == game_id).all()
+
+	
+
+	pass
+
 ###################################################
 # SEARCH FILTERING
 
@@ -177,6 +184,22 @@ def apply_filters(title, score, platform):
 ###################################################
 # QUERIES
 
+def retrieve_user(user_id):
+	"""Gets user info from '/user/<user_id>'"""
+
+	user = User.query.filter(User.user_id == user_id).one()
+
+	return user
+
+def retrieve_user_reviews(user_id):
+
+	query = Review.query.filter(Review.user_id == user_id)
+
+	num_reviews = query.count()
+	reviews = query.limit(15)
+
+	return num_reviews, reviews
+
 def get_one_title(title):
 	"""Displays results from homepage search-bar."""
 
@@ -190,7 +213,7 @@ def get_one_title(title):
 def get_game_reviews(user_id, game_id):
 	"""Returns all reviews for a specific game from OTHER users."""
 
-	reviews = Review.query.filter(Review.game_id == game_id and Review.user_id != user_id).limit(10).all()
+	reviews = Review.query.filter(Review.game_id == game_id, Review.user_id != user_id).limit(10).all()
 
 	return reviews
 

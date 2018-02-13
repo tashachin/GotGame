@@ -1,0 +1,23 @@
+
+{% extends 'base.html' %}
+
+{% block title %} {{ user.username }} {% endblock %}
+
+{% block content %}
+
+<h2>{{ user.username }} ( {{ user.user_id }} )</h2>
+
+<h3>About</h3>
+<div id='user-bio'>
+	<p>( user.bio )</p>
+</div>
+
+<h4>Reviews</h4>
+<ul>{% for review in reviews %}
+	<li><a href="/game/{{ review.game.title }}">{{ review.game.title }}</a></li>
+	{% endfor %}
+</ul>
+
+<p>Number of games reviewed: {{ num_reviews }}</p>
+
+{% endblock %}
