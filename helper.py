@@ -156,11 +156,13 @@ def apply_filters(title, score, platform):
 			if title and platform:
 
 				games = get_title_and_platform(title, platform)
+
 				return render_template('adv_search_results.html',
 									   games=games)
 
 			else:
 				games = get_title(title)
+
 				return render_template('adv_search_results.html',
 								   	   games=games)
 	else:

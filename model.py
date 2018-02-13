@@ -195,6 +195,22 @@ class VgTag(db.Model):
 															 self.game.title,
 															 self.tag.tag)
 
+
+class Favorite(db.Model):
+	"""Games that have been bookmarked by the user."""
+
+	__tablename__ = "faves"
+
+	fave_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))
+
+	user = db.relationship("User", backref=db.backref("faves",
+													  order_by=fave_id))
+
+	game = db.relationship("Game", backref=db.backref("faves",
+													  order_by=fave_id))
+
 ###################################################
 # HELPER FUNCTIONS
 
