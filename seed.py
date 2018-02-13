@@ -37,7 +37,7 @@ def load_games():
 
 
 def load_genres():
-	"""Load game genres into a separate table."""
+	"""Load genres into a separate table."""
 
 	print "Genres"
 
@@ -64,28 +64,38 @@ def load_genres():
 					db.session.commit()
 
 
-def load_users():  # Do not use when done testing
-	"""Load dummy data for users."""
-	pass
+def load_game_genres():
+	"""Link genres of games into a middle table."""
 
-	# print "Fake users"
+	print "Game Genres"
 
-	# User.query.delete()
+	VgGen.query.delete()
 
-	# fake_user1 = User(username='ffluvr93',
-	# 				  email='ffluvr93@yahoo.com',
-	# 				  password='asecurepassword')
+	with open('seed_data/ign.csv') as csvfile:
+		game_data = reader(csvfile, dialect='excel')
 
-	# fake_user2 = User(username='thecompletionist',
-	# 				  email='sirgamesalot@gmail.com',
-	# 				  password='password')
+		next(game_data)
 
-	# fake_user3 = User(username='markiplier',
-	# 				  email='markiplier@gmail.com',
-	# 				  password='tinyboxtim')
+		for row in game_data:
+			title = row[2]
+			platform = row[4]
+			genres = row[6]
+			genre_types = genres.split(',')
 
-	# db.session.add_all([fake_user1, fake_user2, fake_user3])
-	# db.session.commit()
+			game = Game.query.filter(Game.title == title, Game.platform == platform).first()
+			game_id = game.game_id
+
+			for genre_type in genre_types:
+
+				genre = Genre.query.filter(Genre.genre_type == genre_type).one()
+				genre_id = genre.genre_id
+
+				vg_genre = VgGen(game_id=game_id,
+								 genre_id=genre_id)
+
+				db.session.add(vg_genre)
+				db.session.commit()
+
 
 def set_val_game_id():
 	"""Set value for the next game_id after seeding database."""
@@ -106,4 +116,5 @@ if __name__ == "__main__":
 
 	load_games()
 	load_genres()
+	load_game_genres()
 	set_val_game_id()

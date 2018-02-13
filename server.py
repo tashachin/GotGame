@@ -99,12 +99,15 @@ def show_profile(user_id):
 def show_game_profile(platform, title):
 	
 	game = Game.query.filter(Game.title == title, Game.platform == platform).one()
+	game_id = game.game_id
+
+	vg_genres = retrieve_genres(game_id)
 	user_status = check_login_status()
 	review = check_review_status(game)
 
 	if check_login_status():
 		user_id = check_login_status()
-		reviews = get_game_reviews(user_id, game.game_id)
+		reviews = retrieve_game_reviews(user_id, game.game_id)
 
 	else:
 		reviews = None
@@ -113,7 +116,8 @@ def show_game_profile(platform, title):
 							 game=game,
 							 user_status=user_status,
 							 review=review,
-							 reviews=reviews)
+							 reviews=reviews,
+							 vg_genres=vg_genres)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():

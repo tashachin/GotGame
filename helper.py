@@ -84,14 +84,17 @@ def handle_invalid_search(game):
 		
 		user_id = session.get('user_id')
 
-		reviews = get_game_reviews(user_id, game_id)
+		reviews = retrieve_game_reviews(user_id, game_id)
+
+		vg_genres = retrieve_genres(game_id)
 
 		return render_template('game_info.html',
 							   game=game,
 							   user_id=user_id,
 							   user_status=user_status,
 							   review=review,
-							   reviews=reviews)
+							   reviews=reviews,
+							   vg_genres=vg_genres)
 	else:
 		flash("Oops! Our database didn't return any results.")
 		return redirect('/')
@@ -139,7 +142,7 @@ def aggregate_score():
 
 	reviews = Review.query.filter(Review.game.game_id == game_id).all()
 
-	
+
 
 	pass
 
@@ -200,6 +203,23 @@ def retrieve_user_reviews(user_id):
 
 	return num_reviews, reviews
 
+
+def retrieve_game_reviews(user_id, game_id):
+	"""Returns all reviews for a specific game from OTHER users."""
+
+	reviews = Review.query.filter(Review.game_id == game_id, Review.user_id != user_id).limit(10).all()
+
+	return reviews
+
+
+def retrieve_genres(game_id):
+	"""Returns all the genres associated with a specific game."""
+
+	vg_genres = VgGen.query.filter(VgGen.game_id == game_id).all()
+
+	return vg_genres
+
+
 def get_one_title(title):
 	"""Displays results from homepage search-bar."""
 
@@ -208,14 +228,6 @@ def get_one_title(title):
 
 	if game:
 		return game
-
-
-def get_game_reviews(user_id, game_id):
-	"""Returns all reviews for a specific game from OTHER users."""
-
-	reviews = Review.query.filter(Review.game_id == game_id, Review.user_id != user_id).limit(10).all()
-
-	return reviews
 
 
 def get_title(title):  # Takes in request.args.get() value

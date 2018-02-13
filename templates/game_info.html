@@ -26,7 +26,9 @@
 	<tbody>
 		<tr>
 			<td>{{ game.platform }}</td>
-			<td>N/A</td>
+			<td>{% for vg_genre in vg_genres %}
+				{{ vg_genre.genre.genre_type }}{% if not loop.last %},{% endif %}
+				{% endfor %}</td>
 			<td>{{ game.critic_score }}</td>
 			<td>{% if review %}
 				<!-- Need to replace 'review.user_score' with aggregate user scores. -->
