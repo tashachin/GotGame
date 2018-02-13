@@ -5,16 +5,23 @@
 
 {% block content %}
 
-<h2>{{ user.username }} ( {{ user.user_id }} )</h2>
+<h2>{{ user.username }} ( {{ user.user_id }} )</h2> <i>user joined on {{ user.joined_at }}</i>
 
 <h3>About</h3>
 <div id='user-bio'>
-	<p>( user.bio )</p>
+	<p>
+	( user.bio )
+	<form id='blurb-form'>
+		<input type='hidden' name='user_id' value='{{ user.user_id }}'>
+		<input id='user-bio' type='text' name='user_bio' placeholder='(Max 500 characters)'>
+		<input id='submit-blurb' type='submit' value='Add a blurb about yourself!'>
+	</form>
+	</p>
 </div>
 
 <h4>Reviews</h4>
 <ul>{% for review in reviews %}
-	<li><a href="/game/{{ review.game.title }}">{{ review.game.title }}</a></li>
+	<li><a href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
 	{% endfor %}
 </ul>
 

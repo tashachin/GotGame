@@ -1,6 +1,8 @@
 """Models and database functions for [video game] project."""
 from flask_sqlalchemy import SQLAlchemy 
 
+from datetime import datetime
+
 db = SQLAlchemy()  # Call methods on db instead of the entirety of the obj name.
 
 ###################################################
@@ -17,6 +19,11 @@ class User(db.Model):
 	email = db.Column(db.String(64), nullable=False)
 	password = db.Column(db.String(64), nullable=False)
 	# Add optional "profile" columns before moving onto MVP 2.0
+	joined_at = db.Column(db.Date, default=datetime.utcnow)
+	birthday = db.Column(db.Date)
+	location = db.Column(db.String(50))
+	bio = db.Column(db.String(500))
+	fave_game = db.column(db.String(256))
 
 	def __repr__(self):
 		"""Displays useful information about user when printed."""
