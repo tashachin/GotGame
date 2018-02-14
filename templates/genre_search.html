@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+<form action='/genre-search-results'>
+	<input type='checkbox' name='genre' value='Action'>Action<br>
+	<input type='checkbox' name='genre' value='Adventure'>Adventure<br>
+	<input type='checkbox' name='genre' value='Board'>Board<br>
+	<input type='checkbox' name='genre' value='Card'>Card<br>
+	<input type='checkbox' name='genre' value='Fighting'>Fighting<br>
+	<input type='checkbox' name='genre' value='Music'>Music<br>
+	<input type='checkbox' name='genre' value='Platformer'>Platformer<br>
+	<input type='checkbox' name='genre' value='Puzzle'>Puzzle<br>
+	<input type='checkbox' name='genre' value='Racing'>Racing<br>
+	<input type='checkbox' name='genre' value='RPG'>RPG<br>
+	<input type='checkbox' name='genre' value='Shooter'>Shooter<br>
+	<input type='checkbox' name='genre' value='Simulation'>Simulation<br>
+	<input type='checkbox' name='genre' value='Sports'>Sports<br>
+	<input type='checkbox' name='genre' value='Strategy'>Strategy<br>
+	<input type='submit' value='Search'>
+</form>
+{% endblock %}

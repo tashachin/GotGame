@@ -84,6 +84,25 @@ def show_advanced_results():
 
 	return apply_filters(title, score, platform)
 
+
+@app.route('/genre-search')
+def genre_search():
+	"""Displays checkbox options for searching by genre."""
+
+	return render_template('genre_search.html')
+
+
+@app.route('/genre-search-results')
+def show_genre_results():
+	"""Displays results after searching by genre."""
+
+	genres = request.args.getlist('genre')
+
+	games = Game.query.filter([].in_(genres)).all()
+	print games
+	return render_template('login.html')
+
+
 @app.route('/user/<user_id>')  # User profile page
 def show_profile(user_id):
 
