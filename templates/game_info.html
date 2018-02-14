@@ -52,6 +52,45 @@
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 </div>
 
+<aside>
+
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-tag">
+	  Add a tag
+	</button>
+
+	<div id="add-tag" class="modal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title">Tags for {{ game.title }}</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <p>
+	        	<form id='/tag-game.json'>
+	        		<input type='text' placeholder='Separate tags by commas'>
+	        		<input type='submit'>
+	        	</form>
+	    	</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary">Save changes</button>
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+<!-- 3.0 - Allow users to create a discussion thread on any given game page. -->
+<!-- <div id='comment-field'>
+	<ul>
+		<li></li>
+	</ul>
+</div> -->
+
+</aside>
 <div id='review-field'>
 {% if user_status %}
 	<div id='user-review'>
@@ -98,13 +137,6 @@
 {% endif %}
 <!-- Place user's own review at top OR form to add their own review
 * Display everyone else's review of this game below -->
-
-<!-- 3.0 - Allow users to create a discussion thread on any given game page. -->
-<!-- <div id='comment-field'>
-	<ul>
-		<li></li>
-	</ul>
-</div> -->
 
 {% if reviews %}
 <ul>

@@ -54,7 +54,7 @@ def load_genres():
 				
 			for genre_type in genre_types:
 
-				if Genre.query.filter(Genre.genre_type == genre_type).first() or None:
+				if Genre.query.filter(Genre.genre_type == genre_type).first() or "":
 					pass
 					
 				else:

@@ -28,6 +28,7 @@
 	</tr>
 	</tfoot>
 	<tbody>
+		{% block genres_results %}
 		{% for game in games %}
 		<tr> 
 			<td><a href="/game/{{ game.platform }}/{{ game.title }}">{{ game.title }}</a></td>
@@ -42,6 +43,7 @@
 			<td>-</td>
 		</tr>
 		{% endfor %}
+		{% endblock %}
 	</tbody>
 </table>
 

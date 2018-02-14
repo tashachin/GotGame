@@ -89,18 +89,22 @@ def show_advanced_results():
 def genre_search():
 	"""Displays checkbox options for searching by genre."""
 
-	return render_template('genre_search.html')
+	genres = Genre.query.all()
+
+	return render_template('genre_search.html',
+						   genres=genres)
 
 
 @app.route('/genre-search-results')
 def show_genre_results():
 	"""Displays results after searching by genre."""
 
-	genres = request.args.getlist('genre')
+	genre_ids = request.args.getlist('genre')
 
-	games = Game.query.filter([].in_(genres)).all()
-	print games
-	return render_template('login.html')
+	vg_genres = VgGen.query.filter(VgGen.genre_id.in_(genre_ids)).all()
+
+	return render_template('genre_search_results.html',
+						   vg_genres=vg_genres)
 
 
 @app.route('/user/<user_id>')  # User profile page
@@ -173,6 +177,7 @@ def get_review_info():
 																		  review)
 	return jsonify(review_info)
 
+
 @app.route('/edit-review.json', methods=['POST'])
 def edit_review():
 	"""Return info about user updating a game review as JSON."""
@@ -195,6 +200,12 @@ def edit_review():
 																			  user_score, 
 																			  review_text)
 	return jsonify(review_info)
+
+
+@app.route('/')
+def get_tag_info():
+	"""Return info about a user's game tag as JSON."""
+	pass
 
 ###################################################
 # DEBUGGING
