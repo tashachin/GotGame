@@ -35,8 +35,13 @@
 			<td>{{ game.platform }}</td>
 			<td>{% for vg_genre in game.vg_genres %}
 
+				{% if vg_genre.genre.genre_type %}
+
 				{{ vg_genre.genre.genre_type }}{% if not loop.last %},{% endif %}
 
+				{% else %}
+				N/A
+				{% endif %}
 				{% endfor %}
 			</td>
 			<td>{{ game.critic_score }}</td>

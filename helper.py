@@ -137,14 +137,24 @@ def update_review(game_id, review_text, user_score):
 	db.session.commit()
 
 
-def aggregate_score():
+def update_aggregate_score(game):
 	"""Update user score anytime a user adds or edits a review."""
 
-	reviews = Review.query.filter(Review.game.game_id == game_id).all()
+	reviews = Review.query.filter(Review.game_id == game.game_id).all()
 
+	user_scores = []
 
+	for review in reviews:
+		user_scores.append(review.user_score)
 
-	pass
+	aggregate_score = sum(user_scores) / len(user_scores)
+
+	game.aggregate_score = aggregate_score
+
+	db.session.commit()
+
+	print "{title} now has a user score of {score}.".format(title=game.title,
+															score=game.aggregate_score)
 
 ###################################################
 # SEARCH FILTERING
@@ -152,39 +162,25 @@ def aggregate_score():
 def apply_filters(title, score, platform):
 	"""Checks how to query database based on user's filters."""
 
-	if title:
-			if title and platform:
+	if score and platform:
+		games = get_score_and_platform(score, platform)
 
-				games = get_title_and_platform(title, platform)
+		return render_template('search_results.html',
+							   games=games)
+	elif score:
+		games = get_score(score)
 
-				return render_template('adv_search_results.html',
-									   games=games)
+		return render_template('search_results.html',
+							   games=games)
 
-			else:
-				games = get_title(title)
+	elif platform:
+		games = get_platform(platform)
 
-				return render_template('adv_search_results.html',
-								   	   games=games)
+		return render_template('search_results.html',
+							   games=games)
 	else:
-		if score and platform:
-			games = get_score_and_platform(score, platform)
-
-			return render_template('adv_search_results.html',
-								   games=games)
-		elif score:
-			games = get_score(score)
-
-			return render_template('adv_search_results.html',
-								   games=games)
-
-		elif platform:
-			games = get_platform(platform)
-
-			return render_template('adv_search_results.html',
-								   games=games)
-		else:
-			flash("Uh-oh! Something went wrong.")
-			return redirect('/adv-search')
+		flash("Uh-oh! Something went wrong.")
+		return redirect('/adv-search')
 
 ###################################################
 # QUERIES
@@ -195,6 +191,15 @@ def retrieve_user(user_id):
 	user = User.query.filter(User.user_id == user_id).one()
 
 	return user
+
+
+def retrieve_game(game_id):
+	"""Returns game object based on game's ID#."""
+
+	game = Game.query.filter(Game.game_id == game_id).one()
+
+	return game
+
 
 def retrieve_user_reviews(user_id):
 

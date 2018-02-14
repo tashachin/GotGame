@@ -35,9 +35,10 @@ def show_basic_results():
 
 	title = request.args.get('title')
 
-	game = get_one_title(title)
+	games = get_title(title)
 
-	return handle_invalid_search(game)  # Had to handle invalid search input
+	return render_template('search_results.html',
+						   games=games)
 
 @app.route('/login')
 def show_login():
@@ -71,18 +72,21 @@ def register():
 @app.route('/adv-search')
 def advanced_search():
 	"""Displays advanced search options."""
+
+	genres = Genre.query.all()
 	
-	return render_template('advanced_search.html')
+	return render_template('adv_search.html',
+						   genres=genres)
 
 @app.route('/adv-search-results')
 def show_advanced_results():
 	"""Displays results after filters get applied."""
 
-	title = request.args.get('title')
 	score = request.args.get('score')
+	user_scores = request.args.get('user_scores')
 	platform = request.args.get('platform')
 
-	return apply_filters(title, score, platform)
+	return apply_filters(score, platform)
 
 
 @app.route('/genre-search')
@@ -163,8 +167,10 @@ def get_review_info():
 	review = request.form.get('review')
 
 	user_id = session['user_id']
+	game = retrieve_game(game_id)
 
 	create_review(game_id, review, user_score)
+	update_aggregate_score(game)
 
 	review_info = {
 		"game_id": game_id,
@@ -187,8 +193,10 @@ def edit_review():
 	review_text = request.form.get('edit_review')
 
 	user_id = session['user_id']
+	game = retrieve_game(game_id)
 
 	update_review(game_id, review_text, user_score)
+	update_aggregate_score(game)
 
 	review_info = {
 		"game_id": game_id,

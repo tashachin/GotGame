@@ -32,7 +32,7 @@
 			<td>{{ game.critic_score }}</td>
 			<td>{% if review %}
 				<!-- Need to replace 'review.user_score' with aggregate user scores. -->
-				{{ review.user_score }}
+				{{ game.aggregate_score }}
 				{% else %}
 				N/A
 				{% endif %}</td>
