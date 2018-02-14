@@ -4,11 +4,11 @@
 <div class='container'>
 	<div class="col-sm-8">
 	<form action='/adv-search-results'>
-		<input id='score' class='num-field' name='score' type='number' min='1' max='10' placeholder='Search by score (IGN)'>
+		<input id='score' class='num-field' name='critic_score' type='number' min='1' max='10' placeholder='Search by score (IGN)'>
 		<br>
 		<input id='user_scores' class='num-field' name='user_scores' type='number' min='1' max='10' placeholder='Search by score (Users)'>
 		<br>
-		<select id='platform-options'> 
+		<select id='platform-options' name='platform'> 
 		<!-- onchange='showPlatforms() 
 			* Use this later when you need to narrow down by style
 			* Display a narrowed-down dropdown depending on which larger
@@ -22,7 +22,7 @@
 			<option value='Other'>Other</option>
 		</select>
 
-		<select id='sub-options' name='platform' required>
+		<select id='sub-options' name='specific_platform'>
 			<option id='#select-option' value='Default' disabled selected>-- Select --</option>
 			<option data-group='Other' value='PC'>PC</option>
 			<option data-group='Xbox' value='Xbox'>Xbox</option>

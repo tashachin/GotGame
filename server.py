@@ -35,7 +35,7 @@ def show_basic_results():
 
 	title = request.args.get('title')
 
-	games = get_title(title)
+	games = retrieve_title(title)
 
 	return render_template('search_results.html',
 						   games=games)
@@ -82,32 +82,18 @@ def advanced_search():
 def show_advanced_results():
 	"""Displays results after filters get applied."""
 
-	score = request.args.get('score')
-	user_scores = request.args.get('user_scores')
+	critic_score = request.args.get('critic_score')
+	aggregate_score = request.args.get('user_scores')
 	platform = request.args.get('platform')
+	specific_platform = request.args.get('specific_platform')
+	genres = request.args.getlist('genre')
 
-	return apply_filters(score, platform)
+	vg_genres = VgGen.query.filter(VgGen.genre_id.in_(genres)).all()
 
+	games = apply_filters(critic_score, aggregate_score, platform, specific_platform, genres)
 
-@app.route('/genre-search')
-def genre_search():
-	"""Displays checkbox options for searching by genre."""
-
-	genres = Genre.query.all()
-
-	return render_template('genre_search.html',
-						   genres=genres)
-
-
-@app.route('/genre-search-results')
-def show_genre_results():
-	"""Displays results after searching by genre."""
-
-	genre_ids = request.args.getlist('genre')
-
-	vg_genres = VgGen.query.filter(VgGen.genre_id.in_(genre_ids)).all()
-
-	return render_template('genre_search_results.html',
+	return render_template('search_results.html',
+						   games=games,
 						   vg_genres=vg_genres)
 
 
@@ -122,6 +108,21 @@ def show_profile(user_id):
 						   num_reviews=num_reviews,
 						   reviews=reviews)
 
+
+@app.route('/update-bio', methods=['POST'])  # Will become defunct if using AJAX.
+def update_user_bio():
+	"""Redirects user to their profile page once their bio has been added."""
+
+	user_id = request.form.get('user_id')
+	bio = request.form.get('user_bio')
+
+	user = retrieve_user(user_id)
+	user.bio = bio
+	db.session.commit()
+
+	return redirect('/user/' + user_id)
+
+
 @app.route('/game/<platform>/<title>') # Game "profile" page
 def show_game_profile(platform, title):
 	
@@ -131,13 +132,7 @@ def show_game_profile(platform, title):
 	vg_genres = retrieve_genres(game_id)
 	user_status = check_login_status()
 	review = check_review_status(game)
-
-	if check_login_status():
-		user_id = check_login_status()
-		reviews = retrieve_game_reviews(user_id, game.game_id)
-
-	else:
-		reviews = None
+	reviews = handle_review_status(game, user_status)
 
 	return render_template('game_info.html',
 							 game=game,

@@ -1,7 +1,9 @@
 """Contains helper functions to be used in server."""
+
+from sqlalchemy.sql import *
+
 from flask import (Flask, render_template, redirect, request, flash,
 				   session)
-
 from model import *
 
 ###################################################
@@ -71,6 +73,19 @@ def check_review_status(game):
 		review = None  # Display form in Jinja to add a review.
 
 		return review
+
+
+def handle_review_status(game, user_status):
+	"""Checks if other users have reviewed the game the user is currently looking at."""
+
+	if user_status:
+		user_id = check_login_status()
+		reviews = retrieve_game_reviews(user_id, game.game_id)
+
+	else:
+		reviews = None
+
+	return reviews
 
 
 def handle_invalid_search(game):
@@ -159,28 +174,29 @@ def update_aggregate_score(game):
 ###################################################
 # SEARCH FILTERING
 
-def apply_filters(score, platform):
+def apply_filters(critic_score, aggregate_score, platform, specific_platform, genres):
 	"""Checks how to query database based on user's filters."""
 
-	if score and platform:
-		games = get_score_and_platform(score, platform)
+	games = Game.query
 
-		return render_template('search_results.html',
-							   games=games)
-	elif score:
-		games = get_score(score)
+	if critic_score:
+		games = games.filter(Game.critic_score == critic_score)
 
-		return render_template('search_results.html',
-							   games=games)
+	if aggregate_score:
+		games = games.filter(Game.aggregate_score == aggregate_score)
+
+	if specific_platform:
+		games = games.filter(Game.platform == specific_platform)
 
 	elif platform:
-		games = get_platform(platform)
+		games = games.filter(Game.platform.ilike('%' + platform + '%'))
 
-		return render_template('search_results.html',
-							   games=games)
-	else:
-		flash("Uh-oh! Something went wrong.")
-		return redirect('/adv-search')
+	if genres:
+		games = games.join(VgGen).filter(VgGen.genre_id.in_(genres))
+
+	games = games.all()
+
+	return games
 
 ###################################################
 # QUERIES
@@ -227,68 +243,9 @@ def retrieve_genres(game_id):
 	return vg_genres
 
 
-def function():
-	"""Apply n kinds of filters to advanced search query."""
-
-	
-	pass
-
-
-
-def get_one_title(title):
-	"""Displays results from homepage search-bar."""
-
-	# .ilike ignores case when filtering
-	game = Game.query.filter(Game.title.ilike('%' + title + '%')).first()
-
-	if game:
-		return game
-
-
-def get_title(title):  # Takes in request.args.get() value
+def retrieve_title(title):  # Takes in request.args.get() value
 	"""Returns a query by title."""
 
-	query = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
+	title = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
 	
-	return query
-
-
-def get_title_and_platform(title, platform):
-	"""Returns all games containing 'title' for a specific platform."""
-
-	query = Game.query.filter(Game.title.ilike('%' + title + '%'), Game.platform.ilike('%' + platform + '%')).all()
-
-	return query
-
-
-def get_score(score):
-	"""Returns a query by score."""
-
-	query = Game.query.filter(Game.critic_score >= score).all()
-
-	return query
-
-
-def get_platform(platform):
-	"""Returns a query by platform."""
-
-	query = Game.query.filter(Game.platform.ilike('%' + platform + '%')).all()
-
-	return query
-
-
-def get_score_and_platform(score, platform):
-	"""Returns a query that filters by a certain score and platform."""
-
-	query = Game.query.filter(Game.critic_score >= score, Game.platform.ilike('%' + platform + '%')).all()
-
-	return query
-
-
-def average_user_score():
-	"""Calculates the average user score based on all user scores."""
-
-	game = Game.query.filter(Game.title == title, Game.platform == platform).first()
-
-
-
+	return title
