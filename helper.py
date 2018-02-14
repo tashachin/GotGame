@@ -159,7 +159,7 @@ def update_aggregate_score(game):
 ###################################################
 # SEARCH FILTERING
 
-def apply_filters(title, score, platform):
+def apply_filters(score, platform):
 	"""Checks how to query database based on user's filters."""
 
 	if score and platform:
@@ -225,6 +225,14 @@ def retrieve_genres(game_id):
 	vg_genres = VgGen.query.filter(VgGen.game_id == game_id).all()
 
 	return vg_genres
+
+
+def function():
+	"""Apply n kinds of filters to advanced search query."""
+
+	
+	pass
+
 
 
 def get_one_title(title):
