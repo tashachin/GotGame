@@ -1,31 +1,26 @@
-
 {% extends 'base.html' %}
 
 {% block title %} {{ user.username }} {% endblock %}
 
 {% block content %}
 
-<h2>{{ user.username }} ( {{ user.user_id }} )</h2> <i>user joined on {{ user.joined_at }}</i>
+<h2>{{ user.username }} ( {{ user.user_id }} )</h2> 
+<i>user joined on {{ user.joined_at }}</i>
+<br>
+<a href='/edit-profile/{{ user.user_id }}'><button id='edit-profile' type='button' class='btn btn-info'>Edit profile infomation</button></a>
 
 <h3>About</h3>
 <div id='user-bio'>
 	<p>
 	{% if user.bio %}
 	{{ user.bio }}
-	<form id='update-blurb-form' action='/update-bio' method='POST'>
-		<input type='hidden' name='user_id' value='{{ user.user_id }}'>
-		<input id='user-bio' type='text' name='user_bio' placeholder='(Max 500 characters)'>
-		<input id='change-blurb' type='submit' value='Update your blurb!'>
-	</form>
 	{% else %}
 	( <i>this user has not added a bio yet</i> )
-	<form id='blurb-form' action='/update-bio' method='POST'>
-		<input type='hidden' name='user_id' value='{{ user.user_id }}'>
-		<input id='user-bio' type='text' name='user_bio' placeholder='(Max 500 characters)'>
-		<input id='submit-blurb' type='submit' value='Add a blurb about yourself!'>
-	</form>
 	{% endif %}
 	</p>
+
+	<div id='blurb-notif'></div>
+
 </div>
 
 <h4>Reviews</h4>

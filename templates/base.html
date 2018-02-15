@@ -1,17 +1,21 @@
 <!doctype html>
 <html>
 <head>
-	<title>{% block title %}Got Game?{% endblock %}</title>
-	<link rel="stylesheet"
-        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
-  <link rel="stylesheet" href="/static/style.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-{% block hscripts %}
-{% endblock %}
+	<title>{% block title %}Got Game?{% endblock %}</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
+	<link rel="stylesheet" href="/static/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	{% block hscripts %}
+	{% endblock %}
+
 </head>
+
 <body>
+
 <div class="container">
 <h1>{% block heading %}Got Game?{% endblock %}</h1>
 {% block navbar %}
@@ -37,6 +41,8 @@
 </div>
 
 </body>
-{% block scripts %}
+
+{% block fscripts %}
 {% endblock %}
+
 </html>

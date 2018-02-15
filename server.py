@@ -109,6 +109,12 @@ def show_profile(user_id):
 						   reviews=reviews)
 
 
+@app.route('/edit-profile/<user_id>')
+def edit_profile():
+
+	pass
+
+
 @app.route('/update-bio', methods=['POST'])  # Will become defunct if using AJAX.
 def update_user_bio():
 	"""Redirects user to their profile page once their bio has been added."""
@@ -122,6 +128,13 @@ def update_user_bio():
 
 	return redirect('/user/' + user_id)
 
+
+@app.route('/update-bio.json')
+def json_user_bio():
+	"""Practicing AJAX calls."""
+	
+	
+	pass
 
 @app.route('/game/<platform>/<title>') # Game "profile" page
 def show_game_profile(platform, title):

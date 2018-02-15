@@ -1,3 +1,4 @@
+// Data Table configurations
 $(document).ready(function() {
     $('#game-info-table').DataTable( {
     	retrieve: true,
@@ -6,6 +7,7 @@ $(document).ready(function() {
     } );
 } );
 
+// Adding and editing game reviews
 function confirmReview() {
 	$('#review-form').empty();
 	$('#review-status').remove();
@@ -45,3 +47,6 @@ function editReview(evt) {
 
 $('#submit-review').on('click', submitNewReview);
 $('#change-review').on('click', editReview);
+
+// Faving and unfaving games
+

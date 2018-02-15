@@ -1,10 +1,12 @@
 function confirmBlurb() {
 	$('#blurb-form').empty();
+	$('#blurb-notif').html('Your bio has been updated.');
 	$('#blurb-notif').fadeIn(200).fadeOut(200).fadeIn(200);
 }
 
 function confirmEdit() {
 	$('#edit-blurb-form').empty();
+	$('#blurb-notif').html('Your bio has been updated.');
 	$('#edit-blurb-notif').fadeIn(200).fadeOut(200).fadeIn(200);
 }
 
@@ -36,3 +38,9 @@ function editBlurb(evt) {
 
 $('#submit-blurb').on('click', submitBlurb);
 $('#change-blurb').on('click', editBlurb);
+
+// Edit profile info
+
+$('#edit-profile').on('click', function() {
+	
+});
