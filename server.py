@@ -235,30 +235,45 @@ def edit_review():
     update_review(game_id, review_text, user_score)
     update_aggregate_score(game)
 
-    review_info = {
+    review_data = {
         "game_id": game_id,
         "user_score": user_score,
         "review_text": review_text,
     }
 
-    print """<UPDATED REVIEW: game_id={}, user_score={}, review={}>""".format(game_id, 
-                                                                              user_score, 
-                                                                              review_text)
-    return jsonify(review_info)
+    print "<UPDATED REVIEW: game_id={}, user_score={}, review={}>".format(game_id, 
+                                                                          user_score, 
+                                                                          review_text)
+    return jsonify(review_data)
 
 
-@app.route('/tag-game/json', methods=['POST'])
+@app.route('/create-tags.json', methods=['POST'])
 def get_tag_info():
     """Return info about a user's game tag as JSON."""
 
     tags = request.form.get('new_tags')
     tags = tags.split(',')
-    tags = tags.lower()
 
-    # pull newly created tags from tag-creation form
-    # call function to create tag and update to database
-    # need to display user's existing tags in form
-    pass
+    user_id = session['user_id']
+
+    for tag in tags:
+        tag = tag.lower()
+        tag = tag.lstrip()
+        new_tag = Tag(user_id=user_id,
+                      tag=tag)
+        db.session.add(new_tag)
+
+    db.session.commit()
+
+    tag_data = {
+        "user_id": user_id,
+        "tag": tag
+    }
+
+    print "<CREATED NEW TAG: user_id={}, tag={}".format(user_id,
+                                                        tag)
+
+    return jsonify(tag_data)
 
 ###################################################
 # DEBUGGING

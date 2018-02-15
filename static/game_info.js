@@ -53,17 +53,20 @@ $('#change-review').on('click', editReview);
 // Adding tags to games
 
 function confirmTags() {
-
+	$('#tag-notif').show();
 }
 
 function addTags(evt) {
 	evt.preventDefault();
+	evt.stopImmediatePropagation();
 
-	let tagData = $('#tagging-form').serialize();
+	let tagData = $('#create-tags-form').serialize();
 
-	$.post('/tag-game.json'),
+	$.post('/create-tags.json',
 		   tagData,
 		   confirmTags);
 
 	return false;
 }
+
+$('#create-tags').on('click', addTags);

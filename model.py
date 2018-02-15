@@ -138,12 +138,9 @@ class Tag(db.Model):
 
 	tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.user_id')) # Who created the tag?
-	game_id = db.Column(db.Integer, db.ForeignKey('games.game_id'))  # Which game is the tag associated with?
 	tag = db.Column(db.String(30), nullable=False)
 
 	user = db.relationship("User", backref=db.backref("tags",
-													  order_by=tag_id))
-	game = db.relationship("Game", backref=db.backref("tags",
 													  order_by=tag_id))
 
 	def __repr__(self):
@@ -164,6 +161,7 @@ class TagCategory(db.Model):
 	# Which aspect of gaming is this tag for?
 	# (i.e. 'genre', '# of players', 'gameplay')
 	category = db.Column(db.String(30), nullable=False)
+	color = db.Column(db.String(7), default='#D3D3D3')
 
 	tag = db.relationship("Tag", backref=db.backref("tag_cats",
 													order_by=tag_cat_id))
