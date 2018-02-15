@@ -30,7 +30,7 @@
 	<tbody>
 		{% for game in games %}
 		<tr> 
-			<td><a href="/game/{{ game.platform }}/{{ game.title }}">{{ game.title }}</a></td>
+			<td id='{{ game.game_id }}'><a href="/game/{{ game.platform }}/{{ game.title }}">{{ game.title }}</a></td>
 			<td>{{ game.platform }}</td>
 			<td>{% for vg_genre in game.vg_genres %}
 

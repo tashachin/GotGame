@@ -99,30 +99,15 @@ class GotGameDatabase(unittest.TestCase):
 		self.assertIn('Sorry, that username is already in use.', result.data)
 
 
-	def test_basic_search(self):  
-		"""Checks that a game from the database shows up after searching on homepage."""
-
-		result = self.client.get('/search-results?title=best')
-
-		self.assertIn('Best Game Ever', result.data)
-
-
-	def test_basic_search_fail(self):
-		"""Checks for the 'no-results' flash message."""
-
-		result = self.client.get('/search-results?title=dslfjaljfjlsdkf',
-								 follow_redirects=True)
-
-		self.assertIn('Oops! Our database didn&#39;t return any results.', result.data)
-
-
 	def test_adv_search(self):
 		"""Confirms that searching by (critic)score filters properly."""
 
 		result = self.client.get('/adv-search-results', 
 								  query_string={'title': None,
-								  				'score': 5.0,
-								  				'platform': None})  # query_string is a GET specific keyword; data is the POST equivalent
+								  				'critic_score': 5.0,
+								  				'user_score': 0,
+								  				'platform': None,
+								  				'genres': None,})  # query_string is a GET specific keyword; data is the POST equivalent
 
 		self.assertIn('Best Game Ever', result.data)
 		self.assertIn('So-So Game', result.data)

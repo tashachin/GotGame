@@ -5,9 +5,7 @@
 {% block content %}
 
 <h2>{{ user.username }} ( {{ user.user_id }} )</h2> 
-<i>user joined on {{ user.joined_at }}</i>
-<br>
-<a href='/edit-profile/{{ user.user_id }}'><button id='edit-profile' type='button' class='btn btn-info'>Edit profile infomation</button></a>
+<i>user joined on {{ user.joined_at|datetime }}</i>
 
 <h3>About</h3>
 <div id='user-bio'>
@@ -15,13 +13,14 @@
 	{% if user.bio %}
 	{{ user.bio }}
 	{% else %}
-	( <i>this user has not added a bio yet</i> )
+	( <i>{{ user.username }} has not added a bio yet</i> )
 	{% endif %}
 	</p>
-
-	<div id='blurb-notif'></div>
-
 </div>
+
+{% if session.get('user_id') == user.user_id %}
+<a href='/edit-profile/{{ user.user_id }}'><button id='edit-profile' type='button' class='btn btn-info'>Edit profile infomation</button></a>
+{% endif %}
 
 <h4>Reviews</h4>
 <ul>{% for review in reviews %}

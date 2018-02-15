@@ -8,3 +8,9 @@ $(document).ready(function() {
         "deferRender": true,
     } );
 } );
+
+function showGameInfo() {
+	
+}
+
+$('select td by game_id').on('mouseOver', showGameInfo)
