@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+<!-- Stylesheets and scripts that need to be loaded before the HTML -->
 {% block hscripts %}
 <link rel='stylesheet'
 	  href='https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css'>
@@ -13,8 +13,13 @@
 
 <h2> {{ game.title }} </h2>
 
+<!-- GAME INFORMATION -->
+
 <div class='game-table'>
-<table id='game-info-table' class='stripe' cellspace='0' width='100%'>
+<table id='game-info-table' 
+	   class='stripe' 
+	   cellspace='0' 
+	   width='100%'>
 	<thead>
 	<tr>
 		<th>Platform</th>
@@ -31,7 +36,6 @@
 				{% endfor %}</td>
 			<td>{{ game.critic_score }}</td>
 			<td>{% if review %}
-				<!-- Need to replace 'review.user_score' with aggregate user scores. -->
 				{{ game.aggregate_score }}
 				{% else %}
 				N/A
@@ -42,11 +46,15 @@
 </table>
 </div>
 
+<!-- USER'S APPLIED TAGS -->
+
 <div>
 
 	( tags go here )
 
 </div>
+
+<!-- LINK BACK TO ADV SEARCH -->
 
 <div>
 
@@ -54,49 +62,79 @@
 
 </div>
 
+<!-- GAME DESCRIPTION -->
+
 <!-- <div id='game-desc'>
 	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 </div> -->
 
+<!-- MODAL FOR APPLYING TAGS -->
+
 <aside>
 
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-tag">
+	<button type="button" 
+			class="btn btn-primary" 
+			data-toggle="modal" 
+			data-target="#add-tag">
 	  Add a tag
 	</button>
 
 	<div id="add-tag" class="modal" tabindex="-1" role="dialog">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title">Tags for {{ game.title }}</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
 
-	        <p>
-	        	<form id='tagging-form' action='/tag-game.json' method='POST'>
-	        		<input type='text' name='new_tags' placeholder='Separate tags by commas'>
-	        		<button id='#edit-tags' class='btn btn-default' type='submit'>Add tags</button>
-	        	</form>
-	    	</p>
+        <h5 class="modal-title">Tags for {{ game.title }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
 
-	    	<p> 
-	      		( user's existing tags go here )
-	      		<span id='#tag-id' class='badge badge-secondary' name='tag' draggable="true" ondragstart="dragstart_handler(event);">
-	      			placeholder
-	      		</span>
-	      		<!-- Jinja templating will replace all those placeholder values when it's working -->
-	      	</p>
+    </div>
+    <div class="modal-body">
 
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
-	  </div>
+        <p>
+        	<form id='tagging-form' action='/tag-game.json' method='POST'>
+        		<input type='text' name='new_tags' placeholder='Separate tags by commas'>
+        		<button id='#edit-tags' class='btn btn-default' type='submit'>Add tags</button>
+        	</form>
+    	</p>
+
+    	<p> 
+      		( user's existing tags go here )
+      		<span id='#tag-id'
+      		      class='badge badge-secondary' 
+      		      name='tag' 
+      		      draggable="true" 
+      		      ondragstart="dragstart_handler(event);">
+      		placeholder
+      		</span>
+      		<!-- Jinja templating will replace all those placeholder values when it's working -->
+      		<hr>
+      		<div id='attach-tags-field' 
+      			 class='dropzone'
+      			 ondragenter='dragEnterHandler(evt)'
+      			 ondragover='dragOverHandler(evt)'
+      			 ondrop='dropHandler(evt)'>
+      			( drag tags to be applied here )
+      		</div>
+      	</p>
+
+    </div>
+
+    <div class="modal-footer">
+
+        <button type="button" 
+        	    class="btn btn-secondary" 
+        	    data-dismiss="modal">
+        	    Close
+        </button>
+
+    </div>
 	</div>
+	</div>
+	</div>
+
+<!-- COMMENT THREAD -->
 
 <!-- 3.0 - Allow users to create a discussion thread on any given game page. -->
 <!-- <div id='comment-field'>
@@ -107,12 +145,16 @@
 
 </aside>
 
+<!-- REVIEW FORM -->
+
 <div id='review-field'>
 {% if user_status %}
 	<div id='user-review'>
 		<!-- Remember to test for WHO user is -->
 
 		{% if review %}
+		<!-- When refactoring, create just one review form.
+		Under "if review" conditional, set a review.review_id hidden value -->
 		<p>
 		Previously, you said: "{{ review.review }}"
 		<br>
@@ -128,23 +170,39 @@
 			<div class="form-group">
 			<div class="col-xs-2">
 			<label for='edit-score'>Score:</label>
-			<input id='edit-score' type='number' class='form-control' name='edit_user_score' placeholder='#' min=1.0 max=10.0 required>
+			<input id='edit-score' 
+				   type='number' 
+				   class='form-control' 
+				   name='edit_user_score' 
+				   placeholder='#' 
+				   min=1.0 
+				   max=10.0 
+				   required>
 			</div>
 			</div>
 
 			<div class="form-group">
 			<div class="col-xs-4">
 			<label for='edit-review'>Review:</label>
-			<input id='edit-review' type='textarea' class='form-control' name='edit_review' placeholder='Update your review'>
+			<input id='edit-review' 
+				   type='textarea' 
+				   class='form-control' 
+				   name='edit_review' 
+				   placeholder='Update your review'>
 			</div>
 			</div>
 		</div>
-
-			<input id='game-id-2' type='hidden' name='game_id' value='{{ game.game_id }}'>
+			<!-- Pass the game's id back to Python -->
+			<input id='game-id-2' 
+				   type='hidden' 
+				   name='game_id'
+				   value='{{ game.game_id }}'>
 
 			<div class='row'>
 			<div class="col-sm-6">
-			<button id='change-review' type='submit' class='btn btn-primary'>
+			<button id='change-review' 
+				    type='submit' 
+				    class='btn btn-primary'>
 				Edit Review
 			</button>
 			</div>
@@ -161,23 +219,40 @@
 		user_id, game_id, and review text. -->
 
 		<form id='review-form'>
-			<input id='new-score' type='number' name='user_score' placeholder='#' min=1 max=10 required>
-			<input id='new-review' type='textarea' class='form-control' name='review' placeholder='Write a review'>
-			<input id='game-id' type='hidden' name='game_id' value='{{ game.game_id }}'>
-			<input id='submit-review' type='submit' value='Review {{ game.title }}'>
+
+			<input id='new-score' 
+				   type='number' 
+				   name='user_score' 
+				   placeholder='#' 
+				   min=1 
+				   max=10 
+				   required>
+
+			<input id='new-review' 
+				   type='textarea' 
+				   class='form-control' 
+				   name='review' 
+				   placeholder='Write a review'>
+
+			<input id='game-id' 
+				   type='hidden' 
+				   name='game_id' 
+				   value='{{ game.game_id }}'>
+
+			<input id='submit-review'
+				   type='submit'
+				   value='Review {{ game.title }}'>
+
 		</form>
 		{% endif %}
 	</div>
-
-	<div id='all-reviews'>
-		<!-- for review in reviews - maybe use a carousel? -->
-	</div>
 </div>
 {% endif %}
-<!-- Place user's own review at top OR form to add their own review
-* Display everyone else's review of this game below -->
+
+<!-- OTHER USERS' REVIEWS -->
 
 {% if reviews %}
+<div id='all-reviews'>
 <ul>
 	{% for review in reviews %}
 
@@ -188,6 +263,7 @@
 
 	{% endfor %}
 </ul>
+</div>
 {% endif %}
 
 {% block fscripts %}
