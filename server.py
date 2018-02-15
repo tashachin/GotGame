@@ -247,9 +247,17 @@ def edit_review():
     return jsonify(review_info)
 
 
-@app.route('/')
+@app.route('/tag-game/json', methods=['POST'])
 def get_tag_info():
     """Return info about a user's game tag as JSON."""
+
+    tags = request.form.get('new_tags')
+    tags = tags.split(',')
+    tags = tags.lower()
+
+    # pull newly created tags from tag-creation form
+    # call function to create tag and update to database
+    # need to display user's existing tags in form
     pass
 
 ###################################################

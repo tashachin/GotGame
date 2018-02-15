@@ -34,7 +34,7 @@ function submitNewReview(evt) {
 
 function editReview(evt) {
 	evt.preventDefault();
-	evt.stopImmediatePropagation();
+	evt.stopImmediatePropagation();  // Stops double AJAX call
 
 	let reviewData = $('#update-review-form').serialize();
 
@@ -50,3 +50,20 @@ $('#change-review').on('click', editReview);
 
 // Faving and unfaving games
 
+// Adding tags to games
+
+function confirmTags() {
+
+}
+
+function addTags(evt) {
+	evt.preventDefault();
+
+	let tagData = $('#tagging-form').serialize();
+
+	$.post('/tag-game.json'),
+		   tagData,
+		   confirmTags);
+
+	return false;
+}

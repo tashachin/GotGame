@@ -44,6 +44,12 @@
 
 <div>
 
+	( tags go here )
+
+</div>
+
+<div>
+
 	<a href='/adv-search'>Not what you were looking for?</a>
 
 </div>
@@ -68,15 +74,24 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
+
 	        <p>
-	        	<form id='/tag-game.json'>
-	        		<input type='text' placeholder='Separate tags by commas'>
-	        		<input type='submit'>
+	        	<form id='tagging-form' action='/tag-game.json' method='POST'>
+	        		<input type='text' name='new_tags' placeholder='Separate tags by commas'>
+	        		<button id='#edit-tags' class='btn btn-default' type='submit'>Add tags</button>
 	        	</form>
 	    	</p>
+
+	    	<p> 
+	      		( user's existing tags go here )
+	      		<span id='#tag-id' class='badge badge-secondary' name='tag' draggable="true" ondragstart="dragstart_handler(event);">
+	      			placeholder
+	      		</span>
+	      		<!-- Jinja templating will replace all those placeholder values when it's working -->
+	      	</p>
+
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary">Save changes</button>
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 	      </div>
 	    </div>
@@ -106,11 +121,34 @@
 
 		<div id='edit-review-notif' hidden>Your review of {{ game.title }} has been updated!</div>
 
+		<div class='row'>
+
 		<form id='update-review-form'>
-			<input id='edit-score' type='number' name='edit_user_score' placeholder='#' min=1.0 max=10.0 required>
-			<input id='edit-review' type='text' name='edit_review' placeholder='Update your review'>
+
+			<div class="form-group">
+			<div class="col-xs-2">
+			<label for='edit-score'>Score:</label>
+			<input id='edit-score' type='number' class='form-control' name='edit_user_score' placeholder='#' min=1.0 max=10.0 required>
+			</div>
+			</div>
+
+			<div class="form-group">
+			<div class="col-xs-4">
+			<label for='edit-review'>Review:</label>
+			<input id='edit-review' type='textarea' class='form-control' name='edit_review' placeholder='Update your review'>
+			</div>
+			</div>
+		</div>
+
 			<input id='game-id-2' type='hidden' name='game_id' value='{{ game.game_id }}'>
-			<input id='change-review' type='submit' value='Edit review'>
+
+			<div class='row'>
+			<div class="col-sm-6">
+			<button id='change-review' type='submit' class='btn btn-primary'>
+				Edit Review
+			</button>
+			</div>
+			</div>
 		</form>
 
 		{% else %}
@@ -124,7 +162,7 @@
 
 		<form id='review-form'>
 			<input id='new-score' type='number' name='user_score' placeholder='#' min=1 max=10 required>
-			<input id='new-review' type='text' name='review' placeholder='Write a review'>
+			<input id='new-review' type='textarea' class='form-control' name='review' placeholder='Write a review'>
 			<input id='game-id' type='hidden' name='game_id' value='{{ game.game_id }}'>
 			<input id='submit-review' type='submit' value='Review {{ game.title }}'>
 		</form>
