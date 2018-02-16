@@ -154,14 +154,25 @@ def create_review(game_id, review, user_score):
 def create_tags(user_id, tags):
 	"""Stores a user's newly created tags in the database."""
 
+	tag_data = [] 
+
 	for tag in tags:
 		tag = tag.lower()
 		tag = tag.lstrip()
 		new_tag = Tag(user_id=user_id,
                       tag=tag)
 		db.session.add(new_tag)
+		db.session.commit()
+		
+		tag_data.append(
+			{
+	        "user_id": user_id,
+	        "tag_id": new_tag.tag_id,  # new_tag is an instance of Tag class, has .tag_id
+	        "tag": tag
+	    	}
+	    )
 
-	db.session.commit()
+	return tag_data  # List of dictionaries
 
 
 def update_review(game_id, review_text, user_score):

@@ -52,11 +52,23 @@ $('#change-review').on('click', editReview);
 
 // Adding tags to games
 
-function confirmTags() {
+function confirmTags(results) {
 	$('#tag-notif').show();
+
+	for (let result of results) {  // Grabbing all the new tag objects
+		let tag = "<span id=" + result.tag_id +
+      		      // "class='badge badge-secondary' 
+      		      "name=" + result.tag_id + 
+      		      "data-draggable='draggable'>" +
+      		      result.tag +
+      		      "</span>";
+
+		$('#tag-field').append(tag);
+	}
 }
 
 function addTags(evt) {
+	debugger;
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
@@ -70,3 +82,7 @@ function addTags(evt) {
 }
 
 $('#create-tags').on('click', addTags);
+
+
+// Drag-and-drop functionality of tags
+

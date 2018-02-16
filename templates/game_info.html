@@ -92,7 +92,7 @@
     <div class="modal-content">
     <div class="modal-header">
 
-        <h5 class="modal-title">Tags for {{ game.title }}</h5>
+        <h4 class="modal-title">{{ game.title }}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
         </button>
@@ -114,16 +114,20 @@
     	</p>
     	<hr>
     	<p> 
+    		<label>Tags:</label>
+    		<div id='tag-field'>
       		{% for tag in tags %}
       		<span id='{{tag.tag_id}}'
       		      class='badge badge-secondary' 
       		      name='{{tag.tag_id}}' 
-      		      >
+      		      data-draggable='draggable'>
       		{{ tag.tag }}
       		</span>
       		{% endfor %}
+      		</div>
       		<!-- Jinja templating will replace all those placeholder values when it's working -->
       		<hr>
+      		<label>{{ game.title }} is tagged under:</label>
       		<div id='attach-tags-field' 
       			 data-tag='tag.id'>
       			( drag tags here to add them to games )
@@ -211,10 +215,10 @@
 
 			<div class='row'>
 			<div class="col-sm-6">
-			<button id='change-review' 
+			<input id='change-review' 
 				    type='submit' 
-				    class='btn btn-primary'>
-				Edit Review
+				    class='btn btn-primary'
+				    value='Edit review'>
 			</button>
 			</div>
 			</div>

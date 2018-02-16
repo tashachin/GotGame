@@ -258,15 +258,9 @@ def get_tag_info():
 
     user_id = session['user_id']
 
-    create_tags(user_id, tags)
+    tag_data = create_tags(user_id, tags)
 
-    tag_data = {
-        "user_id": user_id,
-        "tag": tag
-    }
-
-    print "<CREATED NEW TAG: user_id={}, tag={}".format(user_id,
-                                                        tag)
+    print "<CREATED NEW TAG: user_id={}>".format(user_id)
 
     return jsonify(tag_data)
 
