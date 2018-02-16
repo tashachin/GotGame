@@ -56,10 +56,10 @@ function confirmTags(results) {
 	$('#tag-notif').show();
 
 	for (let result of results) {  // Grabbing all the new tag objects
-		let tag = "<span id=" + result.tag_id +
-      		      // "class='badge badge-secondary' 
-      		      "name=" + result.tag_id + 
-      		      "data-draggable='draggable'>" +
+		let tag = "<span id='" + result.tag_id +
+      		      "' class='badge badge-secondary'" + 
+      		      "name='" + result.tag_id + 
+      		      "'data-draggable='draggable'>" +
       		      result.tag +
       		      "</span>";
 

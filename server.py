@@ -260,7 +260,8 @@ def get_tag_info():
 
     tag_data = create_tags(user_id, tags)
 
-    print "<CREATED NEW TAG: user_id={}>".format(user_id)
+    print "<CREATED NEW TAG: user_id={}, tags={}>".format(user_id, 
+                                                          tags)
 
     return jsonify(tag_data)
 
