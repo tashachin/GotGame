@@ -175,13 +175,15 @@ def show_game_profile(platform, title):
     user_status = check_login_status()
     review = check_review_status(game)
     reviews = handle_review_status(game, user_status)
+    tags = check_tags(user_status)
 
     return render_template('game_info.html',
                              game=game,
                              user_status=user_status,
                              review=review,
                              reviews=reviews,
-                             vg_genres=vg_genres)
+                             vg_genres=vg_genres,
+                             tags=tags)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():
@@ -256,14 +258,7 @@ def get_tag_info():
 
     user_id = session['user_id']
 
-    for tag in tags:
-        tag = tag.lower()
-        tag = tag.lstrip()
-        new_tag = Tag(user_id=user_id,
-                      tag=tag)
-        db.session.add(new_tag)
-
-    db.session.commit()
+    create_tags(user_id, tags)
 
     tag_data = {
         "user_id": user_id,

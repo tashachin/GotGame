@@ -114,13 +114,14 @@
     	</p>
     	<hr>
     	<p> 
-      		( user's existing tags display here )
-      		<span id='tag-id'
+      		{% for tag in tags %}
+      		<span id='{{tag.tag_id}}'
       		      class='badge badge-secondary' 
-      		      name='tag' 
+      		      name='{{tag.tag_id}}' 
       		      >
-      		placeholder
+      		{{ tag.tag }}
       		</span>
+      		{% endfor %}
       		<!-- Jinja templating will replace all those placeholder values when it's working -->
       		<hr>
       		<div id='attach-tags-field' 

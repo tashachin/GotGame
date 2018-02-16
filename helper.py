@@ -55,9 +55,20 @@ def check_login_status():
 		return user_id
 
 	else:
-		user_id = None
-		
-		return user_id
+		return None
+
+
+def check_tags(user_status):
+	"""Returns a user's tags."""
+
+	if user_status:
+		tags = Tag.query.filter(Tag.user_id == user_status).all()
+
+		return tags
+
+	else:
+		return None
+
 
 
 def check_review_status(game):
@@ -138,6 +149,20 @@ def create_review(game_id, review, user_score):
 
 	db.session.add(new_review)
 	db.session.commit()
+
+
+def create_tags(user_id, tags):
+	"""Stores a user's newly created tags in the database."""
+
+	for tag in tags:
+		tag = tag.lower()
+		tag = tag.lstrip()
+		new_tag = Tag(user_id=user_id,
+                      tag=tag)
+		db.session.add(new_tag)
+
+	db.session.commit()
+
 
 def update_review(game_id, review_text, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""
