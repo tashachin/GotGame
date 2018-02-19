@@ -56,10 +56,13 @@ function confirmTags(results) {
 	$('#tag-notif').show();
 
 	for (let result of results) {  // Grabbing all the new tag objects
-		let tag = "<span id='" + result.tag_id +
-      		      "' class='badge badge-secondary'" + 
-      		      "name='" + result.tag_id + 
-      		      "'data-draggable='draggable'>" +
+		let tag = "<span id='" + 
+				  result.tag_id +
+				  // Remember single quotes '' when concatenating variables
+      		      "' class='badge badge-secondary draggable'" + 
+      		      "name='" + 
+      		      result.tag_id + 
+      		      "'>" +
       		      result.tag +
       		      "</span>";
 
@@ -86,3 +89,18 @@ $('#create-tags').on('click', addTags);
 
 // Drag-and-drop functionality of tags
 
+// FIX ME: Droppable field does not grow dynamically to contain all tags
+// FIX ME: Tags do not shift over when neighbors are moved to droppable field
+
+$('.draggable').draggable({
+	axis: 'y',
+	opacity: 0.8,
+	helper: 'original',
+	containment: '#drop-and-drag-tags',
+	snap: '#attach-tags-field'
+});
+
+$('.droppable').droppable({
+	accept: '.draggable'
+	
+});
