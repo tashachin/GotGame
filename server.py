@@ -265,6 +265,14 @@ def get_tag_info():
 
     return jsonify(tag_data)
 
+
+@app.route('/update-tags.json', methods=['POST'])
+def get_game_tag_info():
+    """Attaches the user's selected tags to the current game they're viewing."""
+
+    pass
+
+
 ###################################################
 # DEBUGGING
 

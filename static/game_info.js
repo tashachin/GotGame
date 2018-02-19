@@ -7,6 +7,7 @@ $(document).ready(function() {
     } );
 } );
 
+//////////////////////////////////////
 // Adding and editing game reviews
 function confirmReview() {
 	$('#review-form').empty();
@@ -48,11 +49,13 @@ function editReview(evt) {
 $('#submit-review').on('click', submitNewReview);
 $('#change-review').on('click', editReview);
 
+//////////////////////////////////////
 // Faving and unfaving games
 
+//////////////////////////////////////
 // Adding tags to games
 
-function confirmTags(results) {
+function confirmNewTags(results) {
 	$('#tag-notif').show();
 
 	for (let result of results) {  // Grabbing all the new tag objects
@@ -71,7 +74,6 @@ function confirmTags(results) {
 }
 
 function addTags(evt) {
-	debugger;
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
@@ -79,14 +81,14 @@ function addTags(evt) {
 
 	$.post('/create-tags.json',
 		   tagData,
-		   confirmTags);
+		   confirmNewTags);
 
 	return false;
 }
 
 $('#create-tags').on('click', addTags);
 
-
+//////////////////////////////////////
 // Drag-and-drop functionality of tags
 
 // FIX ME: Droppable field does not grow dynamically to contain all tags
@@ -96,11 +98,42 @@ $('.draggable').draggable({
 	axis: 'y',
 	opacity: 0.8,
 	helper: 'original',
-	containment: '#drop-and-drag-tags',
-	snap: '#attach-tags-field'
+	containment: '#drag-and-drop-tags',
+	snap: '#attach-tags-field',
 });
 
 $('.droppable').droppable({
-	accept: '.draggable'
+	accept: '.draggable',
 	
 });
+
+function showTags(results) {
+	for (let result of results) {  // Grabbing all the new tag objects
+		let tag = "<span id='" + 
+				  result.tag_id +
+				  // Remember single quotes '' when concatenating variables
+      		      "' class='badge badge-secondary draggable'" + 
+      		      "name='" + 
+      		      result.tag_id + 
+      		      "'>" +
+      		      result.tag +
+      		      "</span>";
+
+		$('#game-tags').append(tag);
+	}
+}
+
+function updateTags(evt) {
+	evt.preventDefault();
+	evt.stopImmediatePropagation();
+
+	let tagData = $('').serialize();
+
+	$.post('/update-tags.json',
+		   tagData,
+		   showTags);
+
+	return false;
+}
+
+$('#update-tags').on('click', updateTags);
