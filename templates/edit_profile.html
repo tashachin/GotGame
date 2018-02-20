@@ -6,14 +6,13 @@
 
 <h5>Bio</h5>
 
-<form id='edit-profile-form' action='/update-bio' method='POST'>
+<form id='edit-profile-form' action='/update-profile' method='POST'>
 	<input type='hidden' name='user_id' value='{{ user.user_id }}'>
 	<input id='user-bio' type='text' name='user_bio' placeholder='(Max 500 characters)'>
 
 <h5>Location</h5>
 
 	<input id='user-location' type='text' name='user_location' placeholder='(Max 50 characters)'>
-</form>
 
 <h5>Birthday</h5>
 

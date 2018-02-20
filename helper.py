@@ -285,3 +285,7 @@ def retrieve_title(title):  # Takes in request.args.get() value
 	title = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
 	
 	return title
+
+
+def retrieve_tags():
+	pass

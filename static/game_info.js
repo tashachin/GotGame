@@ -103,13 +103,11 @@ $('.draggable').draggable({
 	snap: '#attach-tags-field',
 });
 
-userTags = new Array()  // Adding list of tag IDs to this array
-
 $('.droppable').droppable({
 	accept: '.draggable',
-	drop: function (event, ui) {
-		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
-	}
+	// drop: function (event, ui) {
+	// 	userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
+	// }
 });
 
 function showTags(results) {
@@ -119,7 +117,7 @@ function showTags(results) {
 				  // Remember single quotes '' when concatenating variables
       		      "' class='badge badge-secondary draggable'" + 
       		      "name='" + 
-      		      result.tag_id + 
+      		      result.tag + 
       		      "'>" +
       		      result.tag +
       		      "</span>";
@@ -132,11 +130,23 @@ function updateTags(evt) {
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
-	tagData = userTags;
+	// let userTags = new Array();  // Adding list of tag IDs to this array
+	// debugger;
+
+	// $.ajax({
+	//     type: 'POST',
+	//     url: '/update-tags.json',
+	//     traditional: false,
+	//     data: [4, 6, 19],
+	//     // contentType: 'application/json',
+	// });
 
 	$.post('/update-tags.json',
-		   tagData,
-		   showTags);
+		    {data: [2, 3, 5, 29]},
+		    showTags
+	);
 
 	return false;
 }
+
+$('#edit-tags').on('click', updateTags);

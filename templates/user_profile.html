@@ -4,11 +4,12 @@
 
 {% block content %}
 
-<h2>{{ user.username }} ( {{ user.user_id }} )</h2> 
+<h2>{{ user.username }} ( {{ user.user_id }} )</h2>
+
 <i>user joined on {{ user.joined_at|datetime }}</i>
 
 <h3>About</h3>
-<div id='user-bio'>
+<div id='user-profile'>
 	<p>
 	{% if user.bio %}
 	{{ user.bio }}
@@ -16,10 +17,18 @@
 	( <i>{{ user.username }} has not added a bio yet</i> )
 	{% endif %}
 	</p>
+	{% if user.location %}
+	Location: {{ user.location }}<br>
+	{% endif %}
+	{% if user.birthday %}
+	Birthday: {{ user.birthday|datetime('birthday') }}
+	{% endif %}
 </div>
 
 {% if session.get('user_id') == user.user_id %}
+<p>
 <a href='/edit-profile/{{ user.user_id }}'><button id='edit-profile' type='button' class='btn btn-info'>Edit profile infomation</button></a>
+</p>
 {% endif %}
 
 <h4>Reviews</h4>

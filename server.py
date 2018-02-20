@@ -36,6 +36,9 @@ def format_datetime(value, format='medium'):  # Defaults to dd-MM-y
     elif format == 'medium':
         format="dd-MM-y"
 
+    elif format == 'birthday':
+        format='dd-MM'
+
     return babel.dates.format_datetime(value, format)
 
 app.jinja_env.filters['datetime'] = format_datetime  # You can customize Jinja filters!
@@ -144,26 +147,31 @@ def edit_profile(user_id):
                            user=user)
 
 
-@app.route('/update-bio', methods=['POST'])  # Will become defunct if using AJAX.
+@app.route('/update-profile', methods=['POST'])  # FIX ME: What if user wants to delete info?
 def update_user_bio():
     """Redirects user to their profile page once their bio has been added."""
 
     user_id = request.form.get('user_id')
     bio = request.form.get('user_bio')
+    location = request.form.get('user_location')
+    birthday = request.form.get('user_birthday')
 
     user = retrieve_user(user_id)
-    user.bio = bio
+
+    if bio:
+        user.bio = bio
+
+    if location:
+        user.location = location
+
+    if birthday:
+        user.birthday = birthday
+
     db.session.commit()
 
+    flash('Your changes have been saved.')
     return redirect('/user/' + user_id)
 
-
-@app.route('/update-bio.json')
-def json_user_bio():
-    """Practicing AJAX calls."""
-    
-    
-    pass
 
 @app.route('/game/<platform>/<title>') # Game "profile" page
 def show_game_profile(platform, title):
@@ -270,7 +278,12 @@ def get_tag_info():
 def get_game_tag_info():
     """Attaches the user's selected tags to the current game they're viewing."""
 
-    pass
+    print '\n\n\n', request.form, '\n\n\n'
+
+    tag_ids = request.form.getlist('data[]')
+    print tag_ids
+    
+    return 'hi'
 
 
 ###################################################

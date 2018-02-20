@@ -114,14 +114,13 @@
     	</p>
     	<hr>
     	<div id='drag-and-drop-tags'>
-    	<form id='edit-tags-form'>
     	<p> 
     		<label>Tags:</label>
     		<div id='tag-field'>
       		{% for tag in tags %}
       		<span id='{{tag.tag_id}}'
       			  class='draggable badge badge-secondary' 
-      		      name='{{tag.tag_id}}'>
+      		      name='{{tag.tag}}'>
       		{{ tag.tag }}
       		</span>
       		{% endfor %}
@@ -134,11 +133,12 @@
       			 >
       		</div>
       	</p>
+      	<form id='edit-tags-form'>
       	<input id='edit-tags'
       	       class='btn btn-default'
       	       type='submit'
       	       value='Save changes'>
-        </form>
+		</form>
         </div>
     </div>
 
@@ -234,10 +234,6 @@
 
 		<p id='review-status'>You haven't reviewed this game yet!</p>
 		<div id='review-notif' hidden>Your review of {{ game.title }} has been added!</div>
-
-		<!-- Known bug: How do I prevent a user from posting multiple times?
-		It's possible to make multiple reviews with the exact same 
-		user_id, game_id, and review text. -->
 
 		<form id='review-form'>
 
