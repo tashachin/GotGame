@@ -281,18 +281,11 @@ def get_game_tag_info():
     """Attaches the user's selected tags to the current game they're viewing."""
 
     game_id = request.form.get('game')
-    print game_id
-
     tag_ids = request.form.getlist('data[]')
 
-    for tag_id in tag_ids:
-        new_vg_tag = VgTag(game_id=game_id,
-                           tag_id=tag_id)
-        db.session.add(new_vg_tag)
-        db.session.commit()
-
+    vg_tag_data = create_vg_tags(game_id, tag_ids)
     
-    return 'hi'
+    return jsonify(vg_tag_data)
 
 
 ###################################################

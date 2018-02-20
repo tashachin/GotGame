@@ -94,8 +94,9 @@ $('#create-tags').on('click', addTags);
 // FIX ME: Droppable field does not grow dynamically to contain all tags
 // FIX ME: Tags do not shift over when neighbors are moved to droppable field
 
+let userTags = new Array();
 
-$('.draggable').draggable({
+$('.draggable-tag').draggable({
 	axis: 'y',
 	opacity: 0.8,
 	helper: 'original',
@@ -103,20 +104,17 @@ $('.draggable').draggable({
 	snap: '#attach-tags-field',
 });
 
-let userTags = new Array();
-
-$('.droppable').droppable({
-	accept: '.draggable',
+$('.droppable-add').droppable({
+	accept: '.draggable-tag',
 	drop: function (event, ui) {
 		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
 	}
 });
 
 function showTags(results) {
-	for (let result of results) {  // Grabbing all the new tag objects
-		let tag = "<span id='" + 
-				  result.tag_id +
-				  // Remember single quotes '' when concatenating variables
+	for (let result of results) {
+		let vg_tag = "<span id='" + 
+				  result.vg_tag_id +
       		      "' class='badge badge-secondary draggable'" + 
       		      "name='" + 
       		      result.tag + 
@@ -124,7 +122,7 @@ function showTags(results) {
       		      result.tag +
       		      "</span>";
 
-		$('#game-tags').append(tag);
+      	$('#game-tags').append(vg_tag);
 	}
 }
 
@@ -133,9 +131,10 @@ function updateTags(evt) {
 	evt.stopImmediatePropagation();
 
 	$.post('/update-tags.json',
-		    {data: userTags,
-		     game: $('#current-game').val()},
-		    showTags
+		   {data: userTags,
+		    game: $('#current-game').val()
+		   },
+		   showTags
 	);
 
 	return false;

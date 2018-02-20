@@ -71,13 +71,13 @@
 <!-- USER'S APPLIED TAGS -->
 
 <div id='game-tags'>
+<label>This game has been tagged:</label>
 
 {% if vg_tags %}
-
 {% for vg_tag in vg_tags %}
 
 <span id='{{vg_tag.vg_tag_id}}'
-      			  class='draggable badge badge-secondary' 
+      			  class='draggable-tag badge badge-secondary' 
       		      name='{{vg_tag.tag.tag}}'>
       		{{ vg_tag.tag.tag }}
       		</span>
@@ -129,7 +129,7 @@
     		<div id='tag-field'>
       		{% for tag in tags %}
       		<span id='{{tag.tag_id}}'
-      			  class='draggable badge badge-secondary' 
+      			  class='draggable-tag badge badge-secondary' 
       		      name='{{tag.tag}}'>
       		{{ tag.tag }}
       		</span>
@@ -139,7 +139,7 @@
       		<hr>
       		<label>{{ game.title }} is tagged under:</label>
       		<div id='attach-tags-field'
-      			 class='droppable well'
+      			 class='droppable-add well'
       			 >
       		</div>
       	</p>

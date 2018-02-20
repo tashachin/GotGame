@@ -76,7 +76,7 @@ def check_vg_tags(game_id):
 	if game_id:
 		user_id = session.get('user_id')
 
-		user_query = VgTag.query.filter(VgTag.tag.user_id == user_id)  # Only display user's tags for a specific game.
+		user_query = VgTag.query.filter(Tag.user_id == user_id)  # Only display user's tags for a specific game.
 		vg_tags = user_query.filter(VgTag.game_id == game_id).all()
 
 		return vg_tags
@@ -166,7 +166,7 @@ def create_review(game_id, review, user_score):
 
 
 def create_tags(user_id, tags):
-	"""Stores a user's newly created tags in the database."""
+	"""Adds a user's newly created tags in the database and returns that data as JSON."""
 
 	tag_data = [] 
 
@@ -180,14 +180,36 @@ def create_tags(user_id, tags):
 		
 		tag_data.append(
 			{
-	        "user_id": user_id,
 	        "tag_id": new_tag.tag_id,  # new_tag is an instance of Tag class, has .tag_id
+	        "user_id": user_id,
 	        "tag": tag
 	    	}
 	    )
 
 	return tag_data  # List of dictionaries
 
+
+def create_vg_tags(game_id, tag_ids):
+	"""Adds a user's tags to a video game and returns that data as JSON."""
+
+	vg_tag_data = []
+
+	for tag_id in tag_ids:
+		new_vg_tag = VgTag(game_id=game_id,
+                           tag_id=tag_id)
+		db.session.add(new_vg_tag)
+		db.session.commit()
+
+		vg_tag_data.append(
+        	{
+        	"vg_tag_id": new_vg_tag.vg_tag_id,
+        	"game_id": game_id,
+        	"tag_id": tag_id,
+        	"tag": new_vg_tag.tag.tag
+        	}
+        )
+	
+	return vg_tag_data
 
 def update_review(game_id, review_text, user_score):
 	"""Takes info from '/game/<title>' and updates game's score."""
@@ -303,3 +325,18 @@ def retrieve_title(title):  # Takes in request.args.get() value
 
 def retrieve_tags():
 	pass
+
+
+def retrieve_vg_tags(game_id):
+	"""Returns video-game tag objects."""
+
+	if check_vg_tags(game_id):
+		user_id = session.get('user_id')
+
+		user_query = VgTag.query.filter(Tag.user_id == user_id)  # Only display user's tags for a specific game.
+		vg_tags = user_query.filter(VgTag.game_id == game_id).all()
+
+		return vg_tags
+
+	else:
+		return None
