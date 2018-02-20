@@ -70,6 +70,20 @@ def check_tags(user_status):
 		return None
 
 
+def check_vg_tags(game_id):
+	"""Returns a user's tags."""
+
+	if game_id:
+		user_id = session.get('user_id')
+
+		user_query = VgTag.query.filter(VgTag.tag.user_id == user_id)  # Only display user's tags for a specific game.
+		vg_tags = user_query.filter(VgTag.game_id == game_id).all()
+
+		return vg_tags
+
+	else:
+		return None
+
 
 def check_review_status(game):
 	"""Checks to see if user is logged in and if game has been reviewed before."""

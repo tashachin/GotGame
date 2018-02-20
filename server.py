@@ -184,6 +184,7 @@ def show_game_profile(platform, title):
     review = check_review_status(game)
     reviews = handle_review_status(game, user_status)
     tags = check_tags(user_status)
+    vg_tags = check_vg_tags(game_id)
 
     return render_template('game_info.html',
                              game=game,
@@ -191,7 +192,8 @@ def show_game_profile(platform, title):
                              review=review,
                              reviews=reviews,
                              vg_genres=vg_genres,
-                             tags=tags)
+                             tags=tags,
+                             vg_tags=vg_tags)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():
@@ -278,10 +280,17 @@ def get_tag_info():
 def get_game_tag_info():
     """Attaches the user's selected tags to the current game they're viewing."""
 
-    print '\n\n\n', request.form, '\n\n\n'
+    game_id = request.form.get('game')
+    print game_id
 
     tag_ids = request.form.getlist('data[]')
-    print tag_ids
+
+    for tag_id in tag_ids:
+        new_vg_tag = VgTag(game_id=game_id,
+                           tag_id=tag_id)
+        db.session.add(new_vg_tag)
+        db.session.commit()
+
     
     return 'hi'
 

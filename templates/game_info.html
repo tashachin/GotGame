@@ -72,8 +72,18 @@
 
 <div id='game-tags'>
 
-	( tags go here )
+{% if vg_tags %}
 
+{% for vg_tag in vg_tags %}
+
+<span id='{{vg_tag.vg_tag_id}}'
+      			  class='draggable badge badge-secondary' 
+      		      name='{{vg_tag.tag.tag}}'>
+      		{{ vg_tag.tag.tag }}
+      		</span>
+
+{% endfor %}
+{% endif %}
 </div>
 
 <!-- MODAL FOR APPLYING TAGS -->
@@ -134,6 +144,10 @@
       		</div>
       	</p>
       	<form id='edit-tags-form'>
+      	<input id='current-game'
+      		   name='game_id'
+      		   value='{{ game.game_id }}'
+      		   hidden>
       	<input id='edit-tags'
       	       class='btn btn-default'
       	       type='submit'

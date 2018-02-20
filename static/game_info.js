@@ -103,11 +103,13 @@ $('.draggable').draggable({
 	snap: '#attach-tags-field',
 });
 
+let userTags = new Array();
+
 $('.droppable').droppable({
 	accept: '.draggable',
-	// drop: function (event, ui) {
-	// 	userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
-	// }
+	drop: function (event, ui) {
+		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
+	}
 });
 
 function showTags(results) {
@@ -130,19 +132,9 @@ function updateTags(evt) {
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
-	// let userTags = new Array();  // Adding list of tag IDs to this array
-	// debugger;
-
-	// $.ajax({
-	//     type: 'POST',
-	//     url: '/update-tags.json',
-	//     traditional: false,
-	//     data: [4, 6, 19],
-	//     // contentType: 'application/json',
-	// });
-
 	$.post('/update-tags.json',
-		    {data: [2, 3, 5, 29]},
+		    {data: userTags,
+		     game: $('#current-game').val()},
 		    showTags
 	);
 
