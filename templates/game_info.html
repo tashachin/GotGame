@@ -69,7 +69,8 @@
 {% if user_status %}
 
 <!-- USER'S APPLIED TAGS -->
-<div class='row'>
+<div id='delete-tags-row'
+	 class='row'>
 	<div class='col-md-6'>
 	<label>You tagged this game with:</label>
 	<div id='game-tags' class='well'>
@@ -78,10 +79,12 @@
 	{% for vg_tag in vg_tags %}
 
 	<span id='{{vg_tag.vg_tag_id}}'
-	      			  class='badge badge-secondary' 
-	      		      name='{{vg_tag.tag.tag}}'>
-	      		{{ vg_tag.tag.tag }}
-	      		</span>
+	      class='deleting-drag badge badge-secondary' 
+	      name='{{vg_tag.tag.tag}}'>
+
+	    	{{ vg_tag.tag.tag }}
+	
+	</span>
 
 	{% endfor %}
 	{% endif %}
@@ -91,8 +94,8 @@
 
 	<aside>
 	<div class='col-md-6'>
-	<label>Drag tags to delete here</label>
-	<div id='delete-tags' class='well'>
+	<label>Drag tags to be deleted here</label>
+	<div id='delete-tags-field' class='well'>
 	</div>
 </div>
 <div class='row'>
@@ -105,10 +108,15 @@
 	</button>
 </div>
 <div class='col-md-6'>
-	<button type="button"
-				class="btn btn-danger">
-	Delete tags
-	</button>
+	<form id='delete-game-tags-form'>
+      	<input id='current-game-2'
+      		   name='game_id'
+      		   value='{{ game.game_id }}'
+      		   hidden>
+		<input id="delete-game-tags"
+			   type="button"
+			   class="btn btn-danger"
+			   value="Delete tags">
 </div>
 </div>
 
@@ -144,7 +152,7 @@
     		<div id='tag-field'>
       		{% for tag in tags %}
       		<span id='{{tag.tag_id}}'
-      			  class='draggable-tag badge badge-secondary' 
+      			  class='adding-drag badge badge-secondary' 
       		      name='{{tag.tag}}'>
       		{{ tag.tag }}
       		</span>
@@ -154,16 +162,16 @@
       		<hr>
       		<label>Drag here to add tags:</label>
       		<div id='attach-tags-field'
-      			 class='droppable-add well'
+      			 class='adding-drop well'
       			 >
       		</div>
       		</div>
-      	<form id='edit-tags-form'>
+      	<form id='tag-game-form'>
       	<input id='current-game'
       		   name='game_id'
       		   value='{{ game.game_id }}'
       		   hidden>
-      	<input id='edit-tags'
+      	<input id='tag-game'
       	       class='btn btn-default'
       	       type='submit'
       	       value='Save changes'>

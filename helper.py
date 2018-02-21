@@ -140,7 +140,7 @@ def handle_invalid_search(game):
 		return redirect('/')
 
 ###################################################
-# ADD TO DATABASE
+# UPDATING THE DATABASE
 
 def create_user(username, email, password):
 	"""Takes info from '/register' and submits user to database."""
@@ -247,6 +247,15 @@ def update_aggregate_score(game):
 
 	print "{title} now has a user score of {score}.".format(title=game.title,
 															score=game.aggregate_score)
+
+
+def remove_vg_tags(game_id, vg_tag_ids):
+	"""Removes a user's tags from a game."""
+
+	
+
+	pass
+
 
 ###################################################
 # SEARCH FILTERING

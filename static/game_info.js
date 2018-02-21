@@ -87,6 +87,7 @@ function addTags(evt) {
 }
 
 $('#create-tags').on('click', addTags);
+// $('#delete-tags').on('click', deleteTags); FIX ME!!!!
 
 //////////////////////////////////////
 // Drag-and-drop functionality of tags
@@ -95,22 +96,42 @@ $('#create-tags').on('click', addTags);
 // FIX ME: Tags do not shift over when neighbors are moved to droppable field
 
 let userTags = new Array();
+let gameTags = new Array();
 
-$('.draggable-tag').draggable({
+$('.adding-drag').draggable({
 	opacity: 0.8,
 	helper: 'original',
 	containment: '#drag-and-drop-tags',
 	snap: '#attach-tags-field',
+	revert: 'invalid',
 });
 
-$('.droppable-add').droppable({
-	accept: '.draggable-tag',
+$('#attach-tags-field').droppable({
+	accept: '.adding-drag',
 	drop: function (event, ui) {
 		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
 	}
 });
 
-function showTags(results) {
+$('.deleting-drag').draggable({
+	opacity: 0.8,
+	helper: 'original',
+	containment: '#delete-tags-row',
+	snap: '#delete-tags-field',
+	stack: ".deleting-drag",
+	revert: 'invalid',
+});
+
+$('#delete-tags-field').droppable({
+	accept: '.deleting-drag',
+	drop: function (event, ui) {
+		gameTags.push((ui.draggable.attr('id')));
+		console.log(gameTags);
+	}
+});
+
+
+function showGameTags(results) {
 	for (let result of results) {
 		let vg_tag = "<span id='" + 
 				  result.vg_tag_id +
@@ -125,7 +146,7 @@ function showTags(results) {
 	}
 }
 
-function updateTags(evt) {
+function updateGameTags(evt) {
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
@@ -133,10 +154,34 @@ function updateTags(evt) {
 		   {data: userTags,
 		    game: $('#current-game').val()
 		   },
-		   showTags
+		   showGameTags
 	);
 
 	return false;
 }
 
-$('#edit-tags').on('click', updateTags);
+function removeGameTags(results) {
+	for (let result of results) {
+		if (result.vg_tag_id in $('#game-tags')) {
+			$('#' + result.vg_tag_id).remove();
+		}
+	}
+
+}
+
+function deleteGameTags(evt) {
+	evt.preventDefault();
+	evt.stopImmediatePropagation();
+
+	$.post('/delete-game-tags.json',
+		   {data: gameTags,
+		    game: $('#current-game-2').val()
+		   },
+		   removeGameTags
+	);
+
+	return false;
+}
+
+$('#tag-game').on('click', updateGameTags);
+$('#delete-game-tags').on('click', deleteGameTags);

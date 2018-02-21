@@ -288,6 +288,17 @@ def get_game_tag_info():
     return jsonify(vg_tag_data)
 
 
+@app.route('/delete-game-tags.json', methods=['POST'])
+def remove_game_tag_info():
+    """Deletes whichever tags the user removes from the current game."""
+
+    game_id = request.form.get('game')
+    vg_tag_ids = request.form.getlist('data[]')
+
+    vg_tag_data = remove_vg_tags(game_id, vg_tag_ids)
+
+    pass
+
 ###################################################
 # DEBUGGING
 
