@@ -263,7 +263,7 @@ def edit_review():
 def get_tag_info():
     """Return info about a user's game tag as JSON."""
 
-    tags = request.form.get('new_tags')
+    tags = request.form['data']
     tags = tags.split(',')
 
     user_id = session['user_id']

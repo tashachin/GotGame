@@ -73,20 +73,21 @@ function confirmNewTags(results) {
 	}
 }
 
-function addTags(evt) {
+function createTags(evt) {
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
-	let tagData = $('#create-tags-form').serialize();
+	let tagData = $('#new-tags').val();
 
 	$.post('/create-tags.json',
-		   tagData,
+		   {data: tagData},
 		   confirmNewTags);
 
 	return false;
 }
 
-$('#create-tags').on('click', addTags);
+$('#create-tags').on('click', createTags);
+
 // $('#delete-tags').on('click', deleteTags); FIX ME!!!!
 
 //////////////////////////////////////
