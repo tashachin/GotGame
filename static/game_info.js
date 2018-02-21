@@ -62,7 +62,7 @@ function confirmNewTags(results) {
 		let tag = "<span id='" + 
 				  result.tag_id +
 				  // Remember single quotes '' when concatenating variables
-      		      "' class='badge badge-secondary draggable'" + 
+      		      "' class='badge badge-secondary adding-drag'" + 
       		      "name='" + 
       		      result.tag_id + 
       		      "'>" +

@@ -76,7 +76,7 @@ def check_vg_tags(game_id):
 	if game_id:
 		user_id = session.get('user_id')
 
-		user_query = VgTag.query.filter(Tag.user_id == user_id)  # Only display user's tags for a specific game.
+		user_query = VgTag.query.join(Tag).filter(Tag.user_id == user_id)  # Only display user's tags for a specific game.
 		vg_tags = user_query.filter(VgTag.game_id == game_id).all()
 
 		return vg_tags
@@ -252,7 +252,7 @@ def update_aggregate_score(game):
 def remove_vg_tags(game_id, vg_tag_ids):
 	"""Removes a user's tags from a game."""
 
-	
+
 
 	pass
 
@@ -340,17 +340,3 @@ def retrieve_title(title):  # Takes in request.args.get() value
 def retrieve_tags():
 	pass
 
-
-def retrieve_vg_tags(game_id):
-	"""Returns video-game tag objects."""
-
-	if check_vg_tags(game_id):
-		user_id = session.get('user_id')
-
-		user_query = VgTag.query.filter(Tag.user_id == user_id)  # Only display user's tags for a specific game.
-		vg_tags = user_query.filter(VgTag.game_id == game_id).all()
-
-		return vg_tags
-
-	else:
-		return None
