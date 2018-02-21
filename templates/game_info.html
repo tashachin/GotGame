@@ -39,7 +39,7 @@
 				{{ vg_genre.genre.genre_type }}{% if not loop.last %},{% endif %}
 				{% endfor %}</td>
 			<td>{{ game.critic_score }}</td>
-			<td>{% if review %}
+			<td>{% if game.aggregate_score %}
 				{{ game.aggregate_score }}
 				{% else %}
 				N/A
@@ -69,33 +69,48 @@
 {% if user_status %}
 
 <!-- USER'S APPLIED TAGS -->
+<div class='row'>
+	<div class='col-md-6'>
+	<label>You tagged this game with:</label>
+	<div id='game-tags' class='well'>
 
-<div id='game-tags'>
-<label>This game has been tagged:</label>
+	{% if vg_tags %}
+	{% for vg_tag in vg_tags %}
 
-{% if vg_tags %}
-{% for vg_tag in vg_tags %}
+	<span id='{{vg_tag.vg_tag_id}}'
+	      			  class='badge badge-secondary' 
+	      		      name='{{vg_tag.tag.tag}}'>
+	      		{{ vg_tag.tag.tag }}
+	      		</span>
 
-<span id='{{vg_tag.vg_tag_id}}'
-      			  class='draggable-tag badge badge-secondary' 
-      		      name='{{vg_tag.tag.tag}}'>
-      		{{ vg_tag.tag.tag }}
-      		</span>
+	{% endfor %}
+	{% endif %}
+	</div>
+	</div>
+	<!-- MODAL FOR APPLYING TAGS -->
 
-{% endfor %}
-{% endif %}
+	<aside>
+	<div class='col-md-6'>
+	<label>Drag tags to delete here</label>
+	<div id='delete-tags' class='well'>
+	</div>
 </div>
-
-<!-- MODAL FOR APPLYING TAGS -->
-
-<aside>
-
+<div class='row'>
+<div class='col-md-6'>
 	<button type="button" 
 			class="btn btn-primary" 
 			data-toggle="modal" 
 			data-target="#add-tag">
-	  Tag this game
+	Tag this game
 	</button>
+</div>
+<div class='col-md-6'>
+	<button type="button"
+				class="btn btn-danger">
+	Delete tags
+	</button>
+</div>
+</div>
 
 	<div id="add-tag" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -109,22 +124,21 @@
 
     </div>
     <div class="modal-body">
-
-        <p>
         	<form id='create-tags-form'>
+        		<label>Separate tags with commas</label>
+        		<p>
         		<input type='text' 
         			   name='new_tags' 
-        			   placeholder='Separate tags by commas'>
+        			   >
         		<input id='create-tags' 
         			   class='btn btn-default' 
         			   type='submit'
         			   value='Create new tags'>
+        		</p>
         	</form>
         	<div id='tag-notif' hidden>SUCCESS!</div>
-    	</p>
     	<hr>
-    	<p> 
-    		<label>Tags:</label>
+    		<label>Your tags:</label>
     		<div id='drag-and-drop-tags'
     		     class=''>
     		<div id='tag-field'>
@@ -138,13 +152,12 @@
       		</div>
       		<!-- Jinja templating will replace all those placeholder values when it's working -->
       		<hr>
-      		<label>Tags to be added:</label>
+      		<label>Drag here to add tags:</label>
       		<div id='attach-tags-field'
       			 class='droppable-add well'
       			 >
       		</div>
       		</div>
-      	</p>
       	<form id='edit-tags-form'>
       	<input id='current-game'
       		   name='game_id'
