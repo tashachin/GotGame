@@ -257,10 +257,10 @@ def apply_filters(critic_score, aggregate_score, platform, specific_platform, ge
 	games = Game.query
 
 	if critic_score:
-		games = games.filter(Game.critic_score == critic_score)
+		games = games.filter(Game.critic_score >= critic_score)
 
 	if aggregate_score:
-		games = games.filter(Game.aggregate_score == aggregate_score)
+		games = games.filter(Game.aggregate_score >= aggregate_score)
 
 	if specific_platform:
 		games = games.filter(Game.platform == specific_platform)

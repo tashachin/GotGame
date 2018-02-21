@@ -44,7 +44,13 @@
 				{% endfor %}
 			</td>
 			<td>{{ game.critic_score }}</td>
-			<td>-</td>
+			<td>
+			{% if game.aggregate_score %}
+				{{ game.aggregate_score }}
+			{% else %}
+				-
+			{% endif %}
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>
