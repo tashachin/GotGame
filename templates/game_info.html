@@ -123,9 +123,10 @@
         	<div id='tag-notif' hidden>SUCCESS!</div>
     	</p>
     	<hr>
-    	<div id='drag-and-drop-tags'>
     	<p> 
     		<label>Tags:</label>
+    		<div id='drag-and-drop-tags'
+    		     class=''>
     		<div id='tag-field'>
       		{% for tag in tags %}
       		<span id='{{tag.tag_id}}'
@@ -137,10 +138,11 @@
       		</div>
       		<!-- Jinja templating will replace all those placeholder values when it's working -->
       		<hr>
-      		<label>{{ game.title }} is tagged under:</label>
+      		<label>Tags to be added:</label>
       		<div id='attach-tags-field'
       			 class='droppable-add well'
       			 >
+      		</div>
       		</div>
       	</p>
       	<form id='edit-tags-form'>
@@ -154,7 +156,6 @@
       	       value='Save changes'>
 		</form>
         </div>
-    </div>
 
     <div class="modal-footer">
 

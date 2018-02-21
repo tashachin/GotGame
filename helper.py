@@ -195,19 +195,24 @@ def create_vg_tags(game_id, tag_ids):
 	vg_tag_data = []
 
 	for tag_id in tag_ids:
-		new_vg_tag = VgTag(game_id=game_id,
-                           tag_id=tag_id)
-		db.session.add(new_vg_tag)
-		db.session.commit()
 
-		vg_tag_data.append(
-        	{
-        	"vg_tag_id": new_vg_tag.vg_tag_id,
-        	"game_id": game_id,
-        	"tag_id": tag_id,
-        	"tag": new_vg_tag.tag.tag
-        	}
-        )
+		if VgTag.query.filter(VgTag.tag_id == tag_id, VgTag.game_id == game_id).first():
+			pass
+		
+		else:
+			new_vg_tag = VgTag(game_id=game_id,
+		                       tag_id=tag_id)
+			db.session.add(new_vg_tag)
+			db.session.commit()
+
+			vg_tag_data.append(
+		    	{
+		    	"vg_tag_id": new_vg_tag.vg_tag_id,
+		    	"game_id": game_id,
+		    	"tag_id": tag_id,
+		    	"tag": new_vg_tag.tag.tag
+		    	}
+		    )
 	
 	return vg_tag_data
 

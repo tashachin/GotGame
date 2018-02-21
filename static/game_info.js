@@ -97,7 +97,6 @@ $('#create-tags').on('click', addTags);
 let userTags = new Array();
 
 $('.draggable-tag').draggable({
-	axis: 'y',
 	opacity: 0.8,
 	helper: 'original',
 	containment: '#drag-and-drop-tags',
