@@ -54,7 +54,7 @@
 
 <!-- LINK BACK TO ADV SEARCH -->
 
-<div>
+<div class='row-top-margin'>
 
 	<a href='/adv-search'>Not what you were looking for?</a>
 
@@ -69,6 +69,7 @@
 {% if user_status %}
 
 <!-- USER'S APPLIED TAGS -->
+
 <div id='delete-tags-row'
 	 class='row'>
 	<div class='col-md-6'>
@@ -92,101 +93,108 @@
 	</div>
 	<!-- MODAL FOR APPLYING TAGS -->
 
-	<aside>
 	<div class='col-md-6'>
-	<label>Drag tags to be deleted here</label>
+	<label>Drag tags to be deleted here:</label>
 	<div id='delete-tags-field' class='well'>
 	</div>
 </div>
+
+<div class='container'>
 <div class='row'>
-<div class='col-md-6'>
-	<button type="button" 
-			class="btn btn-primary" 
-			data-toggle="modal" 
-			data-target="#add-tag">
-	Tag this game
-	</button>
-</div>
-<div class='col-md-6'>
-	<form id='delete-game-tags-form'>
-      	<input id='current-game-2'
-      		   name='game_id'
-      		   value='{{ game.game_id }}'
-      		   hidden>
-		<input id="delete-game-tags"
-			   type="button"
-			   class="btn btn-danger"
-			   value="Delete tags">
-</div>
+	<div class='col-md-6'>
+		<button type="button" 
+				class="btn btn-primary" 
+				data-toggle="modal" 
+				data-target="#add-tag">
+		Tag this game
+		</button>
+	</div>
+
+	<div class='col-md-6'>
+		<form id='delete-game-tags-form'>
+	      	<input id='current-game-2'
+	      		   name='game_id'
+	      		   value='{{ game.game_id }}'
+	      		   hidden>
+			<input id="delete-game-tags"
+				   type="button"
+				   class="btn btn-danger"
+				   value="Delete tags">
+	</div>
+</div>  
+<!-- END CONTAINER DIV -->
+
 </div>
 
 	<div id="add-tag" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
-    <div class="modal-header">
+	    
+	    <div class="modal-header">
+	        <h4 class="modal-title">{{ game.title }}</h4>
+	        <button type="button" 
+	        		class="close" 
+	        		data-dismiss="modal" 
+	        		aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
+	    </div>
 
-        <h4 class="modal-title">{{ game.title }}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-        </button>
+	    <div class="modal-body">
+	    		<form id='create-tags-form'>
+	        		<label>Separate tags with commas:</label>
+	        		<p>
+	        		<input id='new-tags'
+	        			   type='text'
+	        			   name='new_tags'>
+	        		<input id='create-tags' 
+	        			   class='btn btn-default' 
+	        			   type='submit'
+	        			   value='Create new tags'>
+	        		</p>
+	    		</form>
+	        	<div id='tag-notif' hidden>SUCCESS!</div>
+	    		<hr>
+	    		<label>Your tags:</label>
+	    		<div id='drag-and-drop-tags'
+	    		     class=''>
+	    		<div id='tag-field'>
+	      		{% for tag in tags %}
+	      		<span id='{{tag.tag_id}}'
+	      			  class='adding-drag badge badge-secondary' 
+	      		      name='{{tag.tag}}'>
+	      		{{ tag.tag }}
+	      		</span>
+	      		{% endfor %}
+	      		</div>
+	      		<!-- Jinja templating will replace all those placeholder values when it's working -->
+	      		<hr>
+	      		<label>Drag here to add tags:</label>
+	      		<div id='attach-tags-field'
+	      			 class='adding-drop well'
+	      			 >
+	      		</div>
+	      		</div>
+	      	<form id='tag-game-form'>
+	      	<input id='current-game'
+	      		   name='game_id'
+	      		   value='{{ game.game_id }}'
+	      		   hidden>
+	      	<input id='tag-game'
+	      	       class='btn btn-default'
+	      	       type='submit'
+	      	       value='Save changes'>
+			</form>
+	    </div>
 
-    </div>
-    <div class="modal-body">
-    		<form id='create-tags-form'>
-        		<label>Separate tags with commas:</label>
-        		<p>
-        		<input id='new-tags'
-        			   type='text'
-        			   name='new_tags'>
-        		<input id='create-tags' 
-        			   class='btn btn-default' 
-        			   type='submit'
-        			   value='Create new tags'>
-        		</p>
-    		</form>
-        	<div id='tag-notif' hidden>SUCCESS!</div>
-    	<hr>
-    		<label>Your tags:</label>
-    		<div id='drag-and-drop-tags'
-    		     class=''>
-    		<div id='tag-field'>
-      		{% for tag in tags %}
-      		<span id='{{tag.tag_id}}'
-      			  class='adding-drag badge badge-secondary' 
-      		      name='{{tag.tag}}'>
-      		{{ tag.tag }}
-      		</span>
-      		{% endfor %}
-      		</div>
-      		<!-- Jinja templating will replace all those placeholder values when it's working -->
-      		<hr>
-      		<label>Drag here to add tags:</label>
-      		<div id='attach-tags-field'
-      			 class='adding-drop well'
-      			 >
-      		</div>
-      		</div>
-      	<form id='tag-game-form'>
-      	<input id='current-game'
-      		   name='game_id'
-      		   value='{{ game.game_id }}'
-      		   hidden>
-      	<input id='tag-game'
-      	       class='btn btn-default'
-      	       type='submit'
-      	       value='Save changes'>
-		</form>
-        </div>
+	    <div class="modal-footer">
 
-    <div class="modal-footer">
-
-        <button type="button" 
-        	    class="btn btn-secondary" 
-        	    data-dismiss="modal">
-        	    Close
-        </button>
-
-    </div>
+	        <button type="button" 
+	        	    class="btn btn-secondary" 
+	        	    data-dismiss="modal">
+	        	    Close
+	        </button>
+	    </div>
 	</div>
 	</div>
 	</div>
@@ -200,112 +208,121 @@
 	</ul>
 </div> -->
 
-</aside>
-
 <!-- REVIEW FORM -->
+<div class='container'>
+	<div class='row row-top-margin'>
+	<div id='review-field'
+		 class='col-lg-12'>
+			<!-- Remember to test for WHO user is -->
 
-<div id='review-field'>
+			{% if review %}
+			<!-- When refactoring, create just one review form.
+			Under "if review" conditional, set a review.review_id hidden value -->
+			<label>Your previous review:</label>
+			<p>
+			You said: "{{ review.review }}"
+			<br>
+			You gave this game a {{ review.user_score }} out of 10.
+			</p>
 
-	<div id='user-review'>
-		<!-- Remember to test for WHO user is -->
-
-		{% if review %}
-		<!-- When refactoring, create just one review form.
-		Under "if review" conditional, set a review.review_id hidden value -->
-		<p>
-		Previously, you said: "{{ review.review }}"
-		<br>
-		You gave this game a {{ review.user_score }} out of 10.
-		</p>
-
-		<div id='edit-review-notif' hidden>Your review of {{ game.title }} has been updated!</div>
+		<div id='edit-review-notif' hidden>
+			Your review of {{ game.title }} has been updated!
+		</div>
 
 		<div class='row'>
 
-		<form id='update-review-form'>
+			<form id='update-review-form'>
 
-			<div class="form-group">
-			<div class="col-xs-2">
-			<label for='edit-score'>Score:</label>
-			<input id='edit-score' 
-				   type='number' 
-				   class='form-control' 
-				   name='edit_user_score' 
-				   placeholder='#' 
-				   min=1.0 
-				   max=10.0 
-				   required>
-			</div>
-			</div>
+				<div class="form-group">
+				<div class="col-xs-2">
+				<label for='edit-score'>Rate game:</label>
+				<input id='edit-score' 
+					   type='number' 
+					   class='form-control' 
+					   name='edit_user_score' 
+					   placeholder='#' 
+					   min=1.0 
+					   max=10.0 
+					   required>
+				</div>
+				</div>
 
-			<div class="form-group">
-			<div class="col-xs-4">
-			<label for='edit-review'>Review:</label>
-			<input id='edit-review' 
-				   type='textarea' 
-				   class='form-control' 
-				   name='edit_review' 
-				   placeholder='Update your review'>
-			</div>
-			</div>
+				<div class="form-group">
+				<div class="col-xs-4">
+				<label for='edit-review'>Update your review:</label>
+				<input id='edit-review' 
+					   type='textarea' 
+					   class='form-control' 
+					   name='edit_review' 
+					   >
+				</div>
+				</div>
 		</div>
-			<!-- Pass the game's id back to Python -->
-			<input id='game-id-2' 
-				   type='hidden' 
-				   name='game_id'
-				   value='{{ game.game_id }}'>
+				
 
-			<div class='row'>
-			<div class="col-sm-6">
-			<input id='change-review' 
-				    type='submit' 
-				    class='btn btn-primary'
-				    value='Edit review'>
-			</button>
-			</div>
-			</div>
-		</form>
+				<div class='row'>
+				<div class="col-sm-6">
+					<!-- Pass the game's id back to Python -->
+					<input id='game-id-2' 
+						   type='hidden' 
+						   name='game_id'
+						   value='{{ game.game_id }}'>
+					<input id='change-review' 
+						    type='submit' 
+						    class='btn btn-primary row-top-margin'
+						    value='Edit review'>
+				</div>
+				</div>
+			</form>
 
-		{% else %}
+			{% else %}
 
-		<p id='review-status'>You haven't reviewed this game yet!</p>
-		<div id='review-notif' hidden>Your review of {{ game.title }} has been added!</div>
+			<p id='review-status'>You haven't reviewed this game yet!</p>
+			<div id='review-notif' hidden>Your review of {{ game.title }} has been added!</div>
 
-		<form id='review-form'>
+			<form id='review-form'>
 
-			<input id='new-score' 
-				   type='number' 
-				   name='user_score' 
-				   placeholder='#' 
-				   min=1 
-				   max=10 
-				   required>
+				<input id='new-score' 
+					   type='number' 
+					   name='user_score' 
+					   placeholder='#' 
+					   min=1 
+					   max=10 
+					   required>
 
-			<input id='new-review' 
-				   type='textarea' 
-				   class='form-control' 
-				   name='review' 
-				   placeholder='Write a review'>
+				<input id='new-review' 
+					   type='textarea' 
+					   class='form-control' 
+					   name='review' 
+					   placeholder='Write a review'>
 
-			<input id='game-id' 
-				   type='hidden' 
-				   name='game_id' 
-				   value='{{ game.game_id }}'>
+				<input id='game-id' 
+					   type='hidden' 
+					   name='game_id' 
+					   value='{{ game.game_id }}'>
 
-			<input id='submit-review'
-				   type='submit'
-				   value='Review {{ game.title }}'>
+				<input id='submit-review'
+					   type='submit'
+					   value='Review {{ game.title }}'>
 
-		</form>
-		{% endif %}
+			</form>
+			{% endif %}
+
+		</div>
+	</div>
 	</div>
 </div>
+
 {% endif %}
 
 <!-- OTHER USERS' REVIEWS -->
 
 {% if reviews %}
-<div id='all-reviews'>
+<div class='row row-top-margin'>
+<div id='all-reviews'
+	 class='col-md-6'>
+
+<label>Other user reviews:</label>
 <ul>
 	{% for review in reviews %}
 
@@ -316,6 +333,8 @@
 
 	{% endfor %}
 </ul>
+</div>
+</div>
 </div>
 {% endif %}
 
