@@ -297,7 +297,7 @@ def remove_game_tag_info():
 
     vg_tag_data = remove_vg_tags(game_id, vg_tag_ids)
 
-    pass
+    return jsonify({})
 
 ###################################################
 # DEBUGGING

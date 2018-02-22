@@ -136,7 +136,7 @@ function showGameTags(results) {
 	for (let result of results) {
 		let vg_tag = "<span id='" + 
 				  result.vg_tag_id +
-      		      "' class='badge badge-secondary draggable'" + 
+      		      "' class='badge badge-secondary deleting-drag'" + 
       		      "name='" + 
       		      result.tag + 
       		      "'>" +
@@ -162,11 +162,7 @@ function updateGameTags(evt) {
 }
 
 function removeGameTags(results) {
-	for (let result of results) {
-		if (result.vg_tag_id in $('#game-tags')) {
-			$('#' + result.vg_tag_id).remove();
-		}
-	}
+	location.reload();
 
 }
 

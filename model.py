@@ -189,7 +189,7 @@ class VgTag(db.Model):
 	def __repr__(self):
 		"""Displays useful info about video game tag when printed."""
 
-		return "<VgTag vg_tag_id={}, game={}, tag={}".format(self.vg_tag_id,
+		return "<VgTag vg_tag_id={}, game={}, tag={}>".format(self.vg_tag_id,
 															 self.game.title,
 															 self.tag.tag)
 
