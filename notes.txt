@@ -9,3 +9,7 @@ Argument for: The porting process is complex and a game might handle better on o
 - Would the user care about when a game was published? MVP 2.0
 
 Arg for: Most sites include this info for at-a-glance anyway.
+
+- The way I approached forms and handling the creation & removal of tags (both for a game and for the user) are not very intuitive in terms of UI. This project was good practice in recognizing how far out you need to scope things, including the notion of leaving room for adding additional functionality.
+
+i.e.: I don't like the look and feel of tagging games vs. how the user creates tags. (Might make more sense to create a sidebar/modal that allows a user constant access to their tags regardless of where they are on the site.)

@@ -94,8 +94,8 @@
 	<!-- MODAL FOR APPLYING TAGS -->
 
 	<div class='col-md-6'>
-	<label>Drag tags to be deleted here:</label>
-	<div id='delete-tags-field' class='well'>
+	<label>Drag here to untag game:</label>
+	<div id='delete-game-tags-field' class='well'>
 	</div>
 </div>
 
@@ -119,7 +119,7 @@
 			<input id="delete-game-tags"
 				   type="button"
 				   class="btn btn-danger"
-				   value="Delete tags">
+				   value="Remove tags">
 	</div>
 </div>  
 <!-- END CONTAINER DIV -->
@@ -161,7 +161,7 @@
 	    		<div id='tag-field'>
 	      		{% for tag in tags %}
 	      		<span id='{{tag.tag_id}}'
-	      			  class='adding-drag badge badge-secondary' 
+	      			  class='user-tags-drag badge badge-secondary' 
 	      		      name='{{tag.tag}}'>
 	      		{{ tag.tag }}
 	      		</span>
@@ -174,7 +174,7 @@
 	      			 class='adding-drop well'
 	      			 >
 	      		</div>
-	      		</div>
+	      		
 	      	<form id='tag-game-form'>
 	      	<input id='current-game'
 	      		   name='game_id'
@@ -183,8 +183,21 @@
 	      	<input id='tag-game'
 	      	       class='btn btn-default'
 	      	       type='submit'
-	      	       value='Save changes'>
+	      	       value='Confirm tags'>
 			</form>
+				<hr>
+				<label>Drag here to delete tags:</label>
+				<div id='delete-tags-field'
+					 class='deleting-drop well'
+					 >
+				</div>
+			<form id='delete-user-tags-form'>
+			<input id='delete-tags'
+				   class='btn btn-default'
+				   type='submit'
+				   value='Delete tags'>
+			</form>
+		</div>
 	    </div>
 
 	    <div class="modal-footer">

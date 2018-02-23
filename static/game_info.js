@@ -99,16 +99,22 @@ $('#create-tags').on('click', createTags);
 let userTags = new Array();
 let gameTags = new Array();
 
-$('.adding-drag').draggable({
+$('.user-tags-drag').draggable({
 	opacity: 0.8,
 	helper: 'original',
 	containment: '#drag-and-drop-tags',
-	snap: '#attach-tags-field',
 	revert: 'invalid',
 });
 
 $('#attach-tags-field').droppable({
-	accept: '.adding-drag',
+	accept: '.user-tags-drag',
+	drop: function (event, ui) {
+		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
+	}
+});
+
+$('#delete-tags-field').droppable({
+	accept: '.user-tags-drag',
 	drop: function (event, ui) {
 		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
 	}
@@ -123,7 +129,7 @@ $('.deleting-drag').draggable({
 	revert: 'invalid',
 });
 
-$('#delete-tags-field').droppable({
+$('#delete-game-tags-field').droppable({
 	accept: '.deleting-drag',
 	drop: function (event, ui) {
 		gameTags.push((ui.draggable.attr('id')));
