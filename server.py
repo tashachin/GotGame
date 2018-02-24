@@ -276,6 +276,23 @@ def get_tag_info():
     return jsonify(tag_data)
 
 
+@app.route('/delete-tags.json', methods=['POST'])
+def remove_user_tags():
+    """Allows user to delete tags they've created."""
+
+    tag_ids = request.form.getlist('data[]')
+
+    user_id = session['user_id']
+
+    for tag_id in tag_ids:
+        tag = Tag.query.filter(Tag.tag_id == tag_id, Tag.user_id == user_id).one()
+        db.session.delete(tag)
+
+    db.session.commit()
+
+    return jsonify({})
+
+
 @app.route('/update-tags.json', methods=['POST'])
 def get_game_tag_info():
     """Attaches the user's selected tags to the current game they're viewing."""

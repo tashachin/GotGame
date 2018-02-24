@@ -62,7 +62,7 @@ function confirmNewTags(results) {
 		let tag = "<span id='" + 
 				  result.tag_id +
 				  // Remember single quotes '' when concatenating variables
-      		      "' class='badge badge-secondary adding-drag'" + 
+      		      "' class='badge badge-secondary user-tags-drag'" + 
       		      "name='" + 
       		      result.tag_id + 
       		      "'>" +
@@ -71,6 +71,18 @@ function confirmNewTags(results) {
 
 		$('#tag-field').append(tag);
 	}
+
+	$('.user-tags-drag').draggable({
+	opacity: 0.8,
+	helper: 'original',
+	containment: '#drag-and-drop-tags',
+	revert: 'invalid',
+});
+
+}
+
+function showDeletedTags() {
+	location.reload();
 }
 
 function createTags(evt) {
@@ -86,7 +98,19 @@ function createTags(evt) {
 	return false;
 }
 
+function deleteTags(evt) {
+	evt.preventDefault();
+	evt.stopImmediatePropagation();
+
+	$.post('/delete-tags.json',
+		   {data: userTags},
+		   showDeletedTags);
+
+	return false;
+}
+
 $('#create-tags').on('click', createTags);
+$('#delete-tags').on('click', deleteTags);
 
 // $('#delete-tags').on('click', deleteTags); FIX ME!!!!
 
