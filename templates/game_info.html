@@ -99,19 +99,6 @@
 		Tag this game
 		</button>
 
-
-
-		<!-- <form id='delete-game-tags-form'>
-	      	<input id='current-game-2'
-	      		   name='game_id'
-	      		   value='{{ game.game_id }}'
-	      		   hidden>
-			<input id="delete-game-tags"
-				   type="button"
-				   class="btn btn-danger"
-				   value="Remove tags">
-		</form> -->
-
 	<div id="add-tag" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -158,19 +145,6 @@
 	      	       type='submit'
 	      	       value='Confirm tags'>
 			</form>
-				<hr>
-				<label>Drag here to delete tags:</label>
-				<div id='delete-tags-field'
-					 class='deleting-drop well'
-					 >
-				</div>
-			<form id='delete-user-tags-form'>
-			<input id='delete-tags'
-				   class='btn btn-default'
-				   type='submit'
-				   value='Delete tags'>
-			</form>
-			<div id='delete-notif' hidden>SUCCESS!</div>
 		</div>
 	    </div>
 
@@ -211,12 +185,12 @@
 	    <div class="modal-body">
 	    		
 	    		<label>Your tags:</label>
-	    		<div id='drag-and-drop-tags'
-	    		     class=''>
+	    		<div id='delete-tags-wrap'>
+	    		<div id='delete-game-tags'>
 	    		<div id='tag-field'>
 	      		{% for tag in tags %}
 	      		<span id='{{tag.tag_id}}'
-	      			  class='user-tags-drag badge badge-secondary' 
+	      			  class='deleting-drag badge badge-secondary' 
 	      		      name='{{tag.tag}}'>
 	      		{{ tag.tag }}
 	      		</span>
@@ -224,11 +198,16 @@
 	      		</div>
 	      		<hr>
 				<label>Drag here to delete tags:</label>
-				<div id='delete-tags-field'
+				<div id='delete-game-tags-field'
 					 class='deleting-drop well'
 					 >
 				</div>
+				</div>
 			<form id='delete-user-tags-form'>
+			<input id='current-game-2'
+      			   name='game_id'
+      		       value='{{ game.game_id }}'
+      		       hidden>
 			<input id='delete-tags'
 				   class='btn btn-default'
 				   type='submit'

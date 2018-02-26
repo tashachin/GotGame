@@ -257,6 +257,7 @@ def remove_vg_tags(game_id, vg_tag_ids):
     vg_tags = []
 
     for vg_tag_id in vg_tag_ids:
+        import pdb; pdb.set_trace()
         vg_tag = VgTag.query.join(Tag).filter(VgTag.game_id == game_id, VgTag.vg_tag_id == vg_tag_id, Tag.user_id == user_id).one()
         vg_tags.append(vg_tag)
         db.session.delete(vg_tag)

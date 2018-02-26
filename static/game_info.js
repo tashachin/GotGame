@@ -116,9 +116,8 @@ $('#delete-tags-field').droppable({
 $('.deleting-drag').draggable({
 	opacity: 0.8,
 	helper: 'original',
-	containment: '#delete-tags-row',
-	snap: '#delete-tags-field',
-	stack: ".deleting-drag",
+	stack: '.deleting-drag',
+	containment: '#delete-tags-wrap',
 	revert: 'invalid',
 });
 
@@ -180,4 +179,4 @@ function deleteGameTags(evt) {
 }
 
 $('#tag-game').on('click', updateGameTags);
-$('#delete-game-tags').on('click', deleteGameTags);
+$('#delete-tags').on('click', deleteGameTags);
