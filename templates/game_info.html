@@ -67,7 +67,7 @@
 <!-- USER'S APPLIED TAGS -->
 <div class='container'>
 <div class='row row-top-margin'>
-	<label>Current tags:</label>
+	<label>Tags:</label>
 	<div id='game-tags'>
 
 	{% if vg_tags %}
@@ -115,7 +115,7 @@
 
 	    <div class="modal-body">
 	    		
-	    		<label>Your tags:</label>
+	    		<label>Tags:</label>
 	    		<div id='drag-and-drop-tags'
 	    		     class=''>
 	    		<div id='tag-field'>
@@ -184,17 +184,28 @@
 
 	    <div class="modal-body">
 	    		
-	    		<label>Your tags:</label>
+	    		<label>Tags:</label>
 	    		<div id='delete-tags-wrap'>
 	    		<div id='delete-game-tags'>
 	    		<div id='tag-field'>
-	      		{% for tag in tags %}
-	      		<span id='{{tag.tag_id}}'
-	      			  class='deleting-drag badge badge-secondary' 
-	      		      name='{{tag.tag}}'>
-	      		{{ tag.tag }}
-	      		</span>
-	      		{% endfor %}
+	      		{% if vg_tags %}
+                {% for vg_tag in vg_tags %}
+
+                <span id='{{vg_tag.vg_tag_id}}'
+                      class='deleting-drag badge badge-secondary' 
+                      name='{{vg_tag.tag.tag}}'>
+
+                        {{ vg_tag.tag.tag }}
+                
+                </span>
+
+                {% endfor %}
+
+                {% else %}
+
+                <div class="placeholder">( You haven't tagged this game. )</div>
+
+                {% endif %}
 	      		</div>
 	      		<hr>
 				<label>Drag here to delete tags:</label>

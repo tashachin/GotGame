@@ -160,6 +160,7 @@ function updateGameTags(evt) {
 }
 
 function removeGameTags(results) {
+	$('.placeholder').hide();
 	location.reload();
 
 }

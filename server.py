@@ -318,6 +318,7 @@ def remove_game_tag_info():
     """Deletes whichever tags the user removes from the current game."""
 
     game_id = request.form.get('game')
+    print game_id
     vg_tag_ids = request.form.getlist('data[]')
 
     vg_tag_data = remove_vg_tags(game_id, vg_tag_ids)
