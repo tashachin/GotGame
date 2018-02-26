@@ -54,11 +54,7 @@
 
 <!-- LINK BACK TO ADV SEARCH -->
 
-<div class='row-top-margin'>
-
-	<a href='/adv-search'>Not what you were looking for?</a>
-
-</div>
+<a href='/adv-search'>Not what you were looking for?</a>
 
 <!-- GAME DESCRIPTION -->
 
@@ -69,12 +65,10 @@
 {% if user_status %}
 
 <!-- USER'S APPLIED TAGS -->
-
-<div id='delete-tags-row'
-	 class='row'>
-	<div class='col-md-6'>
-	<label>You tagged this game with:</label>
-	<div id='game-tags' class='well'>
+<div class='container'>
+<div class='row row-top-margin'>
+	<label>Current tags:</label>
+	<div id='game-tags'>
 
 	{% if vg_tags %}
 	{% for vg_tag in vg_tags %}
@@ -88,30 +82,26 @@
 	</span>
 
 	{% endfor %}
+
+	{% else %}
+
+	<div class="placeholder">( You haven't tagged this game. )</div>
+
 	{% endif %}
 	</div>
-	</div>
-	<!-- MODAL FOR APPLYING TAGS -->
-
-	<div class='col-md-6'>
-	<label>Drag here to untag game:</label>
-	<div id='delete-game-tags-field' class='well'>
-	</div>
 </div>
-
-<div class='container'>
-<div class='row'>
-	<div class='col-md-6'>
+	<!-- MODAL FOR APPLYING TAGS -->
+<div class='row row-top-margin'>
 		<button type="button" 
 				class="btn btn-primary" 
 				data-toggle="modal" 
 				data-target="#add-tag">
 		Tag this game
 		</button>
-	</div>
 
-	<div class='col-md-6'>
-		<form id='delete-game-tags-form'>
+
+
+		<!-- <form id='delete-game-tags-form'>
 	      	<input id='current-game-2'
 	      		   name='game_id'
 	      		   value='{{ game.game_id }}'
@@ -120,11 +110,7 @@
 				   type="button"
 				   class="btn btn-danger"
 				   value="Remove tags">
-	</div>
-</div>  
-<!-- END CONTAINER DIV -->
-
-</div>
+		</form> -->
 
 	<div id="add-tag" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -200,6 +186,71 @@
 	</div>
 	</div>
 
+<!-- MODAL FOR REMOVING TAGS -->
+<button type="button"
+				class="btn btn-danger"
+				data-toggle="modal"
+				data-target="#delete-tag">
+		Remove tags
+</button>
+
+<div id="delete-tag" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+	    
+	    <div class="modal-header">
+	        <h4 class="modal-title">{{ game.title }}</h4>
+	        <button type="button" 
+	        		class="close" 
+	        		data-dismiss="modal" 
+	        		aria-label="Close">
+	        <span aria-hidden="true">&times;</span>
+	        </button>
+	    </div>
+
+	    <div class="modal-body">
+	    		
+	    		<label>Your tags:</label>
+	    		<div id='drag-and-drop-tags'
+	    		     class=''>
+	    		<div id='tag-field'>
+	      		{% for tag in tags %}
+	      		<span id='{{tag.tag_id}}'
+	      			  class='user-tags-drag badge badge-secondary' 
+	      		      name='{{tag.tag}}'>
+	      		{{ tag.tag }}
+	      		</span>
+	      		{% endfor %}
+	      		</div>
+	      		<hr>
+				<label>Drag here to delete tags:</label>
+				<div id='delete-tags-field'
+					 class='deleting-drop well'
+					 >
+				</div>
+			<form id='delete-user-tags-form'>
+			<input id='delete-tags'
+				   class='btn btn-default'
+				   type='submit'
+				   value='Delete tags'>
+			</form>
+			<div id='delete-notif' hidden>SUCCESS!</div>
+		</div>
+	    </div>
+
+	    <div class="modal-footer">
+
+	        <button type="button" 
+	        	    class="btn btn-secondary" 
+	        	    data-dismiss="modal">
+	        	    Close
+	        </button>
+	    </div>
+	</div>
+	</div>
+	</div>
+</div>
+</div>
 <!-- COMMENT THREAD -->
 
 <!-- 3.0 - Allow users to create a discussion thread on any given game page. -->
@@ -210,7 +261,6 @@
 </div> -->
 
 <!-- REVIEW FORM -->
-<div class='container'>
 	<div class='row row-top-margin'>
 	<div id='review-field'
 		 class='col-lg-12'>
@@ -312,13 +362,13 @@
 		</div>
 	</div>
 	</div>
-</div>
 
 {% endif %}
 
 <!-- OTHER USERS' REVIEWS -->
 
 {% if reviews %}
+<div class='container'>
 <div class='row row-top-margin'>
 <div id='all-reviews'
 	 class='col-md-6'>
@@ -334,6 +384,7 @@
 
 	{% endfor %}
 </ul>
+</div>
 </div>
 </div>
 </div>
