@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% block hscripts %} 
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  		crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block title %} {{ user.username }} {% endblock %}
 
 {% block content %}
@@ -27,7 +33,13 @@
 
 {% if session.get('user_id') == user.user_id %}
 <p>
-<a href='/edit-profile/{{ user.user_id }}'><button id='edit-profile' type='button' class='btn btn-info'>Edit profile infomation</button></a>
+<a href='/edit-profile/{{ user.user_id }}'>
+	<button id='edit-profile' 
+			type='button' 
+			class='btn btn-info'>
+			Edit profile infomation
+	</button>
+</a>
 </p>
 {% endif %}
 
@@ -39,4 +51,63 @@
 
 <p>Number of games reviewed: {{ num_reviews }}</p>
 
+<h4>Tags</h4>
+
+
+<form id='create-tags-form'>
+
+	<label>Separate tags with commas:</label>
+	<p>
+	<input id='new-tags'
+		   type='text'
+		   name='new_tags'>
+	<input id='create-tags' 
+		   class='btn btn-info' 
+		   type='submit'
+		   value='Create new tags'>
+	</p>
+
+</form>
+	<div id='tag-notif' hidden>SUCCESS!</div>
+
+<div class='container'>
+<div class='row'>
+<div id='drag-and-drop-tags'>
+{% for tag in tags %}
+
+<span id='{{tag.tag_id}}'
+	  class='user-tags-drag badge badge-secondary' 
+      name='{{tag.tag}}'>
+
+	{{ tag.tag }}
+
+</span>
+
+{% endfor %}
+
+<hr>
+
+<label>Drag here to delete tags:</label>
+	
+	<div id='delete-tags-field'
+		 class='deleting-drop well'
+		 >
+	</div>
+<!-- drag and drop field ends here -->
+</div>
+
+<form id='delete-user-tags-form'>
+<input id='delete-tags'
+	   class='btn btn-danger'
+	   type='submit'
+	   value='Delete tags'>
+</form>
+<div id='delete-notif' hidden>SUCCESS!</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block fscripts %}
+<script src='/static/user_profile.js'></script>
 {% endblock %}

@@ -131,11 +131,13 @@ def show_profile(user_id):
 
     user = retrieve_user(user_id)
     num_reviews, reviews = retrieve_user_reviews(user_id)
+    tags = check_tags(user_id)
 
     return render_template('user_profile.html',
                            user=user,
                            num_reviews=num_reviews,
-                           reviews=reviews)
+                           reviews=reviews,
+                           tags=tags)
 
 
 @app.route('/edit-profile/<user_id>')

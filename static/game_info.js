@@ -81,37 +81,6 @@ function confirmNewTags(results) {
 
 }
 
-function showDeletedTags() {
-	location.reload();
-}
-
-function createTags(evt) {
-	evt.preventDefault();
-	evt.stopImmediatePropagation();
-
-	let tagData = $('#new-tags').val();
-
-	$.post('/create-tags.json',
-		   {data: tagData},
-		   confirmNewTags);
-
-	return false;
-}
-
-function deleteTags(evt) {
-	evt.preventDefault();
-	evt.stopImmediatePropagation();
-
-	$.post('/delete-tags.json',
-		   {data: userTags},
-		   showDeletedTags);
-
-	return false;
-}
-
-$('#create-tags').on('click', createTags);
-$('#delete-tags').on('click', deleteTags);
-
 // $('#delete-tags').on('click', deleteTags); FIX ME!!!!
 
 //////////////////////////////////////

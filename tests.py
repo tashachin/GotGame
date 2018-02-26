@@ -24,11 +24,16 @@ class GotGameTests(unittest.TestCase):
 		self.assertIn('Choose a password', result.data)
 
 
+	def test_adv_search(self):
+		result = self.client.get('/adv-search')
+		self.assertIn('Search by platform', result.data)
+
+
 	def test_adv_search_access(self):
 		"""Checks that flash message displays when user tries to see results
 		without entering any search queries."""
 
-		result = self.client.get('/adv-search-results',
+		result = self.client.get('/search-results',
 								 follow_redirects=True)
 
 		self.assertIn('Uh-oh! Something went wrong.', result.data)
@@ -102,7 +107,7 @@ class GotGameDatabase(unittest.TestCase):
 	def test_adv_search(self):
 		"""Confirms that searching by (critic)score filters properly."""
 
-		result = self.client.get('/adv-search-results', 
+		result = self.client.get('/search-results', 
 								  query_string={'title': None,
 								  				'critic_score': 5.0,
 								  				'user_score': 0,
