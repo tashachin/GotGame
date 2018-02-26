@@ -1,4 +1,4 @@
-// Edit user tags
+// Create drag-and-drop functionality
 
 let userTags = new Array();
 
@@ -11,31 +11,14 @@ $('.user-tags-drag').draggable({
 $('#delete-tags-field').droppable({
 	accept: '.user-tags-drag',
 	drop: function (event, ui) {
-		userTags.push((ui.draggable.attr('id')));
-		console.log(userTags);  // .push() is JS' .append()
+		userTags.push((ui.draggable.attr('id'))); // .push() is JS' .append()
 	}
 });
 
-function confirmNewTags(results) {
-	$('#tag-notif').show();
+//////////////////////////////////////
+// Edit user tags
 
-	for (let result of results) {  // Grabbing all the new tag objects
-		let tag = "<span id='" + 
-				  result.tag_id +
-				  // Remember single quotes '' when concatenating variables
-      		      "' class='badge badge-secondary user-tags-drag'" + 
-      		      "name='" + 
-      		      result.tag_id + 
-      		      "'>" +
-      		      result.tag +
-      		      "</span>";
-
-		$('#tag-field').append(tag);
-	}
-
-}
-
-function showDeletedTags() {
+function showTags() {
 	location.reload();
 }
 
@@ -47,7 +30,7 @@ function createTags(evt) {
 
 	$.post('/create-tags.json',
 		   {data: tagData},
-		   confirmNewTags);
+		   showTags);
 
 	return false;
 }
@@ -58,7 +41,7 @@ function deleteTags(evt) {
 
 	$.post('/delete-tags.json',
 		   {data: userTags},
-		   showDeletedTags);
+		   showTags);
 
 	return false;
 }

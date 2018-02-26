@@ -13,4 +13,5 @@ function showGameInfo() {
 	
 }
 
-$('select td by game_id').on('mouseOver', showGameInfo)
+////////////////////////////////////// NEW FEATURE
+// $('select td by game_id').on('mouseOver', showGameInfo)

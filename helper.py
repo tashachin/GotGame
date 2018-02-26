@@ -168,11 +168,15 @@ def create_review(game_id, review, user_score):
 def create_tags(user_id, tags):
     """Adds a user's newly created tags in the database and returns that data as JSON."""
 
+    # FIX ME: User can add multiples of the same text 
+    # (i.e. two copies of "i love tags" with different IDs)
+    
     tag_data = [] 
 
     for tag in tags:
         tag = tag.lower()
         tag = tag.lstrip()
+
         new_tag = Tag(user_id=user_id,
                       tag=tag)
         db.session.add(new_tag)
