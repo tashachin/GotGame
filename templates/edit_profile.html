@@ -4,20 +4,40 @@
 
 {% block content %}
 
-<h5>Bio</h5>
+<h4>Bio</h4>
+<h5>(Max 500 characters)</h5>
 
-<form id='edit-profile-form' action='/update-profile' method='POST'>
-	<input type='hidden' name='user_id' value='{{ user.user_id }}'>
-	<input id='user-bio' type='text' name='user_bio' placeholder='(Max 500 characters)'>
+<form id='edit-profile-form' 
+	  action='/update-profile' 
+	  method='POST'>
 
-<h5>Location</h5>
+	<input type='hidden' 
+	       name='user_id' 
+	       value='{{ user.user_id }}'>
+	<input id='user-bio' 
+		   type='text' 
+		   name='user_bio' 
+		   maxlength='500'>
 
-	<input id='user-location' type='text' name='user_location' placeholder='(Max 50 characters)'>
+<h4>Location</h4>
+<h5>(Max 50 characters)</h5>
 
-<h5>Birthday</h5>
+	<input id='user-location' 
+	       type='text' 
+	       name='user_location' 
+	       maxlength='50'>
 
-	<input id='user-birthday' type='text' name='user_birthday' placeholder='(yyyy-mm-dd)'>
+<h4>Birthday</h4>
+<h5>(mm-dd-yyyy)</h5>
+
+	<input id='user-birthday' 
+	       type='text' 
+	       name='user_birthday'>
 	<br><br>
-	<input id='edit-profile' type='submit' value='Update your profile!'>
+	<input id='edit-profile'
+           class='btn btn-info'
+           type='submit' 
+           value='Update your profile!'>
 </form>
+
 {% endblock %}

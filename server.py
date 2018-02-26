@@ -37,7 +37,7 @@ def format_datetime(value, format='medium'):  # Defaults to dd-MM-y
         format="dd-MM-y"
 
     elif format == 'birthday':
-        format='dd-MM'
+        format='MM-dd'
 
     return babel.dates.format_datetime(value, format)
 
@@ -158,6 +158,10 @@ def update_user_bio():
     location = request.form.get('user_location')
     birthday = request.form.get('user_birthday')
 
+    datetime_obj = datetime.strptime(birthday, '%m-%d-%Y')
+
+    formatted_birthday = datetime_obj.strftime('%Y-%m-%d')
+
     user = retrieve_user(user_id)
 
     if bio:
@@ -167,7 +171,7 @@ def update_user_bio():
         user.location = location
 
     if birthday:
-        user.birthday = birthday
+        user.birthday = formatted_birthday
 
     db.session.commit()
 

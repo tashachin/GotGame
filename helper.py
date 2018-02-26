@@ -170,7 +170,7 @@ def create_tags(user_id, tags):
 
     # FIX ME: User can add multiples of the same text 
     # (i.e. two copies of "i love tags" with different IDs)
-    
+
     tag_data = [] 
 
     for tag in tags:
@@ -262,6 +262,9 @@ def delete_tags(tag_ids):
     # we want to delete all the video-game tags associated with that tag_id, 
     # otherwise they get orphaned
 
+
+    # Runtime is not ideal but wall time should be fine
+    
     for tag_id in tag_ids:
         tag = Tag.query.filter(Tag.tag_id == tag_id, Tag.user_id == user_id).one()
         vg_tags = VgTag.query.filter(VgTag.tag_id == tag_id).all()

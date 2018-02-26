@@ -32,7 +32,7 @@
 </div>
 
 {% if session.get('user_id') == user.user_id %}
-<p>
+<div class='row-top-margin'>
 <a href='/edit-profile/{{ user.user_id }}'>
 	<button id='edit-profile' 
 			type='button' 
@@ -40,9 +40,10 @@
 			Edit profile infomation
 	</button>
 </a>
-</p>
+</div>
 {% endif %}
 
+<div class='row-top-margin'>
 <h4>Reviews</h4>
 <ul>{% for review in reviews %}
 	<li><a href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
