@@ -175,7 +175,7 @@ def update_user_bio():
     return redirect('/user/' + user_id)
 
 
-@app.route('/game/<platform>/<title>') # Game "profile" page
+@app.route('/game/<platform>/<path:title>') # Game "profile" page
 def show_game_profile(platform, title):
     
     game = Game.query.filter(Game.title == title, Game.platform == platform).one()
@@ -284,19 +284,7 @@ def remove_user_tags():
 
     tag_ids = request.form.getlist('data[]')
 
-    user_id = session['user_id']
-
-    # If the user deletes a tag from their profile page, 
-    # we want to delete all the video-game tags associated with that tag_id, 
-    # otherwise they get orphaned
-    for tag_id in tag_ids:
-        tag = Tag.query.filter(Tag.tag_id == tag_id, Tag.user_id == user_id).one()
-        vg_tags = VgTag.query.filter(VgTag.tag_id == tag_id).all()
-        db.session.delete(vg_tags)
-        db.session.delete(tag)
-
-
-    db.session.commit()
+    delete_tags(tag_ids)
 
     return jsonify({})
 

@@ -9,6 +9,7 @@ $(document).ready(function() {
 
 //////////////////////////////////////
 // Adding and editing game reviews
+
 function confirmReview() {
 	$('#review-form').empty();
 	$('#review-status').remove();
@@ -52,36 +53,7 @@ $('#change-review').on('click', editReview);
 //////////////////////////////////////
 // Faving and unfaving games
 
-//////////////////////////////////////
-// Adding tags to games
 
-function confirmNewTags(results) {
-	$('#tag-notif').show();
-
-	for (let result of results) {  // Grabbing all the new tag objects
-		let tag = "<span id='" + 
-				  result.tag_id +
-				  // Remember single quotes '' when concatenating variables
-      		      "' class='badge badge-secondary user-tags-drag'" + 
-      		      "name='" + 
-      		      result.tag_id + 
-      		      "'>" +
-      		      result.tag +
-      		      "</span>";
-
-		$('#tag-field').append(tag);
-	}
-
-	$('.user-tags-drag').draggable({
-	opacity: 0.8,
-	helper: 'original',
-	containment: '#drag-and-drop-tags',
-	revert: 'invalid',
-});
-
-}
-
-// $('#delete-tags').on('click', deleteTags); FIX ME!!!!
 
 //////////////////////////////////////
 // Drag-and-drop functionality of tags
@@ -89,10 +61,9 @@ function confirmNewTags(results) {
 // FIX ME: Droppable field does not grow dynamically to contain all tags
 // FIX ME: Tags do not shift over when neighbors are moved to droppable field
 
-let userTags = new Array();
 let gameTags = new Array();
 
-$('.user-tags-drag').draggable({
+$('.adding-drag').draggable({
 	opacity: 0.8,
 	helper: 'original',
 	containment: '#drag-and-drop-tags',
@@ -100,16 +71,9 @@ $('.user-tags-drag').draggable({
 });
 
 $('#attach-tags-field').droppable({
-	accept: '.user-tags-drag',
+	accept: '.adding-drag',
 	drop: function (event, ui) {
-		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
-	}
-});
-
-$('#delete-tags-field').droppable({
-	accept: '.user-tags-drag',
-	drop: function (event, ui) {
-		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
+		gameTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
 	}
 });
 
@@ -121,7 +85,7 @@ $('.deleting-drag').draggable({
 	revert: 'invalid',
 });
 
-$('#delete-game-tags-field').droppable({
+$('#delete-tags-field').droppable({
 	accept: '.deleting-drag',
 	drop: function (event, ui) {
 		gameTags.push((ui.draggable.attr('id')));
@@ -129,40 +93,24 @@ $('#delete-game-tags-field').droppable({
 	}
 });
 
+function refreshTags(results) {
+	$('.placeholder').hide();
+	location.reload();
 
-function showGameTags(results) {
-	for (let result of results) {
-		let vg_tag = "<span id='" + 
-				  result.vg_tag_id +
-      		      "' class='badge badge-secondary deleting-drag'" + 
-      		      "name='" + 
-      		      result.tag + 
-      		      "'>" +
-      		      result.tag +
-      		      "</span>";
-
-      	$('#game-tags').append(vg_tag);
-	}
 }
 
-function updateGameTags(evt) {
+function addGameTags(evt) {
 	evt.preventDefault();
 	evt.stopImmediatePropagation();
 
 	$.post('/update-tags.json',
-		   {data: userTags,
+		   {data: gameTags,
 		    game: $('#current-game').val()
 		   },
-		   showGameTags
+		   refreshTags
 	);
 
 	return false;
-}
-
-function removeGameTags(results) {
-	$('.placeholder').hide();
-	location.reload();
-
 }
 
 function deleteGameTags(evt) {
@@ -173,11 +121,11 @@ function deleteGameTags(evt) {
 		   {data: gameTags,
 		    game: $('#current-game-2').val()
 		   },
-		   removeGameTags
+		   refreshTags
 	);
 
 	return false;
 }
 
-$('#tag-game').on('click', updateGameTags);
-$('#delete-tags').on('click', deleteGameTags);
+$('#tag-game').on('click', addGameTags);
+$('#untag-game').on('click', deleteGameTags);

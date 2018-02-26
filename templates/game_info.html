@@ -121,7 +121,7 @@
 	    		<div id='tag-field'>
 	      		{% for tag in tags %}
 	      		<span id='{{tag.tag_id}}'
-	      			  class='user-tags-drag badge badge-secondary' 
+	      			  class='adding-drag badge badge-secondary' 
 	      		      name='{{tag.tag}}'>
 	      		{{ tag.tag }}
 	      		</span>
@@ -141,7 +141,7 @@
 	      		   value='{{ game.game_id }}'
 	      		   hidden>
 	      	<input id='tag-game'
-	      	       class='btn btn-default'
+	      	       class='btn btn-primary'
 	      	       type='submit'
 	      	       value='Confirm tags'>
 			</form>
@@ -209,7 +209,7 @@
 	      		</div>
 	      		<hr>
 				<label>Drag here to delete tags:</label>
-				<div id='delete-game-tags-field'
+				<div id='delete-tags-field'
 					 class='deleting-drop well'
 					 >
 				</div>
@@ -219,12 +219,11 @@
       			   name='game_id'
       		       value='{{ game.game_id }}'
       		       hidden>
-			<input id='delete-tags'
-				   class='btn btn-default'
+			<input id='untag-game'
+				   class='btn btn-danger'
 				   type='submit'
 				   value='Delete tags'>
 			</form>
-			<div id='delete-notif' hidden>SUCCESS!</div>
 		</div>
 	    </div>
 
@@ -241,6 +240,7 @@
 	</div>
 </div>
 </div>
+
 <!-- COMMENT THREAD -->
 
 <!-- 3.0 - Allow users to create a discussion thread on any given game page. -->

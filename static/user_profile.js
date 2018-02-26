@@ -1,50 +1,3 @@
-function confirmBlurb() {
-	$('#blurb-form').empty();
-	$('#blurb-notif').html('Your bio has been updated.');
-	$('#blurb-notif').fadeIn(200).fadeOut(200).fadeIn(200);
-}
-
-function confirmEdit() {
-	$('#edit-blurb-form').empty();
-	$('#blurb-notif').html('Your bio has been updated.');
-	$('#edit-blurb-notif').fadeIn(200).fadeOut(200).fadeIn(200);
-}
-
-function submitNewBlurb(evt) {
-	evt.preventDefault();
-	evt.stopImmediatePropagation();
-
-	let blurbData = $('#blurb-form').serialize();  // IMPORTANT FOR SERVER SIDE
-
-	$.post('/new-blurb.json',
-		   blurbData,  // IMPORTANT
-		   confirmBlurb);	
-
-	return false;
-}
-
-function editBlurb(evt) {
-	evt.preventDefault();
-	evt.stopImmediatePropagation();
-
-	let blurbData = $('#update-blurb-form').serialize();
-
-	$.post('/edit-blurb.json',
-			blurbData,
-			confirmEdit);
-
-	return false;
-}
-
-$('#submit-blurb').on('click', submitNewBlurb);
-$('#change-blurb').on('click', editBlurb);
-
-// Edit profile info
-
-$('#edit-profile').on('click', function() {
-	
-});
-
 // Edit user tags
 
 let userTags = new Array();
@@ -58,9 +11,29 @@ $('.user-tags-drag').draggable({
 $('#delete-tags-field').droppable({
 	accept: '.user-tags-drag',
 	drop: function (event, ui) {
-		userTags.push((ui.draggable.attr('id')));  // .push() is JS' .append()
+		userTags.push((ui.draggable.attr('id')));
+		console.log(userTags);  // .push() is JS' .append()
 	}
 });
+
+function confirmNewTags(results) {
+	$('#tag-notif').show();
+
+	for (let result of results) {  // Grabbing all the new tag objects
+		let tag = "<span id='" + 
+				  result.tag_id +
+				  // Remember single quotes '' when concatenating variables
+      		      "' class='badge badge-secondary user-tags-drag'" + 
+      		      "name='" + 
+      		      result.tag_id + 
+      		      "'>" +
+      		      result.tag +
+      		      "</span>";
+
+		$('#tag-field').append(tag);
+	}
+
+}
 
 function showDeletedTags() {
 	location.reload();

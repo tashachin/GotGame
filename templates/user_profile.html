@@ -62,29 +62,31 @@
 		   type='text'
 		   name='new_tags'>
 	<input id='create-tags' 
-		   class='btn btn-info' 
+		   class='btn btn-primary' 
 		   type='submit'
 		   value='Create new tags'>
 	</p>
 
 </form>
-	<div id='tag-notif' hidden>SUCCESS!</div>
+
+<div id='tag-notif' hidden>SUCCESS!</div>
 
 <div class='container'>
 <div class='row'>
 <div id='drag-and-drop-tags'>
-{% for tag in tags %}
+	<div id='tag-field'>
+	{% for tag in tags %}
 
-<span id='{{tag.tag_id}}'
-	  class='user-tags-drag badge badge-secondary' 
-      name='{{tag.tag}}'>
+	<span id='{{tag.tag_id}}'
+		  class='user-tags-drag badge badge-secondary' 
+	      name='{{tag.tag}}'>
 
-	{{ tag.tag }}
+		{{ tag.tag }}
 
-</span>
+	</span>
 
-{% endfor %}
-
+	{% endfor %}
+	</div>
 <hr>
 
 <label>Drag here to delete tags:</label>
@@ -97,10 +99,10 @@
 </div>
 
 <form id='delete-user-tags-form'>
-<input id='delete-tags'
-	   class='btn btn-danger'
-	   type='submit'
-	   value='Delete tags'>
+	<input id='delete-tags'
+		   class='btn btn-danger'
+		   type='submit'
+		   value='Delete tags'>
 </form>
 <div id='delete-notif' hidden>SUCCESS!</div>
 
