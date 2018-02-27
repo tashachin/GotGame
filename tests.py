@@ -9,9 +9,10 @@ from model import db, connect_to_db
 from test_model import *
 
 from selenium import webdriver
-import selenium.webdriver.chrome.service as service
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.support.ui import WebDriverWait
+
+# import selenium.webdriver.chrome.service as service
 
 ###################################################
 # BASIC TESTS
@@ -33,20 +34,10 @@ class GotGameTests(unittest.TestCase):
         result = self.client.get('/register')
         self.assertIn('Choose a password', result.data)
 
-
-    def test_adv_search(self):
-        result = self.client.get('/adv-search')
-        self.assertIn('Search by platform', result.data)
-
-
-    def test_adv_search_access(self):
-        """Checks that flash message displays when user tries to see results
-        without entering any search queries."""
-
-        result = self.client.get('/search-results',
-                                 follow_redirects=True)
-
-        self.assertIn('Uh-oh! Something went wrong.', result.data)
+    def test_login(self):
+        result = self.client.get('/login')
+        self.assertIn('Username:', result.data)
+        self.assertNotIn('Choose a password', result.data)
 
 ###################################################
 # LOGGED IN TESTS
@@ -72,30 +63,6 @@ class GotGameLoggedIn(unittest.TestCase):
         self.assertIn('<a href="/user/1">Profile</a>', result.data)
         self.assertNotIn('Login', result.data)
 
-###################################################
-# DATABASE ONLY TESTS
-
-class GotGameDatabase(unittest.TestCase):
-    """Flask tests that use the database."""
-
-    def setUp(self):
-        """Stuff to run before every test."""
-
-        self.client = app.test_client()
-        app.config['TESTING'] = True
-
-        connect_to_db(app, 'postgresql:///testdb')
-
-        db.create_all()
-        example_data()
-
-
-    def tearDown(self):
-        """Run at the end of every test."""
-
-        db.session.close()
-        db.drop_all()
-
 
     def test_logout(self):
         """Checks for flash message when logging out."""
@@ -106,119 +73,137 @@ class GotGameDatabase(unittest.TestCase):
         self.assertIn('Logged out.', result.data)
 
 
-    def test_login_fail(self):
-        """Checks that user cannot register with an existing username."""
+###################################################
+# DATABASE ONLY TESTS
 
-        result = self.client.post('/new-user',
-                                  data={'username': 'ffluvr93',
-                                        'email': 'test@test.com',
-                                        'password': 'lolol'},
-                                  follow_redirects=True)
+# class GotGameDatabase(unittest.TestCase):
+#     """Flask tests that use the database."""
 
-        self.assertIn('Sorry, that username is already in use.', result.data)
+#     def setUp(self):
+#         """Stuff to run before every test."""
+
+#         self.client = app.test_client()
+#         app.config['TESTING'] = True
+
+#         connect_to_db(app, 'postgresql:///games')
+
+#     def tearDown(self):
+#         """Run at the end of every test."""
+
+#         db.session.close()
+
+#     def test_login_fail(self):
+#         """Checks that user cannot register with an existing username."""
+
+#         result = self.client.post('/new-user',
+#                                   data={'username': 'ffluvr93',
+#                                         'email': 'test@test.com',
+#                                         'password': 'lolol'},
+#                                   follow_redirects=True)
+
+#         self.assertIn('Sorry, that username is already in use.', result.data)
+
+    # def test_adv_search(self):
+    #     result = self.client.get('/adv-search')
+    #     self.assertIn('Search by platform', result.data)
+    #     self.assertIn('Action', result.data)
+
+#     def test_adv_search(self):
+#         """Confirms that searching by (critic)score filters properly."""
+
+#         result = self.client.get('/search-results', 
+#                                   query_string={'title': None,
+#                                                 'critic_score': 5.0,
+#                                                 'user_score': 0,
+#                                                 'platform': None,
+#                                                 'genres': None,})  # query_string is a GET specific keyword; data is the POST equivalent
+
+#         self.assertIn('Best Game Ever', result.data)
+#         self.assertIn('So-So Game', result.data)
+        # self.assertNotIn('Bargain Bin Game', result.data)
 
 
-    def test_adv_search(self):
-        """Confirms that searching by (critic)score filters properly."""
+    # def test_user_profile(self):
+    #     """Checks username, reviews, # of reviews on user's profile page."""
 
-        result = self.client.get('/search-results', 
-                                  query_string={'title': None,
-                                                'critic_score': 5.0,
-                                                'user_score': 0,
-                                                'platform': None,
-                                                'genres': None,})  # query_string is a GET specific keyword; data is the POST equivalent
+    #     result = self.client.get('/user/1')
 
-        self.assertIn('Best Game Ever', result.data)
-        self.assertIn('So-So Game', result.data)
-        self.assertNotIn('Bargain Bin Game', result.data)
-
-
-    def test_user_profile(self):
-        """Checks username, reviews, # of reviews on user's profile page."""
-
-        result = self.client.get('/user/1')
-
-        self.assertIn('ffluvr93', result.data)  # Does the page display username?
-        self.assertIn('Best Game Ever', result.data)  # Is the user's review on this page?
-        self.assertIn('Number of games reviewed', result.data)
+    #     self.assertIn('ffluvr93', result.data)  # Does the page display username?
+    #     self.assertIn('Best Game Ever', result.data)  # Is the user's review on this page?
+    #     self.assertIn('Number of games reviewed', result.data)
 
 
 ###################################################
 # LOGGED IN & DATABASE TESTS
 
-class DatabaseAndLoggedIn(unittest.TestCase):
-    """Flask tests that require a user logged in before communicating with database."""
+# class DatabaseAndLoggedIn(unittest.TestCase):
+#     """Flask tests that require a user logged in before communicating with database."""
 
-    def setUp(self):
-        app.config['TESTING'] = True
-        app.config['SECRET_KEY'] = 'key'
-        self.client = app.test_client()
+#     def setUp(self):
+#         app.config['TESTING'] = True
+#         app.config['SECRET_KEY'] = 'key'
+#         self.client = app.test_client()
 
-        with self.client as c:
-            with c.session_transaction() as sess:
-                sess['user_id'] = 1
+#         with self.client as c:
+#             with c.session_transaction() as sess:
+#                 sess['user_id'] = 1
 
-        connect_to_db(app, 'postgresql:///testdb')
+#         connect_to_db(app, 'postgresql:///games')
 
-        db.create_all()
-        example_data()
+#     def tearDown(self):
+#         """Run at the end of every test."""
 
+#         db.session.close()
 
-    def tearDown(self):
-        """Run at the end of every test."""
+#     def test_game_info(self):
+#         """Checks if user has reviewed a game before."""
 
-        db.session.close()
-        db.drop_all()
+#         result = self.client.get('/game/Xbox%20360/Best%20Game%20Ever')
 
-
-    def test_game_info(self):
-        """Checks if user has reviewed a game before."""
-
-        result = self.client.get('/game/Xbox%20360/Best%20Game%20Ever')
-
-        self.assertIn('Literally the best game ever.', result.data)  # Does test review show up?
-        self.assertIn('Update your review', result.data)
-        self.assertNotIn('Review Best Game Ever', result.data)
+#         self.assertIn('Literally the best game ever.', result.data)  # Does test review show up?
+#         self.assertIn('Update your review', result.data)
+#         self.assertNotIn('Review Best Game Ever', result.data)
 
 
 ###################################################
 # SELENIUM TESTS
 
-class Browser(unittest.TestCase):
-    """Selenium automated browser tests."""
+# class Browser(unittest.TestCase):
+#     """Selenium automated browser tests."""
 
-    def setUp(self):
-        server = service.Service(r"/src/chromedriver_mac")
-        server.start()
-        capabilities = {'chrome.binary': '/path/to/custom/chrome'}
-        driver = webdriver.Remote(service.service_url, capabilities)
-        driver.get('http://www.google.com/xhtml');
-        time.sleep(5) # Let the user actually see something!
+#     def setUp(self):
+#         self.server = service.Service("C:/Users/TashaChin/src/chromedriver")
+#         self.server.start()
+#         self.capabilities = {'chrome.binary': "C:/Applications/Google Chrome"}
+#         self.driver = webdriver.Remote(service.service_url, capabilities)
+#         self.driver.get('http://www.google.com/xhtml');
+#         time.sleep(5) # Let the user actually see something!
         
+#         self.browser = webdriver.Firefox()
 
-    def tearDown(self):
-        driver.quit()
-
-
-    def test_title(self):
-        self.browser.get('http://localhost:5000')
-        self.assertEqual(self.browser.title, 'Got Game?')
+#     def tearDown(self):
+#         self.browser.quit()
 
 
-    def test_login(self):
-        self.browser.get('http://localhost:5000/login')
+#     def test_title(self):
+#         self.browser.get('http://localhost:5000')
+#         self.assertEqual(self.browser.title, 'Got Game?')
 
-        username = self.browser.find_element_by_id('user')
-        username.send_keys('markiplier')
-        password = self.browser.find_element_by_id('password')
-        password.send_keys('markiplier')
-        submit = self.browser.find_element_by_id('submit')
-        submit.click()
 
-        # https://stackoverflow.com/a/47353551
-        wait.until(EC.url_to_be('http://localhost:5000'))
-        html = browser.page_source
-        self.assertIn("Logged in.", html)
+#     def test_login(self):
+#         self.browser.get('http://localhost:5000/login')
+
+#         username = self.browser.find_element_by_id('user')
+#         username.send_keys('markiplier')
+#         password = self.browser.find_element_by_id('password')
+#         password.send_keys('markiplier')
+#         submit = self.browser.find_element_by_id('submit')
+#         submit.click()
+
+#         # https://stackoverflow.com/a/47353551
+#         wait.until(EC.url_to_be('http://localhost:5000'))
+#         html = browser.page_source
+#         self.assertIn("Logged in.", html)
 
 ###################################################
 # HELPER FUNCTIONS
