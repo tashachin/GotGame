@@ -97,6 +97,23 @@ def load_game_genres():
 				db.session.commit()
 
 
+def load_users():
+	"""Load user for testing."""
+
+	print "Test User"
+
+	user = User(username='markiplier',
+				email='markiplier@mark.com',
+				password='markiplier',
+				birthday='1989-06-28',
+				location='LA',
+				bio='Hello, everybody! My name is Markiplier.',
+				fave_game="Sid Meier's Civilization V")
+
+	db.session.add(user)
+	db.session.commit()
+
+
 def set_val_game_id():
 	"""Set value for the next game_id after seeding database."""
 
@@ -109,6 +126,19 @@ def set_val_game_id():
 	db.session.execute(query, {'new_id': max_id + 1})
 	db.session.commit()
 
+
+def set_val_user_id():
+	"""Set value for the next user_id after seeding database."""
+
+	# Retrieve most recent game_id added to database
+	result = db.session.query(func.max(User.user_id)).one()
+	max_id = int(result[0])
+
+	# Set value of the new game_id to be max_id + 1
+	query = "SELECT setval('users_user_id_seq', :new_id)"
+	db.session.execute(query, {'new_id': max_id + 1})
+	db.session.commit()
+
 if __name__ == "__main__":
 	connect_to_db(app)
 
@@ -117,4 +147,6 @@ if __name__ == "__main__":
 	load_games()
 	load_genres()
 	load_game_genres()
+	load_users()
 	set_val_game_id()
+	set_val_user_id()
