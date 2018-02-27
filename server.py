@@ -53,8 +53,9 @@ def homepage():
     return render_template('homepage.html')
 
 @app.route('/search-results') 
-def show_basic_results():  
-    """A fun quick-search for the homepage."""
+def show_results():  
+    """Queries the database and returns all games that satisfy the user's 
+    search filters."""
 
     title = request.args.get('title')
 

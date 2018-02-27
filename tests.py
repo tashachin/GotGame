@@ -6,6 +6,11 @@ from model import db, connect_to_db
 
 from test_model import *
 
+from selenium import webdriver
+
+###################################################
+# BASIC TESTS
+
 class GotGameTests(unittest.TestCase):
 	"""Tests for my 'Got Game?' site."""
 
@@ -38,6 +43,8 @@ class GotGameTests(unittest.TestCase):
 
 		self.assertIn('Uh-oh! Something went wrong.', result.data)
 
+###################################################
+# LOGGED IN TESTS
 
 class GotGameLoggedIn(unittest.TestCase):
 	"""Tests that require user to be logged in."""
@@ -60,6 +67,8 @@ class GotGameLoggedIn(unittest.TestCase):
 		self.assertIn('<a href="/user/1">Profile</a>', result.data)
 		self.assertNotIn('Login', result.data)
 
+###################################################
+# DATABASE ONLY TESTS
 
 class GotGameDatabase(unittest.TestCase):
 	"""Flask tests that use the database."""
@@ -129,6 +138,9 @@ class GotGameDatabase(unittest.TestCase):
 		self.assertIn('Number of games reviewed', result.data)
 
 
+###################################################
+# LOGGED IN & DATABASE TESTS
+
 class DatabaseAndLoggedIn(unittest.TestCase):
 	"""Flask tests that require a user logged in before communicating with database."""
 
@@ -162,6 +174,24 @@ class DatabaseAndLoggedIn(unittest.TestCase):
 		self.assertIn('Literally the best game ever.', result.data)  # Does test review show up?
 		self.assertIn('Update your review', result.data)
 		self.assertNotIn('Review Best Game Ever', result.data)
+
+
+###################################################
+# SELENIUM TESTS
+
+# Check browser title
+browser = webdriver.Chrome()
+browser.get('http://localhost:5000')
+assert browser.title == 'Got Game?'
+
+# Check login functionality
+browser.get('http://localhost:5000/login')
+
+btn = browser.find_element_by_id('')
+btn.click()
+
+###################################################
+# HELPER FUNCTIONS
 
 if __name__ == "__main__":
 	unittest.main()
