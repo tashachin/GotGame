@@ -267,10 +267,12 @@ def delete_tags(tag_ids):
     
     for tag_id in tag_ids:
         tag = Tag.query.filter(Tag.tag_id == tag_id, Tag.user_id == user_id).one()
-        
         vg_tags = VgTag.query.filter(VgTag.tag_id == tag_id).all()
-        db.session.expunge_all(vg_tags)
-        db.session.expunge(tag)
+        
+        for vg_tag in vg_tags:
+            db.session.delete(vg_tag)
+        
+        db.session.delete(tag)
 
     db.session.commit()
 
