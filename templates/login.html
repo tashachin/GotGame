@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <form method='POST' action='/login'>
-<input id='user' type='text' name='username' placeholder='Username'>
+<label>Username:</label>
+<input id='user' type='text' name='username'>
 <br>
-<input id='password' type='password' name='password' placeholder='Password'>
+<label>Password:</label>
+<input id='password' type='password' name='password'>
 <br>
-<input type='submit' value='Login'>
+<input id='submit' type='submit' value='Login'>
 </form>
 {% endblock %}

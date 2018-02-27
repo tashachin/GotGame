@@ -96,8 +96,10 @@ def load_game_genres():
 				db.session.add(vg_genre)
 				db.session.commit()
 
+###########################
+# FOR TESTING
 
-def load_users():
+def load_test_user():
 	"""Load user for testing."""
 
 	print "Test User"
@@ -113,6 +115,96 @@ def load_users():
 	db.session.add(user)
 	db.session.commit()
 
+	print "Reviews"
+
+	review1 = Review(user_id=1,
+					 game_id=16053,
+					 user_score=8,
+					 review="""
+					 An action-packed romp through a zombie-infested island.
+					 Needs more dakka.""")
+	review2 = Review(user_id=1,
+					 game_id=17979,
+					 user_score=9,
+					 review="""
+					 A disgustingly sad game. A solid platformer, though.
+					 Has a lot of replayability value.
+					 Looking forward to future add-ons.""")
+	review3 = Review(user_id=1,
+					 game_id=16360,
+					 user_score=10,
+					 review="""
+					 I'm rendered speechless.
+					 A beautiful game. Please play this game.""")
+	review4 = Review(user_id=1,
+					 game_id=17484,
+					 user_score=9,
+					 review="""
+					 They should probably make this multiplayer.
+					 Just a thought.
+					 That being said, the single-player campaign is fantastic.""")
+
+	db.session.add_all(review1, 
+					   review2, 
+					   review3, 
+					   review4, 
+					   review5)
+	db.session.commit()
+
+	print "Tags"
+
+	tag1 = Tag(user_id=1,
+			   tag='horror')
+	tag2 = Tag(user_id=1,
+               tag='rec')
+	tag3 = Tag(user_id=1,
+               tag='zombies')
+	tag4 = Tag(user_id=1,
+               tag='fave')
+	tag5 = Tag(user_id=1,
+               tag='streamed')
+
+	db.session.add_all(tag1, 
+					   tag2, 
+					   tag3, 
+					   tag4, 
+					   tag5)
+	db.session.commit()
+
+	print "Vg Tags"
+
+	vg_tag1 = VgTag(game_id=16053,
+                    tag_id=1)
+	vg_tag2 = VgTag(game_id=16053,
+                    tag_id=3)
+	vg_tag3 = VgTag(game_id=16360,
+                    tag_id=2)
+	vg_tag4 = VgTag(game_id=17484,
+                    tag_id=1)
+	vg_tag5 = VgTag(game_id=17484,
+                    tag_id=2)
+	vg_tag6 = VgTag(game_id=17484,
+                    tag_id=4)
+	vg_tag7 = VgTag(game_id=16053,
+                    tag_id=5)
+	vg_tag8 = VgTag(game_id=17979,
+                    tag_id=2)
+	vg_tag9 = VgTag(game_id=8838,
+                    tag_id=2)
+	vg_tag10 = VgTag(game_id=1,
+                    tag_id=4)
+
+	db.session.add_all(vg_tag1, 
+					   vg_tag2, 
+					   vg_tag3, 
+					   vg_tag4, 
+					   vg_tag5,
+					   vg_tag6,
+					   vg_tag7,
+					   vg_tag8,
+					   vg_tag9,
+					   vg_tag10)
+	db.session.commit()
 
 def set_val_game_id():
 	"""Set value for the next game_id after seeding database."""
@@ -130,14 +222,46 @@ def set_val_game_id():
 def set_val_user_id():
 	"""Set value for the next user_id after seeding database."""
 
-	# Retrieve most recent game_id added to database
 	result = db.session.query(func.max(User.user_id)).one()
 	max_id = int(result[0])
 
-	# Set value of the new game_id to be max_id + 1
 	query = "SELECT setval('users_user_id_seq', :new_id)"
 	db.session.execute(query, {'new_id': max_id + 1})
 	db.session.commit()
+
+
+def set_val_review_id():
+	"""Set value for the next review_id after seeding database."""
+
+	result = db.session.query(func.max(Review.review_id)).one()
+	max_id = int(result[0])
+
+	query = "SELECT setval('reviews_review_id_seq', :new_id)"
+	db.session.execute(query, {'new_id': max_id + 1})
+	db.session.commit()
+
+
+def set_val_tag_id():
+	"""Set value for the next tag_id after seeding database."""
+
+	result = db.session.query(func.max(Tag.tag_id)).one()
+	max_id = int(result[0])
+
+	query = "SELECT setval('tags_tag_id_seq', :new_id)"
+	db.session.execute(query, {'new_id': max_id + 1})
+	db.session.commit()
+
+
+def set_val_vg_tag_id():
+	"""Set value for the next vg_tag_id after seeding database."""
+
+	result = db.session.query(func.max(VgTag.vg_tag_id)).one()
+	max_id = int(result[0])
+
+	query = "SELECT setval('vg_tags_vg_tag_id_seq', :new_id)"
+	db.session.execute(query, {'new_id': max_id + 1})
+	db.session.commit()
+
 
 if __name__ == "__main__":
 	connect_to_db(app)
@@ -147,6 +271,9 @@ if __name__ == "__main__":
 	load_games()
 	load_genres()
 	load_game_genres()
-	load_users()
+	load_test_user()
 	set_val_game_id()
 	set_val_user_id()
+	set_val_review_id()
+	set_val_tag_id()
+	set_val_vg_tag_id()

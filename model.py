@@ -88,7 +88,7 @@ class VgGen(db.Model):
 																	  self.game.title,
 																	  self.genre.genre_type)
 
-class Difficulty(db.Model):
+class Difficulty(db.Model):  # Not using this anymore(?)
 	"""Difficulty of a game."""
 
 	__tablename__ = "difficulty"
@@ -151,7 +151,7 @@ class Tag(db.Model):
 														  		  self.user.username,
 														  		  self.game.title)
 
-class TagCategory(db.Model):
+class TagCategory(db.Model):  # Not implemented in HB version
 	"""A category that a tag belongs to."""
 
 	__tablename__ = "tag_cats"
@@ -194,7 +194,7 @@ class VgTag(db.Model):
 															 self.tag.tag)
 
 
-class Favorite(db.Model):
+class Favorite(db.Model):  # Not implemented in HB version
 	"""Games that have been bookmarked by the user."""
 
 	__tablename__ = "faves"

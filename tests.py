@@ -7,6 +7,8 @@ from model import db, connect_to_db
 from test_model import *
 
 from selenium import webdriver
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 ###################################################
 # BASIC TESTS
@@ -179,16 +181,32 @@ class DatabaseAndLoggedIn(unittest.TestCase):
 ###################################################
 # SELENIUM TESTS
 
-# Check browser title
-browser = webdriver.Chrome()
-browser.get('http://localhost:5000')
-assert browser.title == 'Got Game?'
+class Browser(unittest.TestCase):
+	"""Selenium automated browser tests."""
 
-# Check login functionality
-browser.get('http://localhost:5000/login')
+	def setUp(self):
+		self.browser = webdriver.Chrome()
 
-btn = browser.find_element_by_id('')
-btn.click()
+	def tearDown(self):
+        self.browser.quit()
+
+    def test_title(self):
+        self.browser.get('http://localhost:5000')
+        self.assertEqual(self.browser.title, 'Got Game?')
+
+    def test_login(self):
+        # self.browser.get('http://localhost:5000/login')
+
+        # username = self.browser.find_element_by_id('user')
+        # username.send_keys('markiplier')
+        # password = self.browser.find_element_by_id('password')
+        # password.send_keys('markiplier')
+        # submit = self.browser.find_element_by_id('submit')
+        # submit.click()
+
+        # https://stackoverflow.com/a/47353551
+        
+        pass
 
 ###################################################
 # HELPER FUNCTIONS
