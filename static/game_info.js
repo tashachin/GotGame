@@ -4,7 +4,11 @@ $(document).ready(function() {
     	retrieve: true,
         paging: false,
         searching: false,
+        sorting: false,
     } );
+
+    $('.sorting').removeClass();
+
 } );
 
 //////////////////////////////////////

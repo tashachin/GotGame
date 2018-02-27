@@ -90,8 +90,15 @@
 	{% endif %}
 	</div>
 </div>
-	<!-- MODAL FOR APPLYING TAGS -->
+
 <div class='row row-top-margin'>
+	<a href="/profile/{{ session['user_id'] }}/#tags">
+		<button type="button"
+				class="btn btn-info">
+		Create new tags
+		</button>
+	</a>
+	<!-- MODAL FOR APPLYING TAGS -->
 		<button type="button" 
 				class="btn btn-primary" 
 				data-toggle="modal" 
