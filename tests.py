@@ -3,6 +3,9 @@
 import unittest
 import flask
 
+from contextlib import contextmanager
+from flask import appcontext_pushed, g, json, request
+
 import os
 
 TEST_USERNAME = os.environ['TEST_USERNAME']
@@ -253,6 +256,17 @@ class AddToDatabase(unittest.TestCase):
         connect_to_db(app, 'postgresql:///testdb')
         db.create_all()
 
+        user = User(username='markiplier',
+                    email='markiplier@mark.com',
+                    password='markiplier',
+                    birthday='1989-06-28',
+                    location='LA',
+                    bio='Hello, everybody! My name is Markiplier.',
+                    fave_game="Sid Meier's Civilization V")
+
+        db.session.add(user)
+        db.session.commit()
+
     def tearDown(self):
 
         db.session.remove()
@@ -272,36 +286,23 @@ class AddToDatabase(unittest.TestCase):
         self.assertIn('Username:', result.data)
         self.assertNotIn('Email', result.data)
 
-    
-    # def test_update_profile(self):
+
+    # def test_update_profile(self):  # Needs different set-up?
     #     """Checks that filling out profile-form updates user's profile."""
-
-    #     user = User(username='markiplier',
-    #                 email='markiplier@mark.com',
-    #                 password='markiplier',
-    #                 birthday='1989-06-28',
-    #                 location='LA',
-    #                 bio='Hello, everybody! My name is Markiplier.',
-    #                 fave_game="Sid Meier's Civilization V")
-
-    #     db.session.add(user)
-    #     db.session.commit()
 
     #     with self.client as c:
     #         with c.session_transaction() as sess:
     #             sess['user_id'] = 1
 
     #     result = self.client.post('/update-profile',
-    #                               data={'bio': 'I love gaming!',
+    #                               data={'user_id': 1,
+    #                                     'bio': 'I love gaming!',
     #                                     'location': 'Maine',
-    #                                     'birthday': '04-23-1985'},
+    #                                     'birthday': None},
     #                               follow_redirects=True)
 
     #     self.assertIn('Maine', result.data)
     #     self.assertNotIn('My name is Markiplier.', result.data)
-
-    #     db.session.delete(user)
-    #     db.session.commit()
 
 
 ###################################################

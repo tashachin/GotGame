@@ -159,10 +159,6 @@ def update_user_bio():
     location = request.form.get('user_location')
     birthday = request.form.get('user_birthday')
 
-    datetime_obj = datetime.strptime(birthday, '%m-%d-%Y')
-
-    formatted_birthday = datetime_obj.strftime('%Y-%m-%d')
-
     user = retrieve_user(user_id)
 
     if bio:
@@ -172,6 +168,8 @@ def update_user_bio():
         user.location = location
 
     if birthday:
+        datetime_obj = datetime.strptime(birthday, '%m-%d-%Y')
+        formatted_birthday = datetime_obj.strftime('%Y-%m-%d')
         user.birthday = formatted_birthday
 
     db.session.commit()
