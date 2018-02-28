@@ -70,23 +70,25 @@
 
 </form>
 
-<div id='tag-notif' hidden>SUCCESS!</div>
-
 <div class='container'>
 <div class='row'>
 <div id='drag-and-drop-tags'>
 	<div id='tag-field'>
+
 	{% for tag in tags %}
 
-	<span id='{{tag.tag_id}}'
+	<a href='/tag/{{tag.tag}}/{{user.user_id}}'>
+		<span id='{{tag.tag_id}}'
 		  class='user-tags-drag badge badge-secondary' 
 	      name='{{tag.tag}}'>
-
+	
 		{{ tag.tag }}
-
-	</span>
+	
+		</span>
+	</a>
 
 	{% endfor %}
+	
 	</div>
 <hr>
 

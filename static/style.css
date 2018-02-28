@@ -5,3 +5,7 @@
 .num-field {
 	width: 180px;
 }
+
+.placeholder {
+    font-style: italic;
+}

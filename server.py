@@ -309,12 +309,21 @@ def remove_game_tag_info():
     """Deletes whichever tags the user removes from the current game."""
 
     game_id = request.form.get('game')
-    print game_id
     vg_tag_ids = request.form.getlist('data[]')
 
     vg_tag_data = remove_vg_tags(game_id, vg_tag_ids)
 
     return jsonify({})
+
+
+@app.route('/tag/<tag>/<user_id>')
+def show_tagged_games(tag, user_id):
+    """Displays all the games a user has tagged with a specific tag."""
+
+    games = retrieve_vg_tags(tag, user_id)
+
+    return render_template('tagged_games.html',
+                           games=games)
 
 ###################################################
 # DEBUGGING

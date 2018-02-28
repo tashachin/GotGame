@@ -345,3 +345,10 @@ def retrieve_title(title):  # Takes in request.args.get() value
         title = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
     
     return title
+
+def retrieve_vg_tags(tag, user_id):
+    """Searches for vg_tags based on tag text. Used for profile page tags."""
+
+    games = Game.query.join(VgTag).join(Tag).join(User).filter(Tag.tag == tag, User.user_id == user_id).all()
+
+    return games

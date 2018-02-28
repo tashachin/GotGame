@@ -73,6 +73,7 @@
 	{% if vg_tags %}
 	{% for vg_tag in vg_tags %}
 
+	<a href="/tag/{{vg_tag.tag.tag}}/{{session['user_id']}}">
 	<span id='{{vg_tag.vg_tag_id}}'
 	      class='deleting-drag badge badge-secondary' 
 	      name='{{vg_tag.tag.tag}}'>
@@ -80,6 +81,7 @@
 	    	{{ vg_tag.tag.tag }}
 	
 	</span>
+	</a>
 
 	{% endfor %}
 
@@ -92,12 +94,6 @@
 </div>
 
 <div class='row row-top-margin'>
-	<a href="/user/{{ session['user_id'] }}#tags">
-		<button type="button"
-				class="btn btn-info">
-		Create new tags
-		</button>
-	</a>
 	<!-- MODAL FOR APPLYING TAGS -->
 		<button type="button" 
 				class="btn btn-primary" 
@@ -126,6 +122,7 @@
 	    		<div id='drag-and-drop-tags'
 	    		     class=''>
 	    		<div id='tag-field'>
+	    		{% if tags %}
 	      		{% for tag in tags %}
 	      		<span id='{{tag.tag_id}}'
 	      			  class='adding-drag badge badge-secondary' 
@@ -133,6 +130,16 @@
 	      		{{ tag.tag }}
 	      		</span>
 	      		{% endfor %}
+
+	      		{% else %}
+				<a href="/user/{{ session['user_id'] }}#tags">
+					<button type="button"
+							class="btn btn-info">
+					Create new tags
+					</button>
+				</a>
+				{% endif %}
+				
 	      		</div>
 	      		<!-- Jinja templating will replace all those placeholder values when it's working -->
 	      		<hr>
