@@ -99,20 +99,6 @@ class GotGameDatabase(unittest.TestCase):
         db.session.close()
 
 
-    # def test_registration(self):
-    #     """Checks for notification upon successful registration."""
-
-    #     result = self.client.post('/new-user',
-    #                               data={'username': TEST_USERNAME,
-    #                                     'email': TEST_EMAIL,
-    #                                     'password': TEST_PASSWORD},
-    #                               follow_redirects=True)
-
-    #     self.assertIn('You&#39;ve been registered. Game on!', result.data)
-    #     self.assertIn('Username:', result.data)
-    #     self.assertNotIn('Email', result.data)
-
-
     def test_username_fail(self):
         """Checks that user cannot register with an existing username."""
 
@@ -202,6 +188,13 @@ class GotGameDatabase(unittest.TestCase):
         self.assertIn('horror', result.data)  # Do his tags show up?
 
 
+    def test_edit_profile(self):
+        """Checks that the profile form displays correctly."""
+
+        result = self.client.get('/edit-profile/1')
+
+        self.assertIn('Max 500 characters', result.data)  # Bio chara-count limit
+
 ###################################################
 # LOGGED IN & DATABASE TESTS
 
@@ -244,6 +237,71 @@ class DatabaseAndLoggedIn(unittest.TestCase):
         self.assertIn('Looking forward to future add-ons.', result.data)  # Does test review show up?
         self.assertIn('rec', result.data)
         self.assertIn('game_id', result.data)
+
+
+###################################################
+# ADDING TO DATABASE
+
+class AddToDatabase(unittest.TestCase):
+    """Create empty database to test features that add data."""
+
+    def setUp(self):
+
+        self.client = app.test_client()
+        app.config['TESTING'] = True
+
+        connect_to_db(app, 'postgresql:///testdb')
+        db.create_all()
+
+    def tearDown(self):
+
+        db.session.remove()
+        db.drop_all()
+
+
+    def test_registration(self):
+        """Checks for notification upon successful registration."""
+
+        result = self.client.post('/new-user',
+                                  data={'username': TEST_USERNAME,
+                                        'email': TEST_EMAIL,
+                                        'password': TEST_PASSWORD},
+                                  follow_redirects=True)
+
+        self.assertIn('You&#39;ve been registered. Game on!', result.data)
+        self.assertIn('Username:', result.data)
+        self.assertNotIn('Email', result.data)
+
+    
+    # def test_update_profile(self):
+    #     """Checks that filling out profile-form updates user's profile."""
+
+    #     user = User(username='markiplier',
+    #                 email='markiplier@mark.com',
+    #                 password='markiplier',
+    #                 birthday='1989-06-28',
+    #                 location='LA',
+    #                 bio='Hello, everybody! My name is Markiplier.',
+    #                 fave_game="Sid Meier's Civilization V")
+
+    #     db.session.add(user)
+    #     db.session.commit()
+
+    #     with self.client as c:
+    #         with c.session_transaction() as sess:
+    #             sess['user_id'] = 1
+
+    #     result = self.client.post('/update-profile',
+    #                               data={'bio': 'I love gaming!',
+    #                                     'location': 'Maine',
+    #                                     'birthday': '04-23-1985'},
+    #                               follow_redirects=True)
+
+    #     self.assertIn('Maine', result.data)
+    #     self.assertNotIn('My name is Markiplier.', result.data)
+
+    #     db.session.delete(user)
+    #     db.session.commit()
 
 
 ###################################################
