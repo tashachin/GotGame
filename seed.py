@@ -120,29 +120,19 @@ def load_test_user():
 	review1 = Review(user_id=1,
 					 game_id=16053,
 					 user_score=8,
-					 review="""
-					 An action-packed romp through a zombie-infested island.
-					 Needs more dakka.""")
+					 review="""An action-packed romp through a zombie-infested island. Needs more dakka.""")
 	review2 = Review(user_id=1,
 					 game_id=17979,
 					 user_score=9,
-					 review="""
-					 A disgustingly sad game. A solid platformer, though.
-					 Has a lot of replayability value.
-					 Looking forward to future add-ons.""")
+					 review="""A disgustingly sad game. A solid platformer, though. Has a lot of replayability value. Looking forward to future add-ons.""")
 	review3 = Review(user_id=1,
 					 game_id=16360,
 					 user_score=10,
-					 review="""
-					 I'm rendered speechless.
-					 A beautiful game. Please play this game.""")
+					 review="""I'm rendered speechless. A beautiful game. Please play this game.""")
 	review4 = Review(user_id=1,
 					 game_id=17484,
 					 user_score=9,
-					 review="""
-					 They should probably make this multiplayer.
-					 Just a thought.
-					 That being said, the single-player campaign is fantastic.""")
+					 review="""They should probably make this multiplayer. Just a thought. That being said, the single-player campaign is fantastic.""")
 
 	db.session.add_all([review1, 
 					   review2, 
