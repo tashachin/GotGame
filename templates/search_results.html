@@ -28,6 +28,7 @@
 	</tr>
 	</tfoot>
 	<tbody>
+	{% if games %}
 		{% for game in games %}
 		<tr> 
 			<td id='{{ game.game_id }}'><a href="/game/{{ game.platform }}/{{ game.title }}">{{ game.title }}</a></td>
@@ -53,6 +54,7 @@
 			</td>
 		</tr>
 		{% endfor %}
+	{% endif %}
 	</tbody>
 </table>
 

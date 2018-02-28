@@ -58,7 +58,7 @@ def show_results():
     search filters."""
 
     title = request.args.get('title')
-
+    
     games = retrieve_title(title)
 
     return render_template('search_results.html',

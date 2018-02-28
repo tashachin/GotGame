@@ -3,7 +3,7 @@ from csv import reader
 
 from sqlalchemy import func
 from model import (User, Game, Genre, VgGen, Difficulty, Review,
-				   Tag, TagCategory)
+				   Tag, TagCategory, VgTag)
 
 from model import connect_to_db, db 
 from server import app
@@ -144,11 +144,10 @@ def load_test_user():
 					 Just a thought.
 					 That being said, the single-player campaign is fantastic.""")
 
-	db.session.add_all(review1, 
+	db.session.add_all([review1, 
 					   review2, 
 					   review3, 
-					   review4,
-                       )
+					   review4])
 	db.session.commit()
 
 	print "Tags"
@@ -164,11 +163,11 @@ def load_test_user():
 	tag5 = Tag(user_id=1,
                tag='streamed')
 
-	db.session.add_all(tag1, 
+	db.session.add_all([tag1, 
 					   tag2, 
 					   tag3, 
 					   tag4, 
-					   tag5)
+					   tag5])
 	db.session.commit()
 
 	print "Vg Tags"
@@ -194,7 +193,7 @@ def load_test_user():
 	vg_tag10 = VgTag(game_id=1,
                     tag_id=4)
 
-	db.session.add_all(vg_tag1, 
+	db.session.add_all([vg_tag1, 
 					   vg_tag2, 
 					   vg_tag3, 
 					   vg_tag4, 
@@ -203,7 +202,7 @@ def load_test_user():
 					   vg_tag7,
 					   vg_tag8,
 					   vg_tag9,
-					   vg_tag10)
+					   vg_tag10])
 	db.session.commit()
 
 def set_val_game_id():

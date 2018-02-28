@@ -1,7 +1,13 @@
-import time
+# import time
 
 import unittest
 import flask
+
+import os
+
+TEST_USERNAME = os.environ['TEST_USERNAME']
+TEST_EMAIL = os.environ['TEST_EMAIL']
+TEST_PASSWORD = os.environ['TEST_PASSWORD']
 
 from server import app
 from model import db, connect_to_db
@@ -76,93 +82,168 @@ class GotGameLoggedIn(unittest.TestCase):
 ###################################################
 # DATABASE ONLY TESTS
 
-# class GotGameDatabase(unittest.TestCase):
-#     """Flask tests that use the database."""
+class GotGameDatabase(unittest.TestCase):
+    """Flask tests that use the database."""
 
-#     def setUp(self):
-#         """Stuff to run before every test."""
+    def setUp(self):
+        """Stuff to run before every test."""
 
-#         self.client = app.test_client()
-#         app.config['TESTING'] = True
+        self.client = app.test_client()
+        app.config['TESTING'] = True
 
-#         connect_to_db(app, 'postgresql:///games')
+        connect_to_db(app, 'postgresql:///games')
 
-#     def tearDown(self):
-#         """Run at the end of every test."""
+    def tearDown(self):
+        """Run at the end of every test."""
 
-#         db.session.close()
-
-#     def test_login_fail(self):
-#         """Checks that user cannot register with an existing username."""
-
-#         result = self.client.post('/new-user',
-#                                   data={'username': 'ffluvr93',
-#                                         'email': 'test@test.com',
-#                                         'password': 'lolol'},
-#                                   follow_redirects=True)
-
-#         self.assertIn('Sorry, that username is already in use.', result.data)
-
-    # def test_adv_search(self):
-    #     result = self.client.get('/adv-search')
-    #     self.assertIn('Search by platform', result.data)
-    #     self.assertIn('Action', result.data)
-
-#     def test_adv_search(self):
-#         """Confirms that searching by (critic)score filters properly."""
-
-#         result = self.client.get('/search-results', 
-#                                   query_string={'title': None,
-#                                                 'critic_score': 5.0,
-#                                                 'user_score': 0,
-#                                                 'platform': None,
-#                                                 'genres': None,})  # query_string is a GET specific keyword; data is the POST equivalent
-
-#         self.assertIn('Best Game Ever', result.data)
-#         self.assertIn('So-So Game', result.data)
-        # self.assertNotIn('Bargain Bin Game', result.data)
+        db.session.close()
 
 
-    # def test_user_profile(self):
-    #     """Checks username, reviews, # of reviews on user's profile page."""
+    # def test_registration(self):
+    #     """Checks for notification upon successful registration."""
 
-    #     result = self.client.get('/user/1')
+    #     result = self.client.post('/new-user',
+    #                               data={'username': TEST_USERNAME,
+    #                                     'email': TEST_EMAIL,
+    #                                     'password': TEST_PASSWORD},
+    #                               follow_redirects=True)
 
-    #     self.assertIn('ffluvr93', result.data)  # Does the page display username?
-    #     self.assertIn('Best Game Ever', result.data)  # Is the user's review on this page?
-    #     self.assertIn('Number of games reviewed', result.data)
+    #     self.assertIn('You&#39;ve been registered. Game on!', result.data)
+    #     self.assertIn('Username:', result.data)
+    #     self.assertNotIn('Email', result.data)
+
+
+    def test_username_fail(self):
+        """Checks that user cannot register with an existing username."""
+
+        result = self.client.post('/new-user',
+                                  data={'username': 'markiplier',
+                                        'email': 'test@test.com',
+                                        'password': 'lolol'},
+                                  follow_redirects=True)
+
+        self.assertIn('Sorry, that username is already in use.', result.data)
+
+
+    def test_email_fail(self):
+        """Checks that user cannot register with an existing email."""
+
+        result = self.client.post('/new-user',
+                                  data={'username': TEST_USERNAME,
+                                        'email': 'markiplier@mark.com',
+                                        'password': 'lolol'},
+                                  follow_redirects=True)
+
+        self.assertIn('Sorry, that email is already in use.', result.data)
+
+
+    def test_login(self):
+        """Checks for confirmation of successful login."""
+
+        result = self.client.post('/login',
+                                  data={'username': 'markiplier',
+                                        'password': 'markiplier'},
+                                  follow_redirects=True)
+
+        self.assertIn('Logged in.', result.data)
+
+
+    def test_login_fail(self):
+        """Checks that user must input correct password."""
+
+        result = self.client.post('/login',
+                                  data={'username': 'markiplier',
+                                        'password': 'tinyboxtim'},
+                                  follow_redirects=True)
+
+        self.assertIn('Username/password combination not recognized.', result.data)
+
+
+    def test_title_search(self):
+        """Checks results of a basic title search."""
+
+        result = self.client.get('/search-results',
+                                 query_string={'title': 'final fantasy'})
+
+        self.assertIn('Crisis Core', result.data)
+
+
+    def test_adv_search(self):
+        """Tests the advanced search form page."""
+
+        result = self.client.get('/adv-search')
+
+        self.assertIn('Search by platform', result.data)
+        self.assertIn('Action', result.data)  # Do the genres show up?
+
+
+    def test_critic_filter(self):
+        """Confirms that searching by (critic)score filters properly."""
+
+        result = self.client.get('/adv-search-results', 
+                                  query_string={'title': None,
+                                                'critic_score': 10.0,
+                                                'user_score': 0,
+                                                'platform': None,
+                                                'genres': None,})  # query_string is a GET specific keyword; data is the POST equivalent
+
+        self.assertIn('Platform', result.data)  # Do the table headers render properly?
+        self.assertIn('Checkered Flag', result.data)
+        self.assertNotIn('Fury of The Hulk', result.data)  # This game scored a 1 and shouldn't show up
+
+    def test_user_profile(self):
+        """Checks username, reviews, # of reviews on user's profile page."""
+
+        result = self.client.get('/user/1')
+
+        self.assertIn('markiplier', result.data)  # Does the page display username?
+        self.assertIn('To the Moon', result.data)  # Is the user's review on this page?
+        self.assertIn('Number of games reviewed', result.data)
+        self.assertIn('horror', result.data)  # Do his tags show up?
 
 
 ###################################################
 # LOGGED IN & DATABASE TESTS
 
-# class DatabaseAndLoggedIn(unittest.TestCase):
-#     """Flask tests that require a user logged in before communicating with database."""
+class DatabaseAndLoggedIn(unittest.TestCase):
+    """Flask tests that require a user logged in before communicating with database."""
 
-#     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['SECRET_KEY'] = 'key'
-#         self.client = app.test_client()
+    def setUp(self):
+        app.config['TESTING'] = True
+        app.config['SECRET_KEY'] = 'key'
+        self.client = app.test_client()
 
-#         with self.client as c:
-#             with c.session_transaction() as sess:
-#                 sess['user_id'] = 1
+        with self.client as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
 
-#         connect_to_db(app, 'postgresql:///games')
+        connect_to_db(app, 'postgresql:///games')
 
-#     def tearDown(self):
-#         """Run at the end of every test."""
+    def tearDown(self):
+        """Run at the end of every test."""
 
-#         db.session.close()
+        db.session.close()
 
-#     def test_game_info(self):
-#         """Checks if user has reviewed a game before."""
 
-#         result = self.client.get('/game/Xbox%20360/Best%20Game%20Ever')
+    def test_logged_in_navbar(self):
+        """Checks that login status impacts navbar."""
 
-#         self.assertIn('Literally the best game ever.', result.data)  # Does test review show up?
-#         self.assertIn('Update your review', result.data)
-#         self.assertNotIn('Review Best Game Ever', result.data)
+        result = self.client.get('/')
+
+        self.assertIn('Profile', result.data)
+        self.assertIn('Logout', result.data)
+        self.assertNotIn('Register', result.data)
+        self.assertNotIn('Login', result.data)
+
+
+    def test_game_info(self):
+        """Checks if user has reviewed a game before."""
+
+        result = self.client.get('/game/PC/The%20Binding%20of%20Isaac:%20Rebirth')
+
+        self.assertIn('Looking forward to future add-ons.', result.data)  # Does test review show up?
+        self.assertIn('rec', result.data)
+        self.assertIn('game_id', result.data)
 
 
 ###################################################

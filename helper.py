@@ -113,32 +113,6 @@ def handle_review_status(game, user_status):
     return reviews
 
 
-def handle_invalid_search(game):
-    """Handles logic for redirecting user when game does not exist in database."""
-
-    if game:
-        game_id = game.game_id
-
-        user_status = check_login_status()
-        review = check_review_status(game)
-        
-        user_id = session.get('user_id')
-
-        reviews = retrieve_game_reviews(user_id, game_id)
-
-        vg_genres = retrieve_genres(game_id)
-
-        return render_template('game_info.html',
-                               game=game,
-                               user_id=user_id,
-                               user_status=user_status,
-                               review=review,
-                               reviews=reviews,
-                               vg_genres=vg_genres)
-    else:
-        flash("Oops! Our database didn't return any results.")
-        return redirect('/')
-
 ###################################################
 # UPDATING THE DATABASE
 
@@ -366,8 +340,9 @@ def retrieve_genres(game_id):
 
 def retrieve_title(title):  # Takes in request.args.get() value
     """Returns a query by title."""
-
-    title = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
+    
+    if title:
+        title = Game.query.filter(Game.title.ilike('%' + title + '%')).all()
     
     return title
 
