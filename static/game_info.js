@@ -12,50 +12,33 @@ $(document).ready(function() {
 } );
 
 //////////////////////////////////////
-// Adding and editing game reviews
+// Updating game review
 
-function confirmReview() {
-	$('#review-form').empty();
-	$('#review-status').remove();
-	$('#review-notif').fadeIn(200).fadeOut(200).fadeIn(200);
-}
-
-function confirmEdit() {
-	$('#update-review-form').empty();
-	$('#edit-review-notif').fadeIn(200).fadeOut(200).fadeIn(200);
-}
-
-function submitNewReview(evt) {
-	evt.preventDefault();
-	evt.stopImmediatePropagation();
-
-	let reviewData = $('#review-form').serialize();  // IMPORTANT FOR SERVER SIDE
-
-	$.post('/new-review.json',
-		   reviewData,  // IMPORTANT
-		   confirmReview);	
-
-	return false;
-}
-
-function editReview(evt) {
+function updateReview(evt) {
 	evt.preventDefault();
 	evt.stopImmediatePropagation();  // Stops double AJAX call
 
-	let reviewData = $('#update-review-form').serialize();
+	let reviewData = $('#review-form').serialize();
+	console.log(reviewData);
 
-	$.post('/edit-review.json',
+	$.post('/review.json',
 			reviewData,
-			confirmEdit);
+			function() {
+				location.reload();
+			});
 
 	return false;
 }
 
-$('#submit-review').on('click', submitNewReview);
-$('#change-review').on('click', editReview);
+$('#submit-review').on('click', updateReview);
 
 //////////////////////////////////////
-// Faving and unfaving games
+// Dialogs for tags
+
+$(".badge-dialog").dialog({ autoOpen: false });
+$(".badge").click(function(){
+	$(".badge-dialog").dialog("open");
+})
 
 
 

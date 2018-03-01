@@ -95,7 +95,7 @@ def check_review_status(game):
         return review
 
     else:
-        review = None  # Display form in Jinja to add a review.
+        review = None
 
         return review
 
@@ -346,9 +346,22 @@ def retrieve_title(title):  # Takes in request.args.get() value
     
     return title
 
-def retrieve_vg_tags(tag, user_id):
-    """Searches for vg_tags based on tag text. Used for profile page tags."""
+def retrieve_tagged_games(vg_tag):
+    """Grabs all the games a user has tagged."""
 
-    games = Game.query.join(VgTag).join(Tag).join(User).filter(Tag.tag == tag, User.user_id == user_id).all()
+    user_id = session['user_id']
+
+    games = Game.query.join(VgTag).join(Tag).join(User).filter(Tag.tag == vg_tag.tag.tag, User.user_id == user_id).all()
 
     return games
+
+def retrieve_all_tagged_games(vg_tags):
+    """Accounts for multiple tags on a game profile page."""
+
+    tagged_games = []
+
+    for vg_tag in vg_tags:
+        games = retrieve_vg_tags(vg_tag)
+        tagged_games.append(games)
+
+    return tagged_games

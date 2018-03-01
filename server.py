@@ -191,6 +191,12 @@ def show_game_profile(platform, title):
     tags = check_tags(user_status)
     vg_tags = check_vg_tags(game_id)
 
+    tagged_games = []
+
+    for vg_tag in vg_tags:
+        games = retrieve_vg_tags(vg_tag)
+        tagged_games.append(games)
+
     return render_template('game_info.html',
                              game=game,
                              user_status=user_status,
@@ -198,7 +204,8 @@ def show_game_profile(platform, title):
                              reviews=reviews,
                              vg_genres=vg_genres,
                              tags=tags,
-                             vg_tags=vg_tags)
+                             vg_tags=vg_tags,
+                             tagged_games=tagged_games)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():
@@ -211,7 +218,7 @@ def validate_user():
 
     return process_registration(username, email, password)  # In helper.py
 
-@app.route('/new-review.json', methods=['POST'])  # In a .json route, 'form data' needs to be passed as second arg
+@app.route('/review.json', methods=['POST'])  # In a .json route, 'form data' needs to be passed as second arg
 def get_review_info():
     """Return info about a game review as JSON."""
 
@@ -223,7 +230,14 @@ def get_review_info():
     user_id = session['user_id']
     game = retrieve_game(game_id)
 
-    create_review(game_id, review, user_score)
+    review_status = check_review_status(game)
+
+    if review_status:
+        update_review(game_id, review, user_score)
+    
+    else:
+        create_review(game_id, review, user_score)
+    
     update_aggregate_score(game)
 
     review_info = {
@@ -232,36 +246,10 @@ def get_review_info():
         "review": review,
     }
 
-    print """<NEW REVIEW: game_id={}, user_score={}, review={}>""".format(game_id, 
-                                                                          user_score, 
-                                                                          review)
+    print """<REVIEW: game_id={}, user_score={}, review={}>""".format(game_id, 
+                                                                      user_score, 
+                                                                      review)
     return jsonify(review_info)
-
-
-@app.route('/edit-review.json', methods=['POST'])
-def edit_review():
-    """Return info about user updating a game review as JSON."""
-
-    user_score = request.form.get('edit_user_score')
-    game_id = request.form.get('game_id')
-    review_text = request.form.get('edit_review')
-
-    user_id = session['user_id']
-    game = retrieve_game(game_id)
-
-    update_review(game_id, review_text, user_score)
-    update_aggregate_score(game)
-
-    review_data = {
-        "game_id": game_id,
-        "user_score": user_score,
-        "review_text": review_text,
-    }
-
-    print "<UPDATED REVIEW: game_id={}, user_score={}, review={}>".format(game_id, 
-                                                                          user_score, 
-                                                                          review_text)
-    return jsonify(review_data)
 
 
 @app.route('/create-tags.json', methods=['POST'])

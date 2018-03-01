@@ -73,15 +73,19 @@
     {% if vg_tags %}
     {% for vg_tag in vg_tags %}
 
-    <a href="/tag/{{vg_tag.tag.tag}}/{{session['user_id']}}">
     <span id='{{vg_tag.vg_tag_id}}'
           class='deleting-drag badge badge-secondary' 
           name='{{vg_tag.tag.tag}}'>
 
             {{ vg_tag.tag.tag }}
+            <div class="badge-dialog" title="{{ game.title }}">
+                
+                <blockquote>
+                                    </blockquote>
+          
+            </div>
     
     </span>
-    </a>
 
     {% endfor %}
 
@@ -281,67 +285,14 @@
             </blockquote>
             </p>
 
-        <div id='edit-review-notif' hidden>
-            Your review of {{ game.title }} has been updated!
-        </div>
-
-        <div class='row'>
-
-            <form id='update-review-form'>
-
-                <div class="form-group">
-                <div class="col-sm-4">
-                <label for='edit-score'>Rate game (1-10):</label>
-                <input id='edit-score' 
-                       type='number' 
-                       class='form-control' 
-                       name='edit_user_score' 
-                       placeholder='Out of 10, how was this game?' 
-                       min=1.0 
-                       max=10.0 
-                       required>
-                </div>
-                </div>
-
-                <div class="form-group">
-                <div class="col-sm-4">
-                <label for='edit-review'>Update your review:</label>
-                <input id='edit-review' 
-                       type='textarea' 
-                       class='form-control' 
-                       name='edit_review'
-                       placeholder='Tell us what you thought of this game!' 
-                       >
-                </div>
-                </div>
-        </div>
-                
-
-                <div class='row'>
-                <div class="col-sm-6">
-                    <!-- Pass the game's id back to Python -->
-                    <input id='game-id-2' 
-                           type='hidden' 
-                           name='game_id'
-                           value='{{ game.game_id }}'>
-                    <input id='change-review' 
-                            type='submit' 
-                            class='btn btn-info row-top-margin'
-                            value='Edit review'>
-                </div>
-                </div>
-            </form>
-
-            {% else %}
-
-            <div id='review-notif' hidden>Your review of {{ game.title }} has been added!</div>
+            {% endif %}
 
             <div class='row'>
             <form id='review-form'>
                 <div class="form-group">
                 <div class="col-sm-4">
                 <label>Give a score:</label>
-                <input id='new-score' 
+                <input id='user-score' 
                        type='number' 
                        name='user_score'
                        class='form-control' 
@@ -349,15 +300,17 @@
                        min=1 
                        max=10 
                        required>
+                <!-- SUBMIT BUTTON -->
                 <input id='submit-review'
                        type='submit'
                        class='btn btn-info row-top-margin'
                        value='Review {{ game.title }}'>
+                <!-- END SUBMIT BUTTON -->
                 </div></div>
                 <div class="form-group">
                 <div class="col-sm-4">
                 <label>Write a review:</label>
-                <input id='new-review' 
+                <input id='user-review' 
                        type='textarea' 
                        class='form-control' 
                        name='review' 
@@ -368,7 +321,6 @@
                        name='game_id' 
                        value='{{ game.game_id }}'>
 
-                
             </div></div>
             </form>
             {% endif %}
@@ -376,8 +328,6 @@
         </div>
     </div>
     </div>
-
-{% endif %}
 
 <!-- OTHER USERS' REVIEWS -->
 
