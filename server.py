@@ -190,12 +190,7 @@ def show_game_profile(platform, title):
     reviews = handle_review_status(game, user_status)
     tags = check_tags(user_status)
     vg_tags = check_vg_tags(game_id)
-
-    tagged_games = []
-
-    for vg_tag in vg_tags:
-        games = retrieve_vg_tags(vg_tag)
-        tagged_games.append(games)
+    all_tagged_games = retrieve_all_tagged_games(vg_tags)
 
     return render_template('game_info.html',
                              game=game,
@@ -205,7 +200,7 @@ def show_game_profile(platform, title):
                              vg_genres=vg_genres,
                              tags=tags,
                              vg_tags=vg_tags,
-                             tagged_games=tagged_games)
+                             all_tagged_games=all_tagged_games)
 
 @app.route('/new-user', methods=['POST'])
 def validate_user():

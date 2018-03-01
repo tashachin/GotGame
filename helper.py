@@ -351,17 +351,17 @@ def retrieve_tagged_games(vg_tag):
 
     user_id = session['user_id']
 
-    games = Game.query.join(VgTag).join(Tag).join(User).filter(Tag.tag == vg_tag.tag.tag, User.user_id == user_id).all()
+    tagged_games = Game.query.join(VgTag).join(Tag).join(User).filter(Tag.tag == vg_tag.tag.tag, User.user_id == user_id).all()
 
-    return games
+    return tagged_games
 
 def retrieve_all_tagged_games(vg_tags):
     """Accounts for multiple tags on a game profile page."""
 
-    tagged_games = []
+    all_tagged_games = []
 
     for vg_tag in vg_tags:
-        games = retrieve_vg_tags(vg_tag)
-        tagged_games.append(games)
+        games = retrieve_tagged_games(vg_tag)
+        all_tagged_games.append(games)
 
-    return tagged_games
+    return all_tagged_games

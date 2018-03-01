@@ -74,17 +74,27 @@
     {% for vg_tag in vg_tags %}
 
     <span id='{{vg_tag.vg_tag_id}}'
-          class='deleting-drag badge badge-secondary' 
+          class='badge badge-secondary' 
           name='{{vg_tag.tag.tag}}'>
+    
 
             {{ vg_tag.tag.tag }}
-            <div class="badge-dialog" title="{{ game.title }}">
-                
+            
+            {% for tagged_games in all_tagged_games %}
+            <div class="badge-dialog" id="badge-dialog-{{vg_tag.vg_tag_id}}" title="{{ game.title }}">
+            
+            
+            
+            {% for tagged_game in tagged_games %} 
                 <blockquote>
-                                    </blockquote>
-          
+                    {{ tagged_game.title }}
+                </blockquote>  
+            {% endfor %}
+
+
             </div>
-    
+            {% endfor %}
+              
     </span>
 
     {% endfor %}

@@ -35,9 +35,13 @@ $('#submit-review').on('click', updateReview);
 //////////////////////////////////////
 // Dialogs for tags
 
-$(".badge-dialog").dialog({ autoOpen: false });
+$(".badge-dialog").dialog({ 
+	autoOpen: false, 
+});
+
 $(".badge").click(function(){
-	$(".badge-dialog").dialog("open");
+	console.log($(this).attr('id'));
+	$("#badge-dialog-"+$(this).attr('id')).dialog("open");
 })
 
 
