@@ -14,6 +14,8 @@ from model import db, connect_to_db
 
 from test_model import *
 
+from selenium import webdriver
+
 ###################################################
 # BASIC TESTS
 
@@ -276,6 +278,27 @@ class AddToDatabase(unittest.TestCase):
         self.assertIn('You&#39;ve been registered. Game on!', result.data)
         self.assertIn('Username:', result.data)
         self.assertNotIn('Email', result.data)
+
+
+###################################################
+# SELENIUM TESTS
+
+
+class BrowserTests(unittest.TestCase):
+    """Test JSON and front-end functionality."""
+
+    def setUp(self):
+
+        self.browser = webdriver.Chrome()
+
+
+    def tearDown(self):
+        self.browser.quit()
+
+
+    def test_title(self):
+        self.browser.get('http://localhost:5000/')
+        self.assertEqual(self.browser.title, 'Got Game?')
 
 
 ###################################################

@@ -2,19 +2,27 @@
 
 {% block content %}
 <div class='container'>
-	<div class="col-sm-8">
-	<form action='/adv-search-results'>
-		<input id='score' class='num-field' name='critic_score' type='number' min='1' max='10' placeholder='Search by score (IGN)'>
-		<br>
-		<input id='user_scores' class='num-field' name='user_scores' type='number' min='1' max='10' placeholder='Search by score (Users)'>
-		<br>
-		<select id='platform-options' name='platform'> 
-		<!-- onchange='showPlatforms() 
-			* Use this later when you need to narrow down by style
-			* Display a narrowed-down dropdown depending on which larger
-			category is selected
-			* i.e. If User selects Playstation, display a new dropdown with
-			'Gamecube', 'Wii', 'etc.'-->
+	
+	<div class="row">
+		<div class="col-md-8">
+
+		<form action='/adv-search-results'>
+
+		<label>Filter by IGN score:</label>
+		<input id='score' class='num-field form-control' name='critic_score' type='number' min='1' max='10' placeholder='Max score: 10'>
+		
+		<label>Filter by user score:</label>
+		<input id='user_scores' class='num-field form-control' name='user_scores' type='number' min='1' max='10' placeholder='Max score: 10'>
+		
+		</div>
+	</div>
+
+	<div class="row">
+		
+		<div class="col-sm-4">
+
+		<label>Filter by platform:</label>
+		<select id='platform-options' class='btn btn-secondary' name='platform'> 
 			<option value='Default' disabled selected>Search by platform</option>
 			<option value='Xbox'>Xbox</option>
 			<option value='PlayStation'>PlayStation</option>
@@ -22,7 +30,8 @@
 			<option value='Other'>Other</option>
 		</select>
 
-		<select id='sub-options' name='specific_platform'>
+		<label>Narrow down filter:</label>
+		<select id='sub-options' class='btn btn-secondary' name='specific_platform'>
 			<option id='#select-option' value='Default' disabled selected>-- Select --</option>
 			<option data-group='Other' value='PC'>PC</option>
 			<option data-group='Xbox' value='Xbox'>Xbox</option>
@@ -41,10 +50,14 @@
 			<option data-group='Nintendo' value='Nintendo DS'>Nintendo DS</option>
 			<option data-group='Nintendo' value='Nintendo 3DS'>Nintendo 3DS</option>
 		</select>
-		<br>
+		
+		</div>
+	</div>
+
 		<input type='reset' value='Reset'>
 		<input type='submit' value='Search'>
-	</div>
+
+</div>
 
 	<div class="col-sm-4">
 		<div class='well'>
