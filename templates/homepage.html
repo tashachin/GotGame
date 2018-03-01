@@ -1,21 +1,33 @@
 {% extends 'base.html' %}
+{% block hscripts %}
+<script src="/static/homepage.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="homepage-hero-module">
     <div class="video-container">
-        <div class="filter"></div>
-        <video autoplay loop class="fillWidth">
-            <source src="/static/embers.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-        </video>
-        <div class="poster hidden">
-            <img src="/static/embers.jpeg" alt="Embers">
-        </div>
-    </div>
+<!-- CONTENT GOES BELOW -->
+
+    <form action='/search-results'>
+        <input id='basic-search' type='search' name='title' placeholder='Enter a game title'>
+        <input type='submit' value='Search'>
+        </form>
+    <p><a href="/adv-search">Advanced search</a></p>
+
+
+
+
+<!-- CONTENT GOES ABOVE -->
+<div class="filter"></div>
+<video autoplay loop class="fillWidth">
+    <source src="/static/embers.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+</video>
+<div class="poster hidden">
+    <img src="/static/embers.jpeg" alt="Embers">
 </div>
 
-<form action='/search-results'>
+</div></div>
 
-<input id='basic-search' type='search' name='title' placeholder='Enter a game title'>
-<input type='submit' value='Search'>
-</form>
-<p><a href="/adv-search">Advanced search</a></p>
+
+
 {% endblock %}

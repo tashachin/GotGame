@@ -37,14 +37,12 @@ $('#submit-review').on('click', updateReview);
 
 $(".badge-dialog").dialog({ 
 	autoOpen: false,
-	classes: {
-		"ui-dialog-title": "ui-widget-header",
-		"ui-dialog-titlebar-close": "ui-icon-closethick",
-	} 
+	modal: true,
+	show: "fade",
+	height: "auto",
 });
 
 $(".badge").click(function(){
-	console.log($(this).attr('id'));
 	$("#badge-dialog-"+$(this).attr('id')).dialog("open");
 })
 
