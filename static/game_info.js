@@ -36,7 +36,11 @@ $('#submit-review').on('click', updateReview);
 // Dialogs for tags
 
 $(".badge-dialog").dialog({ 
-	autoOpen: false, 
+	autoOpen: false,
+	classes: {
+		"ui-dialog-title": "ui-widget-header",
+		"ui-dialog-titlebar-close": "ui-icon-closethick",
+	} 
 });
 
 $(".badge").click(function(){

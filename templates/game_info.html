@@ -83,15 +83,14 @@
 
             <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}" title="{{ game.title }}">
             
-            
             {% for game in all_tagged_games[all_tags] %}
-            
-                <blockquote>
+            <div class='tagged_game'>
+              
                     <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
-                </blockquote>  
-            
+             
+            </div>
             {% endfor %}
-
+            </ul>
             </div>
               
     </span>
