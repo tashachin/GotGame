@@ -70,30 +70,29 @@
     <label>Tags:</label>
     <div id='game-tags'>
 
-    {% if vg_tags %}
-    {% for vg_tag in vg_tags %}
+    {% if all_tagged_games %}
+    {% for all_tags in all_tagged_games %}
 
-    <span id='{{vg_tag.vg_tag_id}}'
+    <span id='{{all_tags.vg_tag_id}}'
           class='badge badge-secondary' 
-          name='{{vg_tag.tag.tag}}'>
+          name='{{all_tags.tag.tag}}'>
     
 
-            {{ vg_tag.tag.tag }}
+            {{ all_tags.tag.tag }}
             
-            {% for tagged_games in all_tagged_games %}
-            <div class="badge-dialog" id="badge-dialog-{{vg_tag.vg_tag_id}}" title="{{ game.title }}">
-            
-            
-            
-            {% for tagged_game in tagged_games %} 
-                <blockquote>
-                    {{ tagged_game.title }}
-                </blockquote>  
-            {% endfor %}
 
+            <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}" title="{{ game.title }}">
+            
+            
+            {% for game in all_tagged_games[all_tags] %}
+            
+                <blockquote>
+                    <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
+                </blockquote>  
+            
+            {% endfor %}
 
             </div>
-            {% endfor %}
               
     </span>
 

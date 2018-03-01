@@ -358,10 +358,10 @@ def retrieve_tagged_games(vg_tag):
 def retrieve_all_tagged_games(vg_tags):
     """Accounts for multiple tags on a game profile page."""
 
-    all_tagged_games = []
+    all_tagged_games = {}
 
     for vg_tag in vg_tags:
         games = retrieve_tagged_games(vg_tag)
-        all_tagged_games.append(games)
+        all_tagged_games[vg_tag] = games
 
     return all_tagged_games
