@@ -1,35 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class='container'>
+<div class='container-fluid'>
 	
+	<form action='/adv-search-results'>
 	<div class="row">
-		<div class="col-md-8">
 
-		<form action='/adv-search-results'>
+	<div class="col-sm-3">
+			<label>Search by genre:</label>
+			<div class='well'>
+			{% for genre in genres|sort(attribute='genre_type') %}
+			<input type='checkbox' name='genre' value='{{ genre.genre_id }}'> {{ genre.genre_type }}<br>
+			{% endfor %}
+			</div>
+	</div>
+	
+	<!-- <div class="row"> -->
+	<div class="col-sm-3">
 
+		<div class='form-group'>
 		<label>Filter by IGN score:</label>
 		<input id='score' class='num-field form-control' name='critic_score' type='number' min='1' max='10' placeholder='Max score: 10'>
-		
-		<label>Filter by user score:</label>
-		<input id='user_scores' class='num-field form-control' name='user_scores' type='number' min='1' max='10' placeholder='Max score: 10'>
-		
 		</div>
-	</div>
 
-	<div class="row">
-		
-		<div class="col-sm-4">
-
+		<!-- <div class="col-sm-3"> -->
+		<div class='form-group'>
 		<label>Filter by platform:</label>
+
 		<select id='platform-options' class='btn btn-secondary' name='platform'> 
 			<option value='Default' disabled selected>Search by platform</option>
 			<option value='Xbox'>Xbox</option>
 			<option value='PlayStation'>PlayStation</option>
 			<option value='Nintendo'>Nintendo</option>
 			<option value='Other'>Other</option>
-		</select>
+		</select></div>
 
+		<input class='btn btn-default' type='reset' value='Reset'>
+		<input class='btn btn-info' type='submit' value='Search'>
+		
+	</div>
+		
+	<div class="col-sm-3">
+
+		<div class='form-group'>
+		<label>Filter by user score:</label>
+		<input id='user_scores' class='num-field form-control' name='user_scores' type='number' min='1' max='10' placeholder='Max score: 10'>
+		</div>
+
+		<div class='form-group'>
 		<label>Narrow down filter:</label>
 		<select id='sub-options' class='btn btn-secondary' name='specific_platform'>
 			<option id='#select-option' value='Default' disabled selected>-- Select --</option>
@@ -50,24 +68,13 @@
 			<option data-group='Nintendo' value='Nintendo DS'>Nintendo DS</option>
 			<option data-group='Nintendo' value='Nintendo 3DS'>Nintendo 3DS</option>
 		</select>
-		
 		</div>
+
 	</div>
 
-		<input type='reset' value='Reset'>
-		<input type='submit' value='Search'>
-
-</div>
-
-	<div class="col-sm-4">
-		<div class='well'>
-			<h5>Search by genre:</h5>
-			{% for genre in genres|sort(attribute='genre_type') %}
-			<input type='checkbox' name='genre' value='{{ genre.genre_id }}'> {{ genre.genre_type }}<br>
-			{% endfor %}
-		</div>
-		</form>
 	</div>
+	
+	</form>
 </div>
 
 {% endblock %}

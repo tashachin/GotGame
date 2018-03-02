@@ -281,27 +281,6 @@ class AddToDatabase(unittest.TestCase):
 
 
 ###################################################
-# SELENIUM TESTS
-
-
-class BrowserTests(unittest.TestCase):
-    """Test JSON and front-end functionality."""
-
-    def setUp(self):
-
-        self.browser = webdriver.Chrome()
-
-
-    def tearDown(self):
-        self.browser.quit()
-
-
-    def test_title(self):
-        self.browser.get('http://localhost:5000/')
-        self.assertEqual(self.browser.title, 'Got Game?')
-
-
-###################################################
 # HELPER FUNCTIONS
 
 if __name__ == "__main__":
