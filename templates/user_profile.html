@@ -46,7 +46,7 @@
 <div class='row-top-margin'>
 <h4>Reviews</h4>
 <ul>{% for review in reviews %}
-	<li id='review-{{ review.review_id }}'><a href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
+	<li><a id='review-{{ review.review_id }}' href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
 	{% endfor %}
 </ul>
 
