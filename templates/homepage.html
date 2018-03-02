@@ -1,79 +1,23 @@
-<!doctype html>
-<html>
-<head>
-    <title>Got Game?</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="/static/homepage.js"></script>
-</head>
-
-<body>
-
-<div class="homepage-hero-module">
-<div class="video-container">
-
-<!-- CONTENT GOES BELOW -->
-
-    <div class="homepage-filter">
-        <div class='container'>
-            <h1>Got Game?</h1>
-            <br>
-            <a href='/'>Home</a> | 
-            {% if session.get('user_id') %}
-            <a href="/user/{{ session['user_id'] }}">Profile</a> | 
-            <!-- <a href='/'>Favorites</a> | -->
-            <a href='/logout'>Logout</a>
-            {% else %} 
-            <a href='/register'>Register</a> |
-            <a href='/login'>Login</a>
-            {% endif %}
-            <hr>
+{% extends 'base.html' %}
+{% block content %}
+        
+    <form action='/search-results'>
+        <div class='form-group'>
+        <label>Enter a game title</label>
+        <br>
+        <input id='basic-search' type='search' class='form-control' name='title' placeholder='Looking for a particular game?'>
+        <input type='submit' class='btn btn-primary row-top-margin' value='Search'>
         </div>
+    </form>
 
-
-        <div class='container'>
-        <form action='/search-results'>
-            
-            <div class='form-group'>
-            <label>Enter a game title</label>
-            <br>
-            <input id='basic-search' type='search' class='form-control' name='title' placeholder='Looking for a particular game?'>
-            <input type='submit' class='btn btn-primary row-top-margin' value='Search'>
-            </div>
-        </form>
-            
-
-        <p><a href="/adv-search">Advanced search</a></p>
-        </div>
-    </div>
+    <a href="/adv-search">
+        Advanced search
+    </a>
 
     {% for msg in get_flashed_messages() %}
-
-    <div class="alert alert-info">
+        <div class="alert alert-info">
         {{ msg }}
-    </div>
-
+        </div>
     {% endfor %}
-</div>
-</div> 
 
-
-
-
-<!-- CONTENT GOES ABOVE -->
-
-<video autoplay loop class="fillWidth">
-    <source src="/static/embers.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-</video>
-<div class="poster hidden">
-    <img src="/static/embers.jpeg" alt="Embers">
-</div>
-
-</div></div>
-
-
-
-</body>
-</html>
+{% endblock %}
