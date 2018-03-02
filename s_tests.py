@@ -39,7 +39,41 @@ class BrowserTests(unittest.TestCase):
 
         self.wait.until(EC.url_to_be('http://localhost:5000/'))
         self.assertIn('Logged in.', self.browser.page_source)
-        
+    
+
+    def test_adv_search(self):
+        self.browser.get('http://localhost:5000/adv-search')
+
+        user_score = self.browser.find_element_by_id('user_scores')
+        user_score.send_keys('5')
+
+        btn = self.browser.find_element_by_id('submit')
+        btn.click()
+
+        self.wait.until(EC.url_to_be('http://localhost:5000/adv-search-results?critic_score=&user_scores=5'))
+        self.assertIn('Left 4 Dead 2', self.browser.page_source)
+        self.assertIn('Score (IGN)', self.browser.page_source)
+
+
+    def test_userflow(self):
+        self.browser.get('http://localhost:5000/user/1')
+        self.assertIn('Hello, everybody! My name is Markiplier.', self.browser.page_source)
+
+        link = self.browser.find_element_by_id('review-1')
+        link.click()
+
+        self.wait.until(EC.url_to_be('http://localhost:5000/game/PC/Dead%20Island'))
+        self.assertIn('zombie-infested island', self.browser.page_source)
+
+        btn = self.browser.find_element_by_id('open-add-tag-modal')
+        btn.click()
+
+        element = self.browser.find_element_by_id('tag-field')
+        html = self.browser.execute_script('return arguments[0].innerHTML;', element)
+
+        self.assertIn('fave', html)
+
+
 
 if __name__ == "__main__":
     unittest.main()

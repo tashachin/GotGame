@@ -46,7 +46,7 @@
 <div class='row-top-margin'>
 <h4>Reviews</h4>
 <ul>{% for review in reviews %}
-	<li><a href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
+	<li id='review-{{ review.review_id }}'><a href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
 	{% endfor %}
 </ul>
 
@@ -78,7 +78,7 @@
 	{% for tag in tags %}
 
 	<a href='/tag/{{tag.tag}}/{{user.user_id}}'>
-		<span id='{{tag.tag_id}}'
+		<span id='tag-{{tag.tag_id}}'
 		  class='user-tags-drag badge badge-secondary' 
 	      name='{{tag.tag}}'>
 	
