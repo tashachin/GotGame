@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block hscripts %} 
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" 
+	  rel="stylesheet" 
+	  type="text/css"/>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
   		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   		crossorigin="anonymous"></script>
@@ -78,7 +81,6 @@
 
 		{% for tag in tags %}
 
-		<a href='/tag/{{tag.tag}}/{{user.user_id}}'>
 			<span id='tag-{{tag.tag_id}}'
 			  class='user-tags-drag badge badge-secondary' 
 		      name='{{tag.tag}}'>

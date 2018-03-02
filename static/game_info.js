@@ -46,6 +46,15 @@ $(".badge").click(function(){
 	$("#badge-dialog-"+$(this).attr('id')).dialog("open");
 })
 
+$.extend( $.ui.dialog.prototype.options.classes, {
+    "ui-dialog": "modal-content",
+    "ui-dialog-titlebar": "modal-header",
+    "ui-dialog-title": "modal-title",
+    "ui-dialog-titlebar-close": "close",
+    "ui-dialog-content": "modal-body",
+    "ui-dialog-buttonpane": "modal-footer"
+});
+
 
 
 //////////////////////////////////////
