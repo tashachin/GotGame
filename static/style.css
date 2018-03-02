@@ -45,7 +45,7 @@
 /* HOMEPAGE MP4 */
 
 .homepage-hero-module {
-    z-index: -1;
+    z-index: 0;
     border-right: none;
     border-left: none;
     position: fixed;
@@ -59,8 +59,8 @@
     display: block !important;
 }
 .video-container {
-    z-index: -1;
-    position: fixed;
+    z-index: 0;
+    position: relative;
     bottom: 0%;
     left: 0%;
     height: 100%;
@@ -72,17 +72,12 @@
     z-index: -1;
     width: 100%;
     bottom: 0;
-    position: fixed;
+    position: relative;
 }
-.video-container .filter {
-    z-index: -1;
-    position: fixed;
-    background: rgba(0, 0, 0, 0.4);
-    width: 100%;
-}
+
 .video-container video {
     z-index: -1;
-    position: fixed;
+    position: relative;
     z-index: 0;
     bottom: 0;
 }

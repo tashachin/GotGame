@@ -9,7 +9,6 @@
 {% block title %} {{ user.username }} {% endblock %}
 
 {% block content %}
-
 <h2>{{ user.username }} ( {{ user.user_id }} )</h2>
 
 <i>user joined on {{ user.joined_at|datetime }}</i>
@@ -52,64 +51,67 @@
 
 <p>Number of games reviewed: {{ num_reviews }}</p>
 
-<a id='tags'></a>
-<h4>Tags</h4>
+{% if session['user_id'] == user.user_id %}
 
-<form id='create-tags-form'>
+	<a id='tags'></a>
+	<h4>Tags</h4>
 
-	<label>Separate tags with commas:</label>
-	<p>
-	<input id='new-tags'
-		   type='text'
-		   name='new_tags'>
-	<input id='create-tags' 
-		   class='btn btn-primary' 
-		   type='submit'
-		   value='Create new tags'>
-	</p>
+	<form id='create-tags-form'>
 
-</form>
+		<label>Separate tags with commas:</label>
+		<p>
+		<input id='new-tags'
+			   type='text'
+			   name='new_tags'>
+		<input id='create-tags' 
+			   class='btn btn-primary' 
+			   type='submit'
+			   value='Create new tags'>
+		</p>
 
-<div class='container'>
-<div class='row'>
-<div id='drag-and-drop-tags'>
-	<div id='tag-field'>
+	</form>
 
-	{% for tag in tags %}
+	<div class='container'>
+	<div class='row'>
+	<div id='drag-and-drop-tags'>
+		<div id='tag-field'>
 
-	<a href='/tag/{{tag.tag}}/{{user.user_id}}'>
-		<span id='tag-{{tag.tag_id}}'
-		  class='user-tags-drag badge badge-secondary' 
-	      name='{{tag.tag}}'>
-	
-		{{ tag.tag }}
-	
-		</span>
-	</a>
+		{% for tag in tags %}
 
-	{% endfor %}
-	
+		<a href='/tag/{{tag.tag}}/{{user.user_id}}'>
+			<span id='tag-{{tag.tag_id}}'
+			  class='user-tags-drag badge badge-secondary' 
+		      name='{{tag.tag}}'>
+		
+			{{ tag.tag }}
+		
+			</span>
+		</a>
+
+		{% endfor %}
+		
+		</div>
+	<hr>
+
+	<label>Drag here to delete tags:</label>
+		
+		<div id='delete-tags-field'
+			 class='deleting-drop well'
+			 >
+		</div>
+	<!-- drag and drop field ends here -->
 	</div>
-<hr>
 
-<label>Drag here to delete tags:</label>
-	
-	<div id='delete-tags-field'
-		 class='deleting-drop well'
-		 >
+	<form id='delete-user-tags-form'>
+		<input id='delete-tags'
+			   class='btn btn-danger'
+			   type='submit'
+			   value='Delete tags'>
+	</form>
+
 	</div>
-<!-- drag and drop field ends here -->
-</div>
-
-<form id='delete-user-tags-form'>
-	<input id='delete-tags'
-		   class='btn btn-danger'
-		   type='submit'
-		   value='Delete tags'>
-</form>
-
-</div>
-</div>
+	</div>
+{% endif %}
 {% endblock %}
 
 {% block fscripts %}

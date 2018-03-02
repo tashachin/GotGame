@@ -18,26 +18,34 @@
 
 <div class="container">
 <h1>{% block heading %}Got Game?{% endblock %}</h1>
+</div>
 {% block navbar %}
-<br>
-<a href='/'>Home</a> | 
-{% if session.get('user_id') %}
-<a href="/user/{{ session['user_id'] }}">Profile</a> | 
-<!-- <a href='/'>Favorites</a> | -->
-<a href='/logout'>Logout</a>
-{% else %} 
-<a href='/register'>Register</a> |
-<a href='/login'>Login</a>
-{% endif %}
-{% endblock %}
 
+<nav class="navbar navbar-light bg-faded static-top">
+<div class="container">
+<a class="nav-item nav-link" href='/'>Home</a> | 
+{% if session.get('user_id') %}
+<a class="nav-item nav-link" href="/user/{{ session['user_id'] }}">Profile</a> | 
+<!-- <a href='/'>Favorites</a> | -->
+<a class="nav-item nav-link" href='/logout'>Logout</a>
+{% else %} 
+<a class="nav-item nav-link" href='/register'>Register</a> |
+<a class="nav-item nav-link" href='/login'>Login</a>
+{% endif %}
 <hr>
+</div>
+</nav>
+{% endblock %}
 
 {% for msg in get_flashed_messages() %}
     <div class="alert alert-info">{{ msg }}</div>
 {% endfor %}
-{% block content %}
-{% endblock %}
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
 </div>
 
 </body>

@@ -74,6 +74,5 @@ class BrowserTests(unittest.TestCase):
         self.assertIn('fave', html)
 
 
-
 if __name__ == "__main__":
     unittest.main()
