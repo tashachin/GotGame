@@ -19,17 +19,17 @@
     <div class="homepage-filter">
         <div class='container'>
             <h1>Got Game?</h1>
-        <br>
-        <a href='/'>Home</a> | 
-        {% if session.get('user_id') %}
-        <a href="/user/{{ session['user_id'] }}">Profile</a> | 
-        <!-- <a href='/'>Favorites</a> | -->
-        <a href='/logout'>Logout</a>
-        {% else %} 
-        <a href='/register'>Register</a> |
-        <a href='/login'>Login</a>
-        {% endif %}
-        <hr>
+            <br>
+            <a href='/'>Home</a> | 
+            {% if session.get('user_id') %}
+            <a href="/user/{{ session['user_id'] }}">Profile</a> | 
+            <!-- <a href='/'>Favorites</a> | -->
+            <a href='/logout'>Logout</a>
+            {% else %} 
+            <a href='/register'>Register</a> |
+            <a href='/login'>Login</a>
+            {% endif %}
+            <hr>
         </div>
 
 

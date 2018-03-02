@@ -1,4 +1,5 @@
 .homepage-filter {
+    z-index: 1;
     padding: 10px;
     background-color: #FFFFFF;
     opacity: 0.8;
@@ -9,7 +10,7 @@
 }
 
 .num-field {
-	width: 180px;
+    width: 180px;
 }
 
 /*.badge-dialog {
@@ -60,7 +61,7 @@
 }
 .video-container {
     z-index: 0;
-    position: relative;
+    position: fixed;
     bottom: 0%;
     left: 0%;
     height: 100%;
@@ -69,15 +70,20 @@
     background: #000;
 }
 .video-container .poster img {
-    z-index: -1;
+    z-index: 0;
     width: 100%;
     bottom: 0;
-    position: relative;
+    position: fixed;
 }
-
+.video-container .filter {
+    z-index: -1;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+}
 .video-container video {
     z-index: -1;
-    position: relative;
+    position: fixed;
     z-index: 0;
     bottom: 0;
 }
