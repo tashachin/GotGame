@@ -4,6 +4,7 @@ title, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
+    height: 100%;
     background-image: url(background.jpeg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -19,8 +20,13 @@ a:hover {
     color:  #30edf2;
 }
 
+.opaque-wrapper {
+    background: rgba(204, 204, 204, 0.2);
+}
+
 .well {
     background-color: #30edf2;
+    color: #FFFFFF;
 }
 
 .btn-blue {

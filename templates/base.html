@@ -16,43 +16,35 @@
 
 </head>
 
-<body class="bg">
+<body class="opaque-wrapper">
+    <div class="container">
+        
+        <h1>{% block heading %}Got Game?{% endblock %}</h1>
 
-<div class="container">
-<h1>{% block heading %}Got Game?{% endblock %}</h1>
+        <nav class="navbar static-top">
+            <ul class="nav navbar-nav">
+                <li><a class="nav-item nav-link" href='/'>Home</a></li>
+                {% if session.get('user_id') %}
+                <li><a class="nav-item nav-link" href="/user/{{ session['user_id'] }}">Profile</a></li>
+                <!-- <a href='/'>Favorites</a> | -->
+                <li><a class="nav-item nav-link" href='/logout'>Logout</a></li>
+                {% else %} 
+                <li><a class="nav-item nav-link" href='/register'>Register</a></li>
+                <li><a class="nav-item nav-link" href='/login'>Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
 
-{% block navbar %}
+    {% for msg in get_flashed_messages() %}
+        <div class="alert alert-info">{{ msg }}</div>
+    {% endfor %}
 
-<nav class="navbar static-top">
-    <ul class="nav navbar-nav">
-        <li><a class="nav-item nav-link" href='/'>Home</a></li>
-        {% if session.get('user_id') %}
-        <li><a class="nav-item nav-link" href="/user/{{ session['user_id'] }}">Profile</a></li>
-        <!-- <a href='/'>Favorites</a> | -->
-        <li><a class="nav-item nav-link" href='/logout'>Logout</a></li>
-        {% else %} 
-        <li><a class="nav-item nav-link" href='/register'>Register</a></li>
-        <li><a class="nav-item nav-link" href='/login'>Login</a></li>
-        {% endif %}
-    </ul>
-</nav>
+    {% block content %}
+    {% endblock %}
 
-<br>
-
-{% for msg in get_flashed_messages() %}
-    <div class="alert alert-info">{{ msg }}</div>
-{% endfor %}
-
-</nav>
-{% endblock %}
-
-{% block content %}
-{% endblock %}
-
-</div>
+    </div>
 
 </body>
-
 {% block fscripts %}
 {% endblock %}
 
