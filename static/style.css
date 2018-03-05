@@ -4,11 +4,10 @@ title, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-    height: 100%;
-    background-image: url(background.jpeg);
+    background-image: url('/static/background.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Oxygen', sans-serif;
     color: #30edf2;
 }
 
@@ -21,6 +20,7 @@ a:hover {
 }
 
 .opaque-wrapper {
+    height: 100%;
     background: rgba(204, 204, 204, 0.2);
 }
 
@@ -73,7 +73,9 @@ a:hover {
     font-style: italic;
 }
 
-
+.container {
+    height: 100%;
+}
 
 /* //////////////////////////////////////////////////////////////////////// */
 /*
@@ -125,24 +127,24 @@ table.dataTable {
   table.dataTable thead .sorting_desc_disabled {
     background-image: url("../images/sort_desc_disabled.png"); }
   table.dataTable tbody tr {
-    background-color: #e6e5ff; }
+    background-color: #256f94; }
     table.dataTable tbody tr.selected {
-      background-color: #e6e5ff; }
+      background-color: #256f94; }
   table.dataTable tbody th,
   table.dataTable tbody td {
     padding: 8px 10px; }
   table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {
-    border-top: 1px solid #e6e5ff; }
+    border-top: 1px solid #256f94; }
   table.dataTable.row-border tbody tr:first-child th,
   table.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,
   table.dataTable.display tbody tr:first-child td {
     border-top: none; }
   table.dataTable.cell-border tbody th, table.dataTable.cell-border tbody td {
-    border-top: 1px solid #e6e5ff;
-    border-right: 1px solid #e6e5ff; }
+    border-top: 1px solid #256f94;
+    border-right: 1px solid #256f94; }
   table.dataTable.cell-border tbody tr th:first-child,
   table.dataTable.cell-border tbody tr td:first-child {
-    border-left: 1px solid #e6e5ff; }
+    border-left: 1px solid #256f94; }
   table.dataTable.cell-border tbody tr:first-child th,
   table.dataTable.cell-border tbody tr:first-child td {
     border-top: none; }
