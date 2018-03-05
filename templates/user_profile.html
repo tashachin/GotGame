@@ -46,7 +46,7 @@
 {% endif %}
 
 <div class='row-top-margin'>
-<h4>Reviews</h4>
+<h3>Reviews</h3>
 <ul>{% for review in reviews %}
 	<li><a id='review-{{ review.review_id }}' href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
 	{% endfor %}
@@ -57,7 +57,7 @@
 {% if session['user_id'] == user.user_id %}
 
 	<a id='tags'></a>
-	<h4>Tags</h4>
+	<h3>Tags</h3>
 
 	<form id='create-tags-form'>
 
@@ -82,7 +82,7 @@
 		{% for tag in tags %}
 
 			<span id='tag-{{tag.tag_id}}'
-			  class='user-tags-drag badge badge-secondary' 
+			  class='user-tags-drag badge' 
 		      name='{{tag.tag}}'>
 		
 			{{ tag.tag }}
