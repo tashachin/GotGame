@@ -1,9 +1,7 @@
 <!doctype html>
 <html>
 <head>
-
-	<title>{% block title %}Got Game?{% endblock %}</title>
-
+    <link href="https://fonts.googleapis.com/css?family=Play|Roboto+Mono" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css">
 	<link rel="stylesheet" href="/static/style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -12,42 +10,44 @@
 	{% block hscripts %}
 	{% endblock %}
 
+    <title>
+        {% block title %}Got Game?{% endblock %}
+    </title>
+
 </head>
 
-<body>
+<body class="bg">
 
 <div class="container">
 <h1>{% block heading %}Got Game?{% endblock %}</h1>
 
 {% block navbar %}
 
-<nav class="navbar navbar-light bg-faded static-top">
-<a class="nav-item nav-link" href='/'>Home</a> | 
-{% if session.get('user_id') %}
-<a class="nav-item nav-link" href="/user/{{ session['user_id'] }}">Profile</a> | 
-<!-- <a href='/'>Favorites</a> | -->
-<a class="nav-item nav-link" href='/logout'>Logout</a>
-{% else %} 
-<a class="nav-item nav-link" href='/register'>Register</a> |
-<a class="nav-item nav-link" href='/login'>Login</a>
-{% endif %}
+<nav class="navbar static-top">
+    <ul class="nav navbar-nav">
+        <li><a class="nav-item nav-link" href='/'>Home</a></li>
+        {% if session.get('user_id') %}
+        <li><a class="nav-item nav-link" href="/user/{{ session['user_id'] }}">Profile</a></li>
+        <!-- <a href='/'>Favorites</a> | -->
+        <li><a class="nav-item nav-link" href='/logout'>Logout</a></li>
+        {% else %} 
+        <li><a class="nav-item nav-link" href='/register'>Register</a></li>
+        <li><a class="nav-item nav-link" href='/login'>Login</a></li>
+        {% endif %}
+    </ul>
 </nav>
-<hr>
 
 <br>
 
 {% for msg in get_flashed_messages() %}
     <div class="alert alert-info">{{ msg }}</div>
 {% endfor %}
-</div>
 
 </nav>
 {% endblock %}
 
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
+{% block content %}
+{% endblock %}
 
 </div>
 
