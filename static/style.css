@@ -4,7 +4,7 @@ title, h1, h2, h3, h4, h5, h6 {
 }
 
 body {
-    background-image: url('/static/background.jpeg');
+    background-image: url("/static/background.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'Oxygen', sans-serif;
