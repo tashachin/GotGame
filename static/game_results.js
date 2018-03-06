@@ -4,7 +4,7 @@ $(document).ready(function() {
     $('#game-search-table').DataTable( {
         "order": [[ 0, "asc" ]],
         "pagingType": "first_last_numbers",
-        "pageLength": 25,
+        "pageLength": 10,
         "deferRender": true,
     } );
 

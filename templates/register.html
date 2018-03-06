@@ -1,13 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method='POST' action='/new-user'>
 
-<input id='new-user' type='text' name='username' placeholder='Username'>
-<br>
-<input id='new-email' type='email' name='email' placeholder='Email'>
-<br>
-<input id='new-password' type='password' name='password' placeholder='Choose a password'>
-<br>
-<input type='submit' value='Register'>
-</form>
+<div class="col-xs-12 col-md-6 col-lg-4">
+    <form method='POST' action='/new-user'>
+    <div class='row-top-margin'>
+    <label>Username:</label></div>
+        <input id='new-user' type='text' class='form-control' name='username' placeholder='Username'>
+    <div class='row-top-margin'>
+    <label>Email:</label></div>
+        <input id='new-email' type='email' class='form-control' name='email' placeholder='Email'>
+    <div class='row-top-margin'>
+    <label>Password:</label></div>
+        <input id='new-password' type='password' class='form-control' name='password' placeholder='Choose a password'>
+    <div class='row-top-margin'>
+        <input type='submit' class='btn btn-blue' value='Register'>
+    </div>
+    </form>
+</div>
+
 {% endblock %}

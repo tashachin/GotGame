@@ -57,6 +57,7 @@
 <div class="row-top-margin"><a href='/adv-search'>Not what you were looking for?</a></div>
 
     <!-- USER'S PREVIOUS REVIEW -->
+    {% if user_status %}
     <div class="col-xs-12 col-md-6 col-lg-6">
         {% if review %}
             <div class="row-top-margin">
@@ -119,7 +120,7 @@
     <!-- END OF REVIEW FORM -->
     
     <!-- USER'S APPLIED TAGS -->
-    {% if user_status %}
+    
     <div class="row-top-margin">
         <label>Tags:</label>
     </div>
@@ -131,21 +132,15 @@
             <span id='{{all_tags.vg_tag_id}}'
                   class='badge badge-secondary' 
                   name='{{all_tags.tag.tag}}'>
-            
 
-                    {{ all_tags.tag.tag }}
-                    
+                    {{ all_tags.tag.tag }} 
 
-                    <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}" title="{{ game.title }}">
-                    
+                    <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}">
                         {% for game in all_tagged_games[all_tags] %}
                         <div class='tagged_game'>
-                          
                                 <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
-                         
                         </div>
                         {% endfor %}
-
                     </div>
                       
             </span>
@@ -174,13 +169,13 @@
             <div class="modal-content">
                 
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ game.title }}</h4>
-                    <button type="button" 
+                    <h3 class="modal-title">{{ game.title }}</h3>
+                    <!-- <button type="button" 
                             class="close" 
                             data-dismiss="modal" 
-                            aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
+                            aria-label="Close"> -->
+                    <!-- <span aria-hidden="true">&times;</span>
+                    </button> -->
                 </div>
 
                 <div class="modal-body">
@@ -233,7 +228,7 @@
                 <div class="modal-footer">
 
                     <button type="button" 
-                            class="btn btn-secondary" 
+                            class="btn btn-pink" 
                             data-dismiss="modal">
                             Close
                     </button>
@@ -256,13 +251,13 @@
                 <div class="modal-content">
                     
                     <div class="modal-header">
-                        <h4 class="modal-title">{{ game.title }}</h4>
-                        <button type="button" 
+                        <h3 class="modal-title">{{ game.title }}</h3>
+                        <!-- <button type="button" 
                                 class="close" 
                                 data-dismiss="modal" 
-                                aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
+                                aria-label="Close"> -->
+                        <!-- <span aria-hidden="true">&times;</span>
+                        </button> -->
                     </div>
 
                     <div class="modal-body">
@@ -313,7 +308,7 @@
                         <div class="modal-footer">
 
                             <button type="button" 
-                                    class="btn btn-secondary" 
+                                    class="btn btn-pink" 
                                     data-dismiss="modal">
                                     Close
                             </button>

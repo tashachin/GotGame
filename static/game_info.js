@@ -35,11 +35,14 @@ $('#submit-review').on('click', updateReview);
 //////////////////////////////////////
 // Dialogs for tags
 
+$.ui.dialog.prototype._focusTabbable = function(){};
+
 $(".badge-dialog").dialog({ 
 	autoOpen: false,
 	modal: true,
 	show: "fade",
 	height: "auto",
+	dialogClass: "no-close no-title",
 });
 
 $(".badge").click(function(){
