@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method='POST' action='/login'>
-<label>Username:</label>
-<input id='user' type='text' name='username'>
-<br>
-<label>Password:</label>
-<input id='password' type='password' name='password'>
-<br>
-<input id='submit' type='submit' class='btn btn-blue' value='Login'>
-</form>
+<div class="col-xs-12 col-md-6 col-lg-4">
+    <form method='POST' action='/login'>
+    <label>Username:</label>
+    <input id='user' type='text' class='form-control' name='username'>
+    <br>
+    <label>Password:</label>
+    <input id='password' type='password' class='form-control' name='password'>
+    <br>
+    <input id='submit' type='submit' class='btn btn-blue' value='Login'>
+    </form>
+</div>
 {% endblock %}

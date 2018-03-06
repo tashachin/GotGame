@@ -59,7 +59,7 @@ b, i {
 
 .btn-green {
     background-color: #96ec53;
-    border-color: #30edf2;
+    border-color: #e6e5ff;
     color: #FFFFFF;
 }
 
@@ -91,7 +91,7 @@ b, i {
 
 .placeholder {
     font-style: italic;
-    color: #96ec53;;
+    color: #96ec53;
 }
 
 .container {
@@ -99,8 +99,9 @@ b, i {
     font-size: 18px;
 }
 
-.dataTables_wrapper .dataTables_info {
-    color:  #30edf2;
+.modal-backdrop {
+   background-color: rgba(0, 0, 0, 0.7);
+
 }
 
 /* ////////////////////////////////// */

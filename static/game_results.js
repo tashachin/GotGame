@@ -7,6 +7,7 @@ $(document).ready(function() {
         "pageLength": 25,
         "deferRender": true,
     } );
+
 } );
 
 function showGameInfo() {

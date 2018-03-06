@@ -56,313 +56,302 @@
 
 <a href='/adv-search'>Not what you were looking for?</a>
 
-<!-- GAME DESCRIPTION -->
+<div class="row">
 
-<!-- <div id='game-desc'>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</div> -->
+    <!-- REVIEW FORM -->
 
-{% if user_status %}
+        <div class="col-xs-12 col-md-7 col-lg-7">
 
-<!-- USER'S APPLIED TAGS -->
-<div class='container'>
-<div class='row row-top-margin'>
-    <label>Tags:</label>
-    <div id='game-tags'>
+            <div id='review-field'>
+                    <!-- Remember to test for WHO user is -->
+                    <div class='row'>
+                    <form id='review-form'>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                            <label>Give a score:</label>
+                            <input id='user-score' 
+                                   type='number' 
+                                   name='user_score'
+                                   class='form-control' 
+                                   placeholder='From a scale of 1 to 10.' 
+                                   min=1 
+                                   max=10 
+                                   required>
+                            <!-- SUBMIT BUTTON -->
+                            <input id='submit-review'
+                                   type='submit'
+                                   class='btn btn-green row-top-margin'
+                                   value='Review {{ game.title }}'>
+                            <!-- END SUBMIT BUTTON -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                            <label>Write a review:</label>
+                            <input id='user-review' 
+                                   type='textarea' 
+                                   class='form-control' 
+                                   name='review' 
+                                   placeholder='Tell us what you thought of this game!'>
 
-    {% if all_tagged_games %}
-    {% for all_tags in all_tagged_games %}
-
-    <span id='{{all_tags.vg_tag_id}}'
-          class='badge badge-secondary' 
-          name='{{all_tags.tag.tag}}'>
-    
-
-            {{ all_tags.tag.tag }}
-            
-
-            <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}" title="{{ game.title }}">
-            
-            {% for game in all_tagged_games[all_tags] %}
-            <div class='tagged_game'>
-              
-                    <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
-             
+                            <input id='game-id' 
+                                   type='hidden' 
+                                   name='game_id' 
+                                   value='{{ game.game_id }}'>
+                            </div>
+                        </div>
+                    </form>
+                </div>  
             </div>
+            <!-- END OF REVIEW FORM -->
+
+        <!-- USER'S APPLIED TAGS -->
+    {% if user_status %}
+    <div class="row-top-margin">
+        <label>Tags:</label>
+    </div>
+        <div id='game-tags'>
+
+            {% if all_tagged_games %}
+            {% for all_tags in all_tagged_games %}
+
+            <span id='{{all_tags.vg_tag_id}}'
+                  class='badge badge-secondary' 
+                  name='{{all_tags.tag.tag}}'>
+            
+
+                    {{ all_tags.tag.tag }}
+                    
+
+                    <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}" title="{{ game.title }}">
+                    
+                        {% for game in all_tagged_games[all_tags] %}
+                        <div class='tagged_game'>
+                          
+                                <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
+                         
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                      
+            </span>
+
             {% endfor %}
-            </ul>
-            </div>
-              
-    </span>
 
-    {% endfor %}
+            {% else %}
 
-    {% else %}
+            <div class="placeholder">( You haven't tagged this game. )</div>
 
-    <div class="placeholder">( You haven't tagged this game. )</div>
-
-    {% endif %}
-    </div>
-</div>
-
-<div class='row row-top-margin'>
-    <!-- MODAL FOR APPLYING TAGS -->
-        <button id="open-add-tag-modal"
-                type="button" 
-                class="btn btn-blue" 
-                data-toggle="modal" 
-                data-target="#add-tag">
-        Tag this game
-        </button>
-
-    <div id="add-tag" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        
-        <div class="modal-header">
-            <h4 class="modal-title">{{ game.title }}</h4>
-            <button type="button" 
-                    class="close" 
-                    data-dismiss="modal" 
-                    aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
+            {% endif %}
         </div>
 
-        <div class="modal-body">
+        <!-- MODAL FOR APPLYING TAGS -->
+            <button id="open-add-tag-modal"
+                    type="button" 
+                    class="btn btn-blue" 
+                    data-toggle="modal" 
+                    data-target="#add-tag">
+            Tag this game
+            </button>
+
+            <div id="add-tag" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 
-                <label>Tags:</label>
-                <div id='drag-and-drop-tags'
-                     class=''>
-                <div id='tag-field'>
-
-                {% if tags %}
-                {% for tag in tags %}
-                <span id='{{tag.tag_id}}'
-                      class='adding-drag badge badge-secondary' 
-                      name='{{tag.tag}}'>
-                {{ tag.tag }}
-                </span>
-                {% endfor %}
-
-                {% else %}
-                <a href="/user/{{ session['user_id'] }}#tags">
-                    <button type="button"
-                            class="btn btn-info">
-                    Create new tags
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ game.title }}</h4>
+                    <button type="button" 
+                            class="close" 
+                            data-dismiss="modal" 
+                            aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                     </button>
-                </a>
-                {% endif %}
-
                 </div>
-                <!-- Jinja templating will replace all those placeholder values when it's working -->
-                <hr>
-                <label>Drag here to add tags:</label>
-                <div id='attach-tags-field'
-                     class='adding-drop well'
-                     >
+
+                <div class="modal-body">
+                        
+                        <label>Tags:</label>
+                        <div id='drag-and-drop-tags'
+                             class=''>
+                        <div id='tag-field'>
+
+                        {% if tags %}
+                        {% for tag in tags %}
+                        <span id='{{tag.tag_id}}'
+                              class='adding-drag badge badge-secondary' 
+                              name='{{tag.tag}}'>
+                        {{ tag.tag }}
+                        </span>
+                        {% endfor %}
+
+                        {% else %}
+                        <a href="/user/{{ session['user_id'] }}#tags">
+                            <button type="button"
+                                    class="btn btn-info">
+                            Create new tags
+                            </button>
+                        </a>
+                        {% endif %}
+
+                        </div>
+                        <!-- Jinja templating will replace all those placeholder values when it's working -->
+                        <hr>
+                        <label>Drag here to add tags:</label>
+                        <div id='attach-tags-field'
+                             class='adding-drop well'
+                             >
+                        </div>
+                        
+                    <form id='tag-game-form'>
+                    <input id='current-game'
+                           name='game_id'
+                           value='{{ game.game_id }}'
+                           hidden>
+                    <input id='tag-game'
+                           class='btn btn-green'
+                           type='submit'
+                           value='Confirm tags'>
+                    </form>
                 </div>
-                
-            <form id='tag-game-form'>
-            <input id='current-game'
-                   name='game_id'
-                   value='{{ game.game_id }}'
-                   hidden>
-            <input id='tag-game'
-                   class='btn btn-primary'
-                   type='submit'
-                   value='Confirm tags'>
-            </form>
-        </div>
-        </div>
+                </div>
 
-        <div class="modal-footer">
+                <div class="modal-footer">
 
-            <button type="button" 
-                    class="btn btn-secondary" 
-                    data-dismiss="modal">
-                    Close
+                    <button type="button" 
+                            class="btn btn-secondary" 
+                            data-dismiss="modal">
+                            Close
+                    </button>
+                </div>
+            </div>
+            </div>
+            </div>
+
+            <!-- MODAL FOR REMOVING TAGS -->
+            <button type="button"
+                            class="btn btn-pink"
+                            data-toggle="modal"
+                            data-target="#delete-tag">
+                    Remove tags
             </button>
-        </div>
-    </div>
-    </div>
-    </div>
 
-<!-- MODAL FOR REMOVING TAGS -->
-<button type="button"
-                class="btn btn-pink"
-                data-toggle="modal"
-                data-target="#delete-tag">
-        Remove tags
-</button>
+            <div id="delete-tag" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <h4 class="modal-title">{{ game.title }}</h4>
+                        <button type="button" 
+                                class="close" 
+                                data-dismiss="modal" 
+                                aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-<div id="delete-tag" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-        
-        <div class="modal-header">
-            <h4 class="modal-title">{{ game.title }}</h4>
-            <button type="button" 
-                    class="close" 
-                    data-dismiss="modal" 
-                    aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
+                    <div class="modal-body">
+                            
+                            <label>Tags:</label>
+                            <div id='delete-tags-wrap'>
+                            <div id='delete-game-tags'>
+                            <div id='tag-field'>
+                            {% if vg_tags %}
+                            {% for vg_tag in vg_tags %}
 
-        <div class="modal-body">
-                
-                <label>Tags:</label>
-                <div id='delete-tags-wrap'>
-                <div id='delete-game-tags'>
-                <div id='tag-field'>
-                {% if vg_tags %}
-                {% for vg_tag in vg_tags %}
+                            <span id='{{vg_tag.vg_tag_id}}'
+                                  class='deleting-drag badge badge-secondary' 
+                                  name='{{vg_tag.tag.tag}}'>
 
-                <span id='{{vg_tag.vg_tag_id}}'
-                      class='deleting-drag badge badge-secondary' 
-                      name='{{vg_tag.tag.tag}}'>
+                                    {{ vg_tag.tag.tag }}
+                            
+                            </span>
 
-                        {{ vg_tag.tag.tag }}
-                
-                </span>
+                            {% endfor %}
 
-                {% endfor %}
+                            {% else %}
 
-                {% else %}
+                            <div class="placeholder">( You haven't tagged this game. )</div>
 
-                <div class="placeholder">( You haven't tagged this game. )</div>
+                            {% endif %}
+                            </div>
+                            <hr>
+                            <label>Drag here to delete tags:</label>
+                            <div id='delete-tags-field'
+                                 class='deleting-drop well'
+                                 >
+                            </div>
+                            </div>
+                        <form id='delete-user-tags-form'>
+                        <input id='current-game-2'
+                               name='game_id'
+                               value='{{ game.game_id }}'
+                               hidden>
+                        <input id='untag-game'
+                               class='btn btn-danger'
+                               type='submit'
+                               value='Delete tags'>
+                        </form>
+                    </div>
+                    </div>
 
-                {% endif %}
+                        <div class="modal-footer">
+
+                            <button type="button" 
+                                    class="btn btn-secondary" 
+                                    data-dismiss="modal">
+                                    Close
+                            </button>
+                        </div>
                 </div>
-                <hr>
-                <label>Drag here to delete tags:</label>
-                <div id='delete-tags-field'
-                     class='deleting-drop well'
-                     >
                 </div>
-                </div>
-            <form id='delete-user-tags-form'>
-            <input id='current-game-2'
-                   name='game_id'
-                   value='{{ game.game_id }}'
-                   hidden>
-            <input id='untag-game'
-                   class='btn btn-danger'
-                   type='submit'
-                   value='Delete tags'>
-            </form>
-        </div>
-        </div>
-
-        <div class="modal-footer">
-
-            <button type="button" 
-                    class="btn btn-secondary" 
-                    data-dismiss="modal">
-                    Close
-            </button>
-        </div>
+            </div>
     </div>
-    </div>
-    </div>
-</div>
-</div>
-
-<!-- COMMENT THREAD -->
-
-<!-- 3.0 - Allow users to create a discussion thread on any given game page. -->
-<!-- <div id='comment-field'>
-    <ul>
-        <li></li>
-    </ul>
-</div> -->
-
-<!-- REVIEW FORM -->
-    <div class='row row-top-margin'>
-    <div id='review-field'
-         class='col-lg-12'>
-            <!-- Remember to test for WHO user is -->
-
-            {% if review %}
-            <!-- When refactoring, create just one review form.
-            Under "if review" conditional, set a review.review_id hidden value -->
-            <label>Your previous review:</label>
-            <p>
-            <blockquote>
-                "{{ review.review }}" - <b>{{ review.user_score }}</b> out of 10.
-            </blockquote>
-            </p>
-
-            {% endif %}
-
-            <div class='row'>
-            <form id='review-form'>
-                <div class="form-group">
-                <div class="col-sm-4">
-                <label>Give a score:</label>
-                <input id='user-score' 
-                       type='number' 
-                       name='user_score'
-                       class='form-control' 
-                       placeholder='From a scale of 1 to 10.' 
-                       min=1 
-                       max=10 
-                       required>
-                <!-- SUBMIT BUTTON -->
-                <input id='submit-review'
-                       type='submit'
-                       class='btn btn-green row-top-margin'
-                       value='Review {{ game.title }}'>
-                <!-- END SUBMIT BUTTON -->
-                </div></div>
-                <div class="form-group">
-                <div class="col-sm-4">
-                <label>Write a review:</label>
-                <input id='user-review' 
-                       type='textarea' 
-                       class='form-control' 
-                       name='review' 
-                       placeholder='Tell us what you thought of this game!'>
-
-                <input id='game-id' 
-                       type='hidden' 
-                       name='game_id' 
-                       value='{{ game.game_id }}'>
-
-            </div></div>
-            </form>
-            {% endif %}
-
-        </div>
-    </div>
-    </div>
-
-<!-- OTHER USERS' REVIEWS -->
-
-{% if reviews %}
-<div class='container'>
-<div class='row row-top-margin'>
-<div id='all-reviews'
-     class='col-md-6'>
-
-<label>Other user reviews:</label>
-<ul>
-    {% for review in reviews %}
-
-    {% if review.user_id != session['user_id'] %}
-    <blockquote><a href="/user/{{ review.user.user_id }}">{{ review.user.username }}</a> 
-        had this to say: "{{ review.review }}" - <b>{{ review.user_score }}</b> out of 10.
-    </blockquote>
     {% endif %}
 
-    {% endfor %}
-</ul>
+    <!-- END OF TAGS -->
+
+    <!-- USER'S PREVIOUS REVIEW -->
+    <div class="col-xs-12 col-md-5 col-lg-5">
+        {% if review %}
+            <div class="row-top-margin">
+                    <!-- When refactoring, create just one review form.
+                    Under "if review" conditional, set a review.review_id hidden value -->
+                    <label>Your previous review:</label>
+                    <p>
+                    <blockquote>
+                        "{{ review.review }}" - <b>{{ review.user_score }}</b> out of 10.
+                    </blockquote>
+                    </p>
+            </div>
+        {% endif %}
+        
+        </div>
+    </div>
+    <!-- END OF USER'S REVIEW -->
+    
+<div class="row">
+    <!-- OTHER USERS' REVIEWS -->
+        <div class="col-xs-12 col-md-8-offset col-md-4 col-lg-8-offset col-lg-4">
+            {% if reviews %}
+            <div id='all-reviews'>
+                <div class="row-top-margin"><label>Other user reviews:</label></div>
+                    {% for review in reviews %}
+
+                    {% if review.user_id != session['user_id'] %}
+                    <blockquote><a href="/user/{{ review.user.user_id }}">{{ review.user.username }}</a> 
+                        had this to say: "{{ review.review }}" - <b>{{ review.user_score }}</b> out of 10.
+                    </blockquote>
+                    {% endif %}
+
+                    {% endfor %}
+                
+            </div>
+            {% endif %}
+
+        </div>
+    <!-- END OF OTHER USERS' REVIEWS -->
 </div>
-</div>
-</div>
-</div>
-{% endif %}
 
 {% block fscripts %}
 <script src='/static/game_info.js'></script>

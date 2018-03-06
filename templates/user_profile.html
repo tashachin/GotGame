@@ -2,11 +2,11 @@
 
 {% block hscripts %} 
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" 
-	  rel="stylesheet" 
-	  type="text/css"/>
+      rel="stylesheet" 
+      type="text/css"/>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-  		integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-  		crossorigin="anonymous"></script>
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block title %} {{ user.username }} {% endblock %}
@@ -16,105 +16,107 @@
 
 <i>user joined on {{ user.joined_at|datetime }}</i>
 
-<h3>About</h3>
-<div id='user-profile'>
-	<p>
-	{% if user.bio %}
-	{{ user.bio }}
-	{% else %}
-	( <i>{{ user.username }} has not added a bio yet</i> )
-	{% endif %}
-	</p>
-	{% if user.location %}
-	Location: {{ user.location }}<br>
-	{% endif %}
-	{% if user.birthday %}
-	Birthday: {{ user.birthday|datetime('birthday') }}
-	{% endif %}
+<div class="row">
+    <div class="col-xs-12 col-md-6 col-lg-6">
+        <h3>About</h3>
+            <div id='user-profile'>
+                <p>
+                {% if user.bio %}
+                {{ user.bio }}
+                {% else %}
+                ( <i>{{ user.username }} has not added a bio yet</i> )
+                {% endif %}
+                </p>
+                {% if user.location %}
+                Location: {{ user.location }}<br>
+                {% endif %}
+                {% if user.birthday %}
+                Birthday: {{ user.birthday|datetime('birthday') }}
+                {% endif %}
+            </div>
+
+        {% if session.get('user_id') == user.user_id %}
+            <div class='row-top-margin'>
+            <a href='/edit-profile/{{ user.user_id }}'>
+                <button id='edit-profile' 
+                        type='button' 
+                        class='btn btn-blue'>
+                        Edit profile infomation
+                </button>
+            </a>
+            </div>
+        {% endif %}
+
+        {% if session['user_id'] == user.user_id %}
+
+        <a id='tags'></a>
+        <h3>Tags</h3>
+
+            <form id='create-tags-form'>
+
+                <label>Separate tags with commas:</label>
+                <p>
+                <input id='new-tags'
+                       type='text'
+                       class='form-control'
+                       name='new_tags'>
+                <input id='create-tags' 
+                       class='btn btn-blue' 
+                       type='submit'
+                       value='Create new tags'>
+                </p>
+
+            </form>
+
+        
+        <div id='drag-and-drop-tags'>
+            <div id='tag-field'>
+
+                {% for tag in tags %}
+
+                <span id='tag-{{tag.tag_id}}'
+                  class='user-tags-drag badge' 
+                  name='{{tag.tag}}'>
+            
+                {{ tag.tag }}
+            
+                </span>
+
+
+                {% endfor %}
+            
+            </div>
+            
+                <hr>
+
+                <label>Drag here to delete tags:</label>
+                    <div id='delete-tags-field' class='deleting-drop well'></div>
+            <!-- drag and drop field ends here -->
+        </div>
+
+            <form id='delete-user-tags-form'>
+                <input id='delete-tags'
+                       class='btn btn-pink'
+                       type='submit'
+                       value='Delete tags'>
+            </form>
+
+        {% endif %}
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6">
+
+    <h3>Reviews</h3>
+        {% for review in reviews %}
+            <blockquote><a id='review-{{ review.review_id }}' href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></blockquote>
+            {% endfor %}
+        </ul>
+
+        <p>Number of games reviewed: {{ num_reviews }}</p>
+
+    </div>
 </div>
-
-{% if session.get('user_id') == user.user_id %}
-<div class='row-top-margin'>
-<a href='/edit-profile/{{ user.user_id }}'>
-	<button id='edit-profile' 
-			type='button' 
-			class='btn btn-blue'>
-			Edit profile infomation
-	</button>
-</a>
-</div>
-{% endif %}
-
-<div class='row-top-margin'>
-<h3>Reviews</h3>
-<ul>{% for review in reviews %}
-	<li><a id='review-{{ review.review_id }}' href="/game/{{ review.game.platform }}/{{ review.game.title }}">{{ review.game.title }}</a></li>
-	{% endfor %}
-</ul>
-
-<p>Number of games reviewed: {{ num_reviews }}</p>
-
-{% if session['user_id'] == user.user_id %}
-
-	<a id='tags'></a>
-	<h3>Tags</h3>
-
-	<form id='create-tags-form'>
-
-		<label>Separate tags with commas:</label>
-		<p>
-		<input id='new-tags'
-			   type='text'
-			   name='new_tags'>
-		<input id='create-tags' 
-			   class='btn btn-blue' 
-			   type='submit'
-			   value='Create new tags'>
-		</p>
-
-	</form>
-
-	<div class='container'>
-	<div class='row'>
-	<div id='drag-and-drop-tags'>
-		<div id='tag-field'>
-
-		{% for tag in tags %}
-
-			<span id='tag-{{tag.tag_id}}'
-			  class='user-tags-drag badge' 
-		      name='{{tag.tag}}'>
-		
-			{{ tag.tag }}
-		
-			</span>
-		</a>
-
-		{% endfor %}
-		
-		</div>
-	<hr>
-
-	<label>Drag here to delete tags:</label>
-		
-		<div id='delete-tags-field'
-			 class='deleting-drop well'
-			 >
-		</div>
-	<!-- drag and drop field ends here -->
-	</div>
-
-	<form id='delete-user-tags-form'>
-		<input id='delete-tags'
-			   class='btn btn-pink'
-			   type='submit'
-			   value='Delete tags'>
-	</form>
-
-	</div>
-	</div>
-{% endif %}
-{% endblock %}
+    {% endblock %}
 
 {% block fscripts %}
 <script src='/static/user_profile.js'></script>
