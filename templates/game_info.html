@@ -54,58 +54,71 @@
 
 <!-- LINK BACK TO ADV SEARCH -->
 
-<a href='/adv-search'>Not what you were looking for?</a>
+<div class="row-top-margin"><a href='/adv-search'>Not what you were looking for?</a></div>
 
-<div class="row">
+    <!-- USER'S PREVIOUS REVIEW -->
+    <div class="col-xs-12 col-md-6 col-lg-6">
+        {% if review %}
+            <div class="row-top-margin">
+                    <!-- When refactoring, create just one review form.
+                    Under "if review" conditional, set a review.review_id hidden value -->
+                    <label>Your previous review:</label>
+                    <p>
+                    <blockquote>
+                        "{{ review.review }}" - <b>{{ review.user_score }}</b> out of 10.
+                    </blockquote>
+                    </p>
+            </div>
+        {% endif %}
+
+    <!-- END OF USER'S REVIEW -->
 
     <!-- REVIEW FORM -->
 
-        <div class="col-xs-12 col-md-7 col-lg-7">
-
-            <div id='review-field'>
-                    <!-- Remember to test for WHO user is -->
-                    <div class='row'>
-                    <form id='review-form'>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                            <label>Give a score:</label>
-                            <input id='user-score' 
-                                   type='number' 
-                                   name='user_score'
-                                   class='form-control' 
-                                   placeholder='From a scale of 1 to 10.' 
-                                   min=1 
-                                   max=10 
-                                   required>
-                            <!-- SUBMIT BUTTON -->
-                            <input id='submit-review'
-                                   type='submit'
-                                   class='btn btn-green row-top-margin'
-                                   value='Review {{ game.title }}'>
-                            <!-- END SUBMIT BUTTON -->
-                            </div>
+        <div id='review-field'>
+                <!-- Remember to test for WHO user is -->
+                <div class='row'>
+                <form id='review-form'>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        <label>Give a score:</label>
+                        <input id='user-score' 
+                               type='number' 
+                               name='user_score'
+                               class='form-control' 
+                               placeholder='( On a scale of 1 to 10 )' 
+                               min=1 
+                               max=10 
+                               required>
+                        <!-- SUBMIT BUTTON -->
+                        <input id='submit-review'
+                               type='submit'
+                               class='btn btn-green row-top-margin'
+                               value='Review {{ game.title }}'>
+                        <!-- END SUBMIT BUTTON -->
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                            <label>Write a review:</label>
-                            <input id='user-review' 
-                                   type='textarea' 
-                                   class='form-control' 
-                                   name='review' 
-                                   placeholder='Tell us what you thought of this game!'>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                        <label>Write a review:</label>
+                        <input id='user-review' 
+                               type='textarea' 
+                               class='form-control' 
+                               name='review' 
+                               placeholder='( What did you think of this game? )'>
 
-                            <input id='game-id' 
-                                   type='hidden' 
-                                   name='game_id' 
-                                   value='{{ game.game_id }}'>
-                            </div>
+                        <input id='game-id' 
+                               type='hidden' 
+                               name='game_id' 
+                               value='{{ game.game_id }}'>
                         </div>
-                    </form>
-                </div>  
-            </div>
-            <!-- END OF REVIEW FORM -->
-
-        <!-- USER'S APPLIED TAGS -->
+                    </div>
+                </form>
+            </div>  
+        </div>
+    <!-- END OF REVIEW FORM -->
+    
+    <!-- USER'S APPLIED TAGS -->
     {% if user_status %}
     <div class="row-top-margin">
         <label>Tags:</label>
@@ -147,6 +160,7 @@
         </div>
 
         <!-- MODAL FOR APPLYING TAGS -->
+        <div class="row-top-margin">
             <button id="open-add-tag-modal"
                     type="button" 
                     class="btn btn-blue" 
@@ -235,6 +249,7 @@
                             data-target="#delete-tag">
                     Remove tags
             </button>
+        </div>
 
             <div id="delete-tag" class="modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
@@ -306,33 +321,16 @@
                 </div>
                 </div>
             </div>
-    </div>
     {% endif %}
 
     <!-- END OF TAGS -->
 
-    <!-- USER'S PREVIOUS REVIEW -->
-    <div class="col-xs-12 col-md-5 col-lg-5">
-        {% if review %}
-            <div class="row-top-margin">
-                    <!-- When refactoring, create just one review form.
-                    Under "if review" conditional, set a review.review_id hidden value -->
-                    <label>Your previous review:</label>
-                    <p>
-                    <blockquote>
-                        "{{ review.review }}" - <b>{{ review.user_score }}</b> out of 10.
-                    </blockquote>
-                    </p>
-            </div>
-        {% endif %}
-        
-        </div>
-    </div>
-    <!-- END OF USER'S REVIEW -->
-    
-<div class="row">
+    </div> 
+    <!-- END OF FIRST COLUMN -->
+
+
     <!-- OTHER USERS' REVIEWS -->
-        <div class="col-xs-12 col-md-8-offset col-md-4 col-lg-8-offset col-lg-4">
+        <div class="col-xs-12 col-md-6 col-lg-6">
             {% if reviews %}
             <div id='all-reviews'>
                 <div class="row-top-margin"><label>Other user reviews:</label></div>
@@ -351,7 +349,6 @@
 
         </div>
     <!-- END OF OTHER USERS' REVIEWS -->
-</div>
 
 {% block fscripts %}
 <script src='/static/game_info.js'></script>
