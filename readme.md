@@ -2,6 +2,8 @@
 
 Got Game? is a video game database (PostgreSQL) containing over 18,000 titles parsed from a Kaggle dataset. Search results are displayed in alphabetical descending order, but the user can re-sort by platform, genre, and score as well (DataTables). Users review games, using both quantitative and qualitative measures. Critic scores are static whereas user scores are used dynamically to create an aggregate score (Python). An additional feature is the ability to create custom tags with a drag-and-drop interface (JQuery UI).
 
+![Got Game? Homepage](/static/gotgame.png)
+
 ## Table of Contents
 
 * [Technologies Used](#tech)
