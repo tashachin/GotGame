@@ -313,12 +313,12 @@ def show_tagged_games(tag, user_id):
 
 if __name__ == "__main__":
     # Must be initialized as True when invoking DebugToolbarExtension
-    app.debug = True
+    # app.debug = True
     # # Prevents templates, etc. aren't cached during debug mode
-    app.jinja_env.auto_reload = app.debug
+    # app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
 
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')

@@ -35,28 +35,28 @@ $('#submit-review').on('click', updateReview);
 //////////////////////////////////////
 // Dialogs for tags
 
-$.ui.dialog.prototype._focusTabbable = function(){};
+// $.ui.dialog.prototype._focusTabbable = function(){};
 
-$(".badge-dialog").dialog({ 
-	autoOpen: false,
-	modal: true,
-	show: "fade",
-	height: "auto",
-	dialogClass: "no-close no-title",
-});
+// $(".badge-dialog").dialog({ 
+// 	autoOpen: false,
+// 	modal: true,
+// 	show: "fade",
+// 	height: "auto",
+// 	dialogClass: "no-close no-title",
+// });
 
-$(".badge").click(function(){
-	$("#badge-dialog-"+$(this).attr('id')).dialog("open");
-})
+// $(".badge").click(function(){
+// 	$("#badge-dialog-"+$(this).attr('id')).dialog("open");
+// })
 
-$.extend( $.ui.dialog.prototype.options.classes, {
-    "ui-dialog": "modal-content",
-    "ui-dialog-titlebar": "modal-header",
-    "ui-dialog-title": "modal-title",
-    "ui-dialog-titlebar-close": "close",
-    "ui-dialog-content": "modal-body",
-    "ui-dialog-buttonpane": "modal-footer"
-});
+// $.extend( $.ui.dialog.prototype.options.classes, {
+//     "ui-dialog": "modal-content",
+//     "ui-dialog-titlebar": "modal-header",
+//     "ui-dialog-title": "modal-title",
+//     "ui-dialog-titlebar-close": "close",
+//     "ui-dialog-content": "modal-body",
+//     "ui-dialog-buttonpane": "modal-footer"
+// });
 
 
 

@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class='container-fluid'>
-	
 	<form action='/adv-search-results'>
-	<div class="row">
+	<!-- <div class="row"> -->
 
 	<div class="col-xs-3 col-md-4 col-lg-4">
 			<label>Search by genre:</label>
@@ -14,8 +12,51 @@
 			{% endfor %}
 			</div>
 	</div>
+
+	<div class="col-xs-6 col-md-4 col-lg-4">
+
+		<div class='form-group'>
+			<label>Filter by platform:</label>
+
+			<select id='platform-options' class='btn btn-blue' name='platform'> 
+				<option value='Default' disabled selected>-- Search by platform --</option>
+				<option value='Xbox'>Xbox</option>
+				<option value='PlayStation'>PlayStation</option>
+				<option value='Nintendo'>Nintendo</option>
+				<option value='Other'>Other</option>
+			</select>
+		</div>
+
+		<div class='form-group'>
+			<label>Narrow down filter:</label>
+			<select id='sub-options' class='btn btn-blue' name='specific_platform'>
+				<option id='#select-option' value='Default' disabled selected>-- Select --</option>
+				<option data-group='Other' value='PC'>PC</option>
+				<option data-group='Xbox' value='Xbox'>Xbox</option>
+				<option data-group='Xbox' value='Xbox 360'>Xbox 360</option>
+				<option data-group='Xbox' value='Xbox One'>Xbox One</option>
+				<option data-group='PlayStation' value='PlayStation'>PlayStation</option>
+				<option data-group='PlayStation' value='PlayStation 2'>PlayStation 2</option>
+				<option data-group='PlayStation' value='PlayStation 3'>PlayStation 3</option>
+				<option data-group='PlayStation' value='PlayStation 4'>PlayStation 4</option>
+				<option data-group='PlayStation' value='PlayStation Portable'>PlayStation Portable</option>
+				<option data-group='PlayStation' value='PlayStation Vita'>PlayStation Vita</option>
+				<option data-group='Nintendo' value='Nintendo 64'>Nintendo 64</option>
+				<option data-group='Nintendo' value='GameCube'>GameCube</option>
+				<option data-group='Nintendo' value='Wii'>Wii</option>
+				<option data-group='Nintendo' value='Wii U'>Wii U</option>
+				<option data-group='Nintendo' value='Nintendo DS'>Nintendo DS</option>
+				<option data-group='Nintendo' value='Nintendo 3DS'>Nintendo 3DS</option>
+			</select>
+		</div>
+		
+
+		<input class='btn btn-pink' type='reset' value='Reset'>
+		<input id='submit' class='btn btn-green' type='submit' value='Search'>
+
+	</div>
 	
-	<!-- <div class="row"> -->
+
 	<div class="col-xs-6 col-md-4 col-lg-4">
 
 		<div class='form-group'>
@@ -23,59 +64,14 @@
 		<input id='score' class='num-field form-control' name='critic_score' type='number' min='1' max='10' placeholder='Max score: 10'>
 		</div>
 
-		<!-- <div class="col-sm-3"> -->
-		<div class='form-group'>
-		<label>Filter by platform:</label>
-
-		<select id='platform-options' class='btn btn-blue' name='platform'> 
-			<option value='Default' disabled selected>Search by platform</option>
-			<option value='Xbox'>Xbox</option>
-			<option value='PlayStation'>PlayStation</option>
-			<option value='Nintendo'>Nintendo</option>
-			<option value='Other'>Other</option>
-		</select></div>
-
-		<input class='btn btn-pink' type='reset' value='Reset'>
-		<input id='submit' class='btn btn-green' type='submit' value='Search'>
-		
-	</div>
-		
-	<div class="col-xs-6 col-md-4 col-lg-4">
-
 		<div class='form-group'>
 		<label>Filter by user score:</label>
 		<input id='user_scores' class='num-field form-control' name='user_scores' type='number' min='1' max='10' placeholder='Max score: 10'>
 		</div>
 
-		<div class='form-group'>
-		<label>Narrow down filter:</label>
-		<select id='sub-options' class='btn btn-blue' name='specific_platform'>
-			<option id='#select-option' value='Default' disabled selected>-- Select --</option>
-			<option data-group='Other' value='PC'>PC</option>
-			<option data-group='Xbox' value='Xbox'>Xbox</option>
-			<option data-group='Xbox' value='Xbox 360'>Xbox 360</option>
-			<option data-group='Xbox' value='Xbox One'>Xbox One</option>
-			<option data-group='PlayStation' value='PlayStation'>PlayStation</option>
-			<option data-group='PlayStation' value='PlayStation 2'>PlayStation 2</option>
-			<option data-group='PlayStation' value='PlayStation 3'>PlayStation 3</option>
-			<option data-group='PlayStation' value='PlayStation 4'>PlayStation 4</option>
-			<option data-group='PlayStation' value='PlayStation Portable'>PlayStation Portable</option>
-			<option data-group='PlayStation' value='PlayStation Vita'>PlayStation Vita</option>
-			<option data-group='Nintendo' value='Nintendo 64'>Nintendo 64</option>
-			<option data-group='Nintendo' value='GameCube'>GameCube</option>
-			<option data-group='Nintendo' value='Wii'>Wii</option>
-			<option data-group='Nintendo' value='Wii U'>Wii U</option>
-			<option data-group='Nintendo' value='Nintendo DS'>Nintendo DS</option>
-			<option data-group='Nintendo' value='Nintendo 3DS'>Nintendo 3DS</option>
-		</select>
-		</div>
-
-	</div>
-
 	</div>
 	
 	</form>
-</div>
 
 {% endblock %}
 

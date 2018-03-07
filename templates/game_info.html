@@ -129,21 +129,42 @@
             {% if all_tagged_games %}
             {% for all_tags in all_tagged_games %}
 
-            <span id='{{all_tags.vg_tag_id}}'
-                  class='badge badge-secondary' 
-                  name='{{all_tags.tag.tag}}'>
+            <button id='{{all_tags.vg_tag_id}}'
+                    class='badge badge-secondary' 
+                    name='{{all_tags.tag.tag}}'
+                    data-toggle="modal"
+                    data-target="#modal-{{all_tags.vg_tag_id}}">
 
                     {{ all_tags.tag.tag }} 
+            </button>
 
-                    <div class="badge-dialog" id="badge-dialog-{{all_tags.vg_tag_id}}">
-                        {% for game in all_tagged_games[all_tags] %}
-                        <div class='tagged_game'>
-                                <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
+                    <div id="modal-{{all_tags.vg_tag_id}}" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                
+                        <div class="modal-header">
+                        <h3 class="modal-title">{{ all_tags.tag.tag }}</h3>
                         </div>
-                        {% endfor %}
+
+                            <div class="modal-body">
+                                {% for game in all_tagged_games[all_tags] %}
+                                <div class='tagged_game'>
+                                    <a href='/game/{{ game.platform }}/{{ game.title }}'>{{ game.title }}</a>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" 
+                                        class="btn btn-pink" 
+                                        data-dismiss="modal">
+                                        Close
+                                </button>
+                            </div>
+                        </div>
+                        </div>
                     </div>
-                      
-            </span>
+            
 
             {% endfor %}
 
@@ -170,12 +191,6 @@
                 
                 <div class="modal-header">
                     <h3 class="modal-title">{{ game.title }}</h3>
-                    <!-- <button type="button" 
-                            class="close" 
-                            data-dismiss="modal" 
-                            aria-label="Close"> -->
-                    <!-- <span aria-hidden="true">&times;</span>
-                    </button> -->
                 </div>
 
                 <div class="modal-body">
