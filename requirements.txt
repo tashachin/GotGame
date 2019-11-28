@@ -13,4 +13,4 @@ psycopg2==2.7.3.2
 pytz==2018.3
 selenium==3.9.0
 SQLAlchemy==1.2.2
-Werkzeug==0.14.1
+Werkzeug==0.15.3
