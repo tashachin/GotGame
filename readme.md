@@ -22,7 +22,9 @@ Got Game? is a video game database (PostgreSQL) containing over 18,000 titles pa
 * Bootstrap
 
 ## <a name="how-to"></a> How to use Got Game?
-note to self: Need to set up vagrant machine for Ubuntu in order to run the database concurrently with the server host
+1. vagrantfile was set-up with proprietary configurations that allowed for easy deployment so that we could focus on building features and scoping our project.
+
+2. TODO: Resolve above dependency.
 
 ## <a name="author"></a> Author
 Tasha Chin is a software engineer-turned-Twitch Affiliate based in the Bay Area.
