@@ -28,6 +28,3 @@ Got Game? is a video game database (PostgreSQL) containing over 18,000 titles pa
 
 ## <a name="author"></a> Author
 Tasha Chin is a software engineer-turned-Twitch Affiliate based in the Bay Area.
-
-## <a name="attributions"></a> Credits
-Apologies to both Mark "Markiplier" Fischbaum and Arin "Egoraptor" Hanson for using their online aliases in the screencast of this work. This project has not been formally endorsed by them. Apologies, as well, to the 2018 March Ada cohort for never being timely with my requests. I have to thank Susanto, my first boss in the tech industry, for taking me on as an intern. My heart said Pandora, my parents said Silicon Valley start-up.
