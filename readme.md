@@ -27,4 +27,4 @@ Got Game? is a video game database (PostgreSQL) containing over 18,000 titles pa
 2. TODO: Resolve above dependency.
 
 ## <a name="author"></a> Author
-Tasha Chin is a software engineer-turned-Twitch Affiliate based in the Bay Area.
+Tasha Chin is a software engineer based in the Bay Area.
