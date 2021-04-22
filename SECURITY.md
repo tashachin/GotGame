@@ -1,15 +1,6 @@
-# Security Policy
-
-## Supported Versions
-
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 2.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+Work in progress. Be sure to make the switch to Python 3.0!
 
 ## Reporting a Vulnerability
+Please create a pull request and/or flag something as an issue. 
 
-I wish I knew. Ask Hackbright alums in cybersecurity how this stuff works.
+The project maintainers, ("we"), will respond within 3 business days.
